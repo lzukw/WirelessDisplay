@@ -49,6 +49,7 @@ namespace WirelessDisplay.UnitTests.Common.Tests
             });
             var logger = loggerFactory.CreateLogger<ScriptRunner>();
 
+            // instantiate an (I)ScriptRunner
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 DirectoryInfo scriptDir = new DirectoryInfo( SCRIPT_DIR_LINUX );
@@ -65,7 +66,7 @@ namespace WirelessDisplay.UnitTests.Common.Tests
         }
 
         [Test]
-        public void Test_run_short_Script()
+        public void RunAndWaitForScript_NormalUsecase_everythingOk()
         {
 
             (int exitCode, List<string> stdoutLines, List<string> stderrLines) = _scriptRunner.RunAndWaitForScript( 
@@ -87,7 +88,7 @@ namespace WirelessDisplay.UnitTests.Common.Tests
         }
 
         [Test]
-        public void Test_short_Script_Timeout()
+        public void RunAndWaitForScript_ScriptNotStopping_ThrowsWDException()
         {
             // Not the not ending script is started.
             
@@ -103,7 +104,7 @@ namespace WirelessDisplay.UnitTests.Common.Tests
         }
 
         [Test]
-        public void Test_start_and_stop_long_Script()
+        public void StartScript_NormalUse_everythingOk()
         {
             int processId = _scriptRunner.StartScript( 
                             scriptName : TEST_SCRIPT_FOR_START_STOP, 
@@ -139,7 +140,7 @@ namespace WirelessDisplay.UnitTests.Common.Tests
         }
 
         [Test]
-        public void Test_start_long_Script_early_exit()
+        public void Startscript_ScriptExitsEarly_ThrowsWDException()
         {
             Assert.Throws<WDException>( () =>
             {
@@ -164,11 +165,11 @@ namespace WirelessDisplay.UnitTests.Common.Tests
             var test = new ScriptRunner_Test();
             test.Setup();
 
-            test.Test_run_short_Script();
-            test.Test_short_Script_Timeout();
+            test.RunAndWaitForScript_NormalUsecase_everythingOk();
+            test.RunAndWaitForScript_ScriptNotStopping_ThrowsWDException();
 
-            test.Test_start_and_stop_long_Script();
-            test.Test_start_long_Script_early_exit();
+            test.StartScript_NormalUse_everythingOk();
+            test.Startscript_ScriptExitsEarly_ThrowsWDException();
         }
 
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using WirelessDisplay.Common;
+using WirelessDisplay.Common.JsonObjects;
 
 namespace ScriptingRestApiServer.Controllers
 {

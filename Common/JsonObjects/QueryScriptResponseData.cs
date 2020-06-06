@@ -1,6 +1,6 @@
 
 
-namespace WirelessDisplay.Common
+namespace WirelessDisplay.Common.JsonObjects
 {
     public class QueryScriptResponseData
     {

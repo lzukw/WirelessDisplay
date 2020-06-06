@@ -1,6 +1,6 @@
 
 
-namespace WirelessDisplay.Common
+namespace WirelessDisplay.Common.JsonObjects
 {
     /// <summary>
     /// Objects of this type are sent to the REST-API-client by the REST-API-Server

@@ -1,0 +1,25 @@
+{
+    "PlatformIndependent" :
+    {
+        "key1" : "value1",
+        "key2" : "value2"
+    },
+
+    "Linux":
+    {
+        "key3" : "value3",
+        "key4" : "value4"
+    },
+
+    "macOs":
+    {
+        "key3" : "value3",
+        "key4" : "value4"
+    },
+
+    "Windows":
+    {
+        "key3" : "value3",
+        "key4" : "value4"
+    }
+}

@@ -1,14 +1,19 @@
 #!/usr/bin/bash
 
 IP=127.0.0.1
-PORT=6000
+PORT=6007
+
 
 echo ""
 echo "=================================================="
 echo "Testing ScriptingRestApiServer with curl-commands:"
 echo "=================================================="
 echo ""
-echo "Make sure, the Rest-API-Server is started and listening on $IP:$PORT"
+echo "Starting Server and waiting 15 seconds for it."
+
+gnome-terminal -- bash helper_script_to_start_server.sh $IP $PORT 
+sleep 15
+
 echo ""
 echo "1. Testing Run-script-API:"
 echo "============================="
