@@ -18,6 +18,13 @@ namespace ScriptingRestApiServer
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                //////// Added Code - start ///////////////////////////////
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole((consoleLoggerOpts) => {consoleLoggerOpts.DisableColors=true;} );
+                })
+                //////// Added Code - end ///////////////////////////////
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -173,9 +173,8 @@ namespace WirelessDisplay.Common
                 throw new WDException(msg);
             }
 
-                            //Wait until screenres-process exits.
+            //Wait a short time, and see if the script crahed immediately
             bool exited = longProcess.WaitForExit(shortTimeoutMillis);
-
             if ( exited )
             {
                 string msg = $"Process has exited immidiately: '{longProcess.StartInfo.FileName} {longProcess.StartInfo.Arguments}'. Scripting Error?";

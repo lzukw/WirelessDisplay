@@ -6,7 +6,7 @@
     "Linux":
     {
         "Shell" :"bash",
-        "ShellArgsTemplate" : "-c \"{SCRIPT} {SCRIPT_ARGS}\"",
+        "ShellArgsTemplate" : "{SCRIPT} {SCRIPT_ARGS}",
         "ScriptDirectory" : "../Scripts/Linux",
         "ScriptFileExtension" : ".sh"
     },

@@ -1,4 +1,4 @@
-#!/bin /bash
+#!/bin/bash
 
 # The command-line-arguments passed to this script
 # STREAMING_TYPE is either "VNC" or "FFmpeg"
