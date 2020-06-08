@@ -1,10 +1,14 @@
 # WirelessDisplayServer
 
-This program is intended to run on the 'projecting-computer'. 
-Its purpose is to run the program 'ScriptingRestApiServer' in background. 
+This program is intended to be run on the 'projecting-computer'. 
+Its purpose is to start the program 'ScriptingRestApiServer' in background.
+
+'ScriptingRestApiServer' is a console-program, while 'WirelessDisplayServer'
+is the GUI for interacting with the 'ScriptingRestApiServer'.
 
 The 'presentation-computer' can perform POST-Requests to the 
-ScriptingRestApiServer and so remote-control the 'projecting-computer':
+ScriptingRestApiServer and remote-control the 'projecting-computer' by the 
+following means:
 
 - Run a script to change the screen-resolution of the 'projecting-computer'
 - Start/stop a script to prevent the screensaver from activating.
@@ -13,29 +17,57 @@ ScriptingRestApiServer and so remote-control the 'projecting-computer':
 All the work is done by the scripts and the ScriptingRestApiServer. This
 program (WirelessDisplayServer) is only responsible for
 
-- showing a very simple GUI (window).
+- showing a very simple GUI.
 - The GUI allows the user to change the Port, that ScriptingRestApiServer
   listens for requests.
-- The GUI displays the IP-Address of the 'projecting-computer' in a big
-  TextBox.
+- The GUI displays the IP-Address and the hostname of the 
+  'projecting-computer' in a big TextBox.
 - The GUI shows the log-output of ScriptingRestApiServer in a TextBox with
   a scrollbar.
 
 The only controls provided to the user are a ComboBox for selecting
 one of some predefined Port-Numbers and a "Restart-Server"-Button to restart
-the ScriptingRestApiServer. By default, port 80 is used. If this port is
-available (no other webserver running), and if the user has the privilegues
-to use a port lower than 1024, then port 80 is a good choice. In this case
-the user needs not to interact with the GUI, and the main-purpose of the
-GUI is to show the local IP-Address of the server.
+the ScriptingRestApiServer. By default, port 80 is used, if this port is
+in the list of the ports, that can be used by the progran (see Configuration 
+below and [config.json]). If this port is available (no other webserver 
+running), and if the user has the privilegues to use it, then port 80 is a 
+good choice. In this case the user needs not to interact with the GUI, and 
+the main-purpose of the GUI is to show the local IP-Address of the server.
 
+On many Linux-systems root-privilegues are necessary for listening on a
+port below 1024, so here port 80 is not a good choice.
+
+## Using the program
+
+When the WirelessDisplayServer-program is started, it reads from [config.json]
+the port-numbers the user can choose from. Then one of the ports is 
+pre-selected: Either port 80, if this port-nubmer is in the list, or
+the first port-number in the list in [config.json]. Using this port, the
+ScriptingRestApiServer is started immediately (without any necessary 
+user-interaction). The Restart-Button is disabled. 
+
+If the user wants the ScriptingRestApiServer to listen on another port,
+she first must selct this port with the ComboBox. This change in the
+ComboBox enables the Restart-Server-Button. This button must then
+be pushed by the user.
+
+So, if there is no need to change pre-selected port-number, the user
+only has to start the WirelessDisplayServer-program. No other user-
+interaction is necessary on the presentation-computer!
 
 ## Configuration
 
-The only configuration needed is the (realtive) path to the executable of the
-ScriptingRestApiServer-program. This path can be changed by modifying
-[config.json]. If the directory-structure is not changed, then the 
-predefined path in [config.json] is correct.
+The configuration-parameters for each operating system (of the 
+projecting-computer) can be changed in [config.json].
+
+- The (realtive) path to the executable of the ScriptingRestApiServer-program.
+  If the directory-structure is not changed, then the predefined path in 
+  [config.json] is correct.
+- The command-line-argument(s) passed to to the 
+  ScriptingRestApiServer-executable. The placeholder {PORT} is replaced by the
+  port the user selects in the GUI.
+- The list of ports, that are added to the ComboBox. The user can choose one 
+  of this ports. Decide, if port 80 should be in this list or not.
 
 ## Running the program
 
@@ -59,8 +91,6 @@ system. All necessary files are put in the directory
 [WirelessDisplayServer_executable/WirelessDisplayServerGUI] on Linux or macOS. 
 The configuration can still be changed, by changing the contents of
 [WirelessDisplayServer_executable/config.json].
-
-TODO: must config.json be copied manually to WirelessDisplayServer_executable???
 
 On Windows, you can create a link for example on the desktop, that links to 
 executable [WirelessDisplayServerGUI.exe]. The program can then be run by 
@@ -117,58 +147,111 @@ From the created files, the following ones are important:
   and so called 'bindings' between them.
 - The [Models]-folder is not used in this project, since there is no data to
   be managed.
-
-The avalonia.mvvm template uses dotnet-core 3.0 by default. This was changed by 
-modifiying the following line in [WirelessDisplayServer.csproj]. See
-[here](https://avaloniaui.net/docs/quickstart/change-target-framework).
-
-```
-<TargetFramework>netcoreapp3.1</TargetFramework>
-```
+- The files [ViewModels/ViewModelBase.cs] and [ViewLocaltor.cs]. These files 
+  were not modified. They are used by the Avalonia-framework to realize the
+  bindings between views and their view-models.
 
 The following files were created:
 
 - [config.json]
-  ScriptingRestApiServer-executable.
-- The folder [Services] containing the classes ...TODO...
+- The folder [Services]
+- The interface [Services/IServerController.cs] and the class 
+  [Services/ServerController.cs] that implements this interface.
+- The static class [Services/HostAddressProvider.cs]
 
-TODO ...more files
+IServerController and ServerController provide two methods to start the 
+ScriptingRestApiServer in background and to stop it again.
 
-MainWindow.xaml contains two relevant UI-Elemnts:
+The static class HostAddressProvider contains two simple static readonly 
+properties to get the hostname and the IPv4-Address of the local computer.
 
-- TODO.
+MainWindow.xaml contains four relevant UI-Elemnts:
 
-### Configuration
+- A TextBox to display the hostname of the WirelessDisplayServer
+  (projecting computer) to the user.
+- A TextBox to display the IPv4-address of the WirelessDisplayServer.
+- A ComboBox to select the port, the ScriptingRestApiServer listens on.
+- A Restart-Server-Button. After selecting another port, the user must
+  push this Button. The ScriptingRestApiServer is stopped, and started
+  again using the selected Port-Number.
+- A ListBox containing the lines, the ScriptingRestApiServer writes to
+  its standard-output and error-output.
 
-As already said, the path to the ScriptingRestApiServer-executable can be
-modified in [config.json]. Also, a list of port-numbers, from which the user
-can select, are in this file.
+The code-behind MainWindow.xaml.cs is nearly empty. Only one line was
+added: When the user closed the window with the (X)-Button in the title-bar,
+the OnWindowClosed()-Method to the MainWindowViewModel-class is called, which
+in turn stops the ScriptingRestApiServer.
 
-### MainWindow.xaml.cs
+## MainWindowViewModel
 
-This file contains the 'Interaction logic for `MainWindow.xaml`' by means of a
-partial class `MainWindow`. (The other parts of this class are created by the
-compiler from the file `MainWindow.xaml` and are only present in the 
-`obj`-directory).
+This class is the viewmodel for the MainWindow-view. It contains properties,
+that are directly bound to the MainWindow-view. For example, the property
+`MainWindowViewModel.SelectedPortNumberIndex` in the viewmodel is all
+the time equal to the index of the selected Port-Number in the ComboBox.
+If the user selects another port in the view, this property in the 
+viewmodel is updated immediately. If the program changes the value of
+this protperty, in the ComboBox another item is selected.
 
-In `MainWindow.xaml.cs` the whole program is realized. In the Constructor of
-the `MainWindow`-class the following things are done:
+Besides the properties that are bound to the view, there are two 
+methods:
 
-- The local IPv4-Address is retrieved by using static methods from 
-  `System.Net.Dns`. The IPv4-Address then is displayed to the user (inserted
-  into labelIp).
-- Configuration is read in from `App.config` containing the filepath to the
-  WirelessDisplayServer-executable. 
-- Eventually still running WirelessDisplayServer-processes are killed.
-- A new WirelessDisplayServer-process is created and run in background.
-- Two event-handlers are registered: Each time the started 
-  WirelessDisplayServer-background-process writes a line to its stdout or stderr,
-  the events `OutputDataReceived` or `ErrorDataReceived` occur. Both events call
-  the method `void backgroundProcess_DataReceived(object sender, DataReceivedEventArgs e)`,
-  where the line written by the process to stdout/stderr is contained in `e.Data`.
-  In this method, the line is appended to `textblockLog` and so displayed to
-  the user.
+- `ButtonRestartServer_Clicked()` is called, when the user clicks the
+  Restart-Server-Button (if it is enabled).
+- `OnWindowClosed()` is called, when the user closes the window with
+  the (X)-Button in the title-bar of the window.
 
-When the user closes the MainWindow (and the whole program), the event-handler
-`void mainWindow_Closing(object sender, object e)` is called. Here the
-WirelessDisplayServer-background-process is killed.
+When the MainViewModel-object is constructed, it receives the following
+things as constructor-parameters (dependecy-injection):
+
+- A logger-object used for logging.
+- An object implementing IServerController. With this object the.
+  ScriptingRestApiServer can be started and stopped.
+- A string containing the IP-address of the local computer.
+- A string containing the hostname of the local computer.
+- A list of port-numbers, which are addes as items to the ComboBox.
+
+## Startup-code in App.xaml.cs - depencency-injection
+
+In [App.xaml.cs], all startup-code is placed. The original contents of this
+file create a `MainWindowViewModel`-object (viewmode) and a 
+`MainWindow`-object (view). Then a reference to the 
+`MainWindowViewModel`-object is stored in `DataContext`-property of
+the `MainWindow`-view-object. 
+
+Own code to [App.xaml.cs] does the following things
+
+- Define string-constants that are used as keys in [config.json]
+- Create the objects and strings, that have to be passed to the constructor
+  of the `MainWindowViewModel`. This is done with the method 
+  `realizeDependencyInjection()` which is called before construction of the
+  `MainWindowViewModel`.
+
+In `realizeDependencyInjection()` the following thigs happen: 
+
+First a `LoggerFactory` is created, and with this `LoggerFactory` loggers for
+`MainWindowViewModel`, `CustomConfigProvider` and `ServerController`
+are created. These loggers are passed later on to the constructors of
+each of the three classes.
+
+A `CustomConfigProvider`-object is created to read [config.json]. This class
+is defined in [Common], and used by the other three projects as well. Using
+the `CustomConfigProvider`-object the port-numbers, the path the 
+ScriptingRestApiServer-executable and the command-line-arguments for it are 
+read from [config.json].
+
+The ScriptingRestApiServer-executable and the command-line-arguments for it
+are used to create an instance of `ServerController`.
+
+Finally, using the static methods of `HostAddressProvider` the hostname and 
+the IP-address of the local computer are read into strings.
+
+The method `realizeDependencyInjection()` returns the following things (as
+out-paramters), which then are used to construct an instance of
+`MainWindowViewModel`:
+
+- `ILogger<MainWindowViewModel> loggerforMainWindowModel`,
+- `IServerController serverController`,
+- `string hostName`,
+- `string iPAddress`,
+- `List<UInt16> portNumbers`.
+
