@@ -5,7 +5,7 @@
 
     <IsPackable>false</IsPackable>
 
-    <StartupObject>WirelessDisplay.UnitTests.Common.Tests.CustomConfigProvider_Test</StartupObject>
+    <StartupObject>WirelessDisplay.UnitTests.Common.Tests.RemoteScriptRunner_Test</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,21 +7,18 @@ using Microsoft.Extensions.Logging;
 namespace WirelessDisplay.Common
 {
     /// <summary>
-    ///     A class for starting and stopping scripts (shell-scripts / batch-files).
-    ///     The shell of the operating-system (bash, cmd.exe) is used to run the
-    ///     scripts.
+    ///     A class for starting and stopping scripts (shell-scripts / batch-files)
+    ///     on the local computer. The shell of the operating-system (bash, cmd.exe)
+    ///     is used to run the scripts.
     /// </summary>
-    public class ScriptRunner : IScriptRunner
+    public class LocalScriptRunner : ILocalScriptRunner
     {
         //#####################################################################
-        //## Magic strings, private fields and constructor
+        //## Private fields and constructor
         //#####################################################################
         #region 
 
-        private const string PLACEHOLDER_SCRIPT_PATH="{SCRIPT}";
-        private const string PLACEHOLDER_SCRIPT_ARGS="{SCRIPT_ARGS}";
-
-        private readonly ILogger<ScriptRunner> _logger;
+        private readonly ILogger<LocalScriptRunner> _logger;
 
         /// <summary> The shell used to run the scripts (bash, cmd, powershell) </summary>
         private readonly string _shell;
@@ -68,7 +65,7 @@ namespace WirelessDisplay.Common
         /// For example "sh". "bat" or "ps1".
         /// So the full path of a script is scriptDirectory/scritName.scriptExtension .
         /// </param>
-        public ScriptRunner(ILogger<ScriptRunner> logger, 
+        public LocalScriptRunner(ILogger<LocalScriptRunner> logger, 
                             string shell, 
                             string shellArgsTemplate, 
                             DirectoryInfo scriptDirectory,
@@ -94,7 +91,7 @@ namespace WirelessDisplay.Common
         #region
 
         /// <see cref="" >IScriptRunner.RunAndWaitForScript()</see>
-	    Tuple<int,List<string>,List<string>> IScriptRunner.RunAndWaitForScript(
+	    Tuple<int,List<string>,List<string>> ILocalScriptRunner.RunAndWaitForScript(
                         string scriptName, string scriptArgs, string stdin, 
                         int timeoutMillis )
         {           
@@ -152,7 +149,7 @@ namespace WirelessDisplay.Common
 
 
         /// <see cref="" >IScriptRunner.StartScript()</see>
-        int IScriptRunner.StartScript(string scriptName, string scriptArgs, 
+        int ILocalScriptRunner.StartScript(string scriptName, string scriptArgs, 
                                         string stdin, int shortTimeoutMillis)        
         {
             ProcessStartInfo startInfo = preapareProcessStartInfo(scriptName, scriptArgs);
@@ -192,7 +189,7 @@ namespace WirelessDisplay.Common
 
 
         /// <see cref="" >IScriptRunner.StopScript()</see>
-        Tuple<int,List<string>,List<string>> IScriptRunner.StopScript(int processId)
+        Tuple<int,List<string>,List<string>> ILocalScriptRunner.StopScript(int processId)
         {
             Process processToStop = _processes.GetValueOrDefault(processId);
 
@@ -238,7 +235,7 @@ namespace WirelessDisplay.Common
 
 
         /// <see cref="" >IScriptRunner.IsScriptRunning()</see>
-        bool IScriptRunner.IsScriptRunning(int processId)
+        bool ILocalScriptRunner.IsScriptRunning(int processId)
         {
             Process process = _processes.GetValueOrDefault(processId);
 
@@ -271,8 +268,8 @@ namespace WirelessDisplay.Common
             }
 
             string shellArgs = _shellArgsTemplate;
-            shellArgs = shellArgs.Replace(PLACEHOLDER_SCRIPT_PATH, scriptPath.FullName);
-            shellArgs = shellArgs.Replace(PLACEHOLDER_SCRIPT_ARGS, scriptArgs);
+            shellArgs = shellArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SCRIPT_PATH, scriptPath.FullName);
+            shellArgs = shellArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SCRIPT_ARGS, scriptArgs);
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = _shell;

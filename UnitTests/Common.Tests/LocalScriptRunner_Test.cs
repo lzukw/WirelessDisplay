@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging.Console;
 namespace WirelessDisplay.UnitTests.Common.Tests
 {
     [TestFixture]
-    public class ScriptRunner_Test
+    public class LocalScriptRunner_Test
     {
         // The magic strings needed for running scripts (only Linux)
         const string SHELL_LINUX = "bash";
@@ -35,7 +35,7 @@ namespace WirelessDisplay.UnitTests.Common.Tests
         const string TEST_SCRIPT_STDIN = "from stdin\n";
         const int TEST_SCRIPT_EXITCODE = 5;
 
-        IScriptRunner _scriptRunner;
+        ILocalScriptRunner _scriptRunner;
 
 
         [SetUp]
@@ -47,13 +47,13 @@ namespace WirelessDisplay.UnitTests.Common.Tests
             {
                 builder.AddFilter("Default", LogLevel.Debug).AddConsole();
             });
-            var logger = loggerFactory.CreateLogger<ScriptRunner>();
+            var logger = loggerFactory.CreateLogger<LocalScriptRunner>();
 
             // instantiate an (I)ScriptRunner
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 DirectoryInfo scriptDir = new DirectoryInfo( SCRIPT_DIR_LINUX );
-                _scriptRunner = new ScriptRunner(logger, SHELL_LINUX,SHELL_ARGS_TEMPLATE_LINUX, scriptDir, SCRIPT_EXTENSION_LINUX);
+                _scriptRunner = new LocalScriptRunner(logger, SHELL_LINUX,SHELL_ARGS_TEMPLATE_LINUX, scriptDir, SCRIPT_EXTENSION_LINUX);
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
@@ -162,7 +162,7 @@ namespace WirelessDisplay.UnitTests.Common.Tests
         // <StartupObject>WirelessDisplay.UnitTests.Common.Tests.ScriptRunner_Test</StartupObject>
         public static void Main(string[] args)
         {
-            var test = new ScriptRunner_Test();
+            var test = new LocalScriptRunner_Test();
             test.Setup();
 
             test.RunAndWaitForScript_NormalUsecase_everythingOk();

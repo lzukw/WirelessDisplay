@@ -8,7 +8,7 @@ namespace WirelessDisplayServer.Services
 {
     public class ServerController : IServerController
     {
-        const string TEMPLATE_PLACEHOLDER = "{PORT}";
+        
 
         private ILogger<ServerController> _logger;
 
@@ -32,9 +32,9 @@ namespace WirelessDisplayServer.Services
             }
 
             _argsTemplateForServerExecutable = argsTemplateForServerExecutable;
-            if ( ! _argsTemplateForServerExecutable.Contains(TEMPLATE_PLACEHOLDER))
+            if ( ! _argsTemplateForServerExecutable.Contains(MAGICSTRINGS.PORT_PLACEHOLDER))
             {
-                string msg = $"Template for server-arguments must contain '{TEMPLATE_PLACEHOLDER}', but is: '{_argsTemplateForServerExecutable}'.";
+                string msg = $"Template for server-arguments must contain '{MAGICSTRINGS.PORT_PLACEHOLDER}', but is: '{_argsTemplateForServerExecutable}'.";
                 logger?.LogCritical(msg);
                 throw new WDFatalException(msg);
             }
@@ -74,7 +74,7 @@ namespace WirelessDisplayServer.Services
             ((IServerController) this).StopServer();
 
             string commandLineArgs = _argsTemplateForServerExecutable
-                                     .Replace(TEMPLATE_PLACEHOLDER, PortNo.ToString());
+                            .Replace(MAGICSTRINGS.PORT_PLACEHOLDER, PortNo.ToString());
 
             _serverProcess = new Process();
             _serverProcess.StartInfo.FileName = _pathToServerExecutable.FullName;

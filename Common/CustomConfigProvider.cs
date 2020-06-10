@@ -16,10 +16,6 @@ namespace WirelessDisplay.Common
     public class CustomConfigProvider
     {
 
-        const string PLATFORM_INDEPENDENT_SECTION = "PlatformIndependent";
-        const string LINUX_SECTION = "Linux";
-        const string MAC_OS_SECTION = "macOS";
-        const string WINDOWS_SECTION = "Windows";
 
         /// <summary> The path to the json-config-file. </summary>
         private FileInfo _jsonConfigFile;
@@ -70,15 +66,15 @@ namespace WirelessDisplay.Common
             // Find out operating system and store corresponding section in osSection
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                _osSection=LINUX_SECTION;
+                _osSection=MAGICSTRINGS.LINUX_SECTION;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                _osSection=MAC_OS_SECTION;
+                _osSection=MAGICSTRINGS.MAC_OS_SECTION;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                _osSection=WINDOWS_SECTION;
+                _osSection=MAGICSTRINGS.WINDOWS_SECTION;
             }
             else
             {
@@ -89,7 +85,8 @@ namespace WirelessDisplay.Common
 
             // Check for the presence of the required sections (plaftorm-independent
             // and specific to the used operating-system).
-            foreach (string section in new[] { PLATFORM_INDEPENDENT_SECTION, _osSection, } )
+            foreach (string section in new[] { 
+                        MAGICSTRINGS.PLATFORM_INDEPENDENT_SECTION, _osSection, } )
             {
                 if ( ! _jsonConfig.ContainsKey(section))
                 {
@@ -111,7 +108,8 @@ namespace WirelessDisplay.Common
         /// </exception>
         public string GetValue(string key)
         {
-            foreach (string section in new[] { PLATFORM_INDEPENDENT_SECTION, _osSection, } )
+            foreach (string section in new[] { 
+                        MAGICSTRINGS.PLATFORM_INDEPENDENT_SECTION, _osSection, } )
             {
                 if ( _jsonConfig[section].ContainsKey(key) )
                 {
@@ -120,6 +118,14 @@ namespace WirelessDisplay.Common
             }
 
             throw new WDException($"Could not find key '{key}' in config-file '{_jsonConfigFile.FullName}'");
+        }
+
+        /// <summary>
+        /// For easier access of configuration-values.
+        /// </summary>
+        public string this[string key]
+        {
+            get => GetValue(key);
         }
         
 
@@ -163,5 +169,7 @@ namespace WirelessDisplay.Common
 
             return true;
         }
+
+
     }
 }

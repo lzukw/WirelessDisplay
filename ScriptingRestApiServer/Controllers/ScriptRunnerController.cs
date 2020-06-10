@@ -8,15 +8,15 @@ using WirelessDisplay.Common.JsonObjects;
 
 namespace ScriptingRestApiServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route(MAGICSTRINGS.RESTAPI_MAIN_PATH)]
     [ApiController]
     public class ScriptRunnerController : ControllerBase
     {
         private ILogger<ScriptRunnerController> _logger { get; }
-        private IScriptRunner _scriptRunner { get; }
+        private ILocalScriptRunner _scriptRunner { get; }
 
         public ScriptRunnerController(  ILogger<ScriptRunnerController> logger,
-                                        IScriptRunner scriptRunner)
+                                        ILocalScriptRunner scriptRunner)
         {
             // logger and scriptRunner are injected by Dependcy-Injection 
             // by "the runtime" (Program.cs and Startup.cs).
@@ -27,7 +27,7 @@ namespace ScriptingRestApiServer.Controllers
         // POST: api/ScriptRunner/RunScript
         // Example from Linux (using 127.0.0.1:6000 as server-IP-address and server-port): 
         // curl -v POST -H "Accept: application/json" -H "Content-Type: application/json" --data '{ "ScriptName" : "testscript_for_run", "ScriptArgs" : "arg1 arg2 arg3 arg4", "StdIn" : "\n" }' http://127.0.0.1:6000/api/ScriptRunner/RunScript
-        [HttpPost("RunScript")]
+        [HttpPost(MAGICSTRINGS.RESTAPI_RUNSCRIPT)]
         public RunOrStopScriptResponseData Post_RunScript([FromBody] StartOrRunScriptRequestData requestData)
         {
             int exitCode;
@@ -67,7 +67,7 @@ namespace ScriptingRestApiServer.Controllers
         // POST: api/ScriptRunner/StartScript
         // Example from Linux (using 127.0.0.1:6000 as server-IP-address and server-port): 
         // curl -v POST -H "Accept: application/json" -H "Content-Type: application/json" --data '{ "ScriptName" : "testscript_for_start_stop", "ScriptArgs" : "arg1 arg2 arg3 arg4", "StdIn" : "\n" }' http://127.0.0.1:6000/api/ScriptRunner/StartScript
-        [HttpPost("StartScript")]
+        [HttpPost(MAGICSTRINGS.RESTAPI_STARTSCRIPT)]
         public StartScriptResponseData Post_StartScript([FromBody] StartOrRunScriptRequestData requestData)
         {
             int processId;
@@ -101,7 +101,7 @@ namespace ScriptingRestApiServer.Controllers
         // Example from Linux (using 127.0.0.1:6000 as server-IP-address and server-port):
         // Further assuming a process-Id of 12345 returned from previous StartScript-Request
         // curl -v POST -H "Accept: application/json" -H "Content-Type: application/json" --data '{ "ProcessId" : 12345 }' http://127.0.0.1:6000/api/ScriptRunner/IsScriptRunning
-        [HttpPost("IsScriptRunning")]
+        [HttpPost(MAGICSTRINGS.RESTAPI_IS_SCRIPT_RUNNING)]
         public QueryScriptResponseData Post_IsScriptRunning([FromBody] QueryOrStopScriptRequestData requestData)
         {
             bool isRunning;
@@ -132,7 +132,7 @@ namespace ScriptingRestApiServer.Controllers
         // Example from Linux (using 127.0.0.1:6000 as server-IP-address and server-port):
         // Further assuming a process-Id of 12345 returned from previous StartScript-Request
         // curl -v POST -H "Accept: application/json" -H "Content-Type: application/json" --data '{ "ProcessId" : 12345 }' http://127.0.0.1:6000/api/ScriptRunner/StopScript
-        [HttpPost("StopScript")]
+        [HttpPost(MAGICSTRINGS.RESTAPI_STOPSCRIPT)]
         public RunOrStopScriptResponseData Post_StopScript([FromBody] QueryOrStopScriptRequestData requestData)
         {
             int exitCode;

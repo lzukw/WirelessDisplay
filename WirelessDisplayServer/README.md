@@ -78,22 +78,22 @@ Just use `dotnet run`.
 From within the folder `WirelessDisplayServer` run the following command:
 
 ```
-dotnet publish -c Release -o ../WirelessDisplayServer_executable/ -r linux-x64 --self-contained
+dotnet publish -c Release -o ../WirelessDisplayServer_executable/ -r linux-x64 --self-contained true
 ```
 
 On macOS replace `linux-x64` with `osx-x64` and on Windows with `win-x64`.
 
-The paremter `--self-contained` creates a 'stand-alone' executable version. This 
-paremeter can be omitted, if .NET-Core version 3.1 is installed on the target 
-system. All necessary files are put in the directory 
+The paremter `--self-contained true` creates a 'stand-alone' executable version. 
+This  paremeter can be set to `false`, if .NET-Core version 3.1 is installed on 
+the target system. All necessary files are put in the directory 
 [WirelessDisplayServer_executable]. The executable to start is
-[WirelessDisplayServer_executable/WirelessDisplayServerGUI.exe] on Windows or
-[WirelessDisplayServer_executable/WirelessDisplayServerGUI] on Linux or macOS. 
+[WirelessDisplayServer_executable/WirelessDisplayServer.exe] on Windows or
+[WirelessDisplayServer_executable/WirelessDisplayServer] on Linux or macOS. 
 The configuration can still be changed, by changing the contents of
 [WirelessDisplayServer_executable/config.json].
 
 On Windows, you can create a link for example on the desktop, that links to 
-executable [WirelessDisplayServerGUI.exe]. The program can then be run by 
+executable [WirelessDisplayServer.exe]. The program can then be run by 
 double-clicking this link. You can also create a 
 start-menu-entry, by creating the link in 
 [%AppData%\Microsoft\Windows\Start Menu\Programs].

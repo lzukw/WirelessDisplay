@@ -20,12 +20,6 @@ namespace ScriptingRestApiServer
     public class Startup
     {
         /// <summary> Path to the configuration file specific for this project </summary>
-        private const string CONFIG_FILE ="config.json";
-
-        private const string SHELL = "Shell";
-        private const string SHELL_ARGS_TEMPLATE = "ShellArgsTemplate";
-        private const string SCRIPT_DIRECTORY = "ScriptDirectory";
-        private const string SCRIPT_FILE_EXTENSION = "ScriptFileExtension";
 
         public Startup(IConfiguration configuration)
         {
@@ -42,31 +36,31 @@ namespace ScriptingRestApiServer
             // Added Dependency-Injection: Here a Singleton-Instane of ScriptRunner 
             // is created. It will be created upn the first API-Reuest and then
             // passed to the constructor of the webapi-Controller, that serves the request.
-            services.AddSingleton<IScriptRunner>( (s) =>
+            services.AddSingleton<ILocalScriptRunner>( (s) =>
             {
                 // For debugging purposes: Show current working directory, since 
                 // script-paths are relative
                 Console.WriteLine($"Current working-directory is: '{System.IO.Directory.GetCurrentDirectory()}'");
 
-                var logger = s.GetRequiredService<ILogger<ScriptRunner>>();
+                var logger = s.GetRequiredService<ILogger<LocalScriptRunner>>();
                 var loggerForCustomConfig = s.GetRequiredService<ILogger<CustomConfigProvider>>();
 
                 CustomConfigProvider myConfig = 
-                        new CustomConfigProvider(loggerForCustomConfig, CONFIG_FILE);
+                        new CustomConfigProvider(loggerForCustomConfig, MAGICSTRINGS.CONFIG_FILE);
 
                 DirectoryInfo scriptDir = 
-                        new DirectoryInfo(myConfig.GetValue(SCRIPT_DIRECTORY));
+                        new DirectoryInfo(myConfig[MAGICSTRINGS.SCRIPT_DIRECTORY]);
                 if ( ! scriptDir.Exists)
                 {
                     string msg=$"FATAL: Cannot find Script-directory '{scriptDir.FullName}'";
                     Console.WriteLine(msg);
                     throw new WDFatalException(msg);
                 }
-                return new ScriptRunner (logger, 
-                                         myConfig.GetValue(SHELL),
-                                         myConfig.GetValue(SHELL_ARGS_TEMPLATE),
+                return new LocalScriptRunner ( logger, 
+                                         myConfig[MAGICSTRINGS.SHELL],
+                                         myConfig[MAGICSTRINGS.SHELL_ARGS_TEMPLATE],
                                          scriptDir,
-                                         myConfig.GetValue(SCRIPT_FILE_EXTENSION));
+                                         myConfig[MAGICSTRINGS.SCRIPT_FILE_EXTENSION] );
             });
 
         }
