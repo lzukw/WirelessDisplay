@@ -1,0 +1,31 @@
+{
+    "PlatformIndependent" :
+    {
+    },
+
+    "Linux":
+    {
+        "Shell" :"bash",
+        "ShellArgsTemplate" : "{SCRIPT} {SCRIPT_ARGS}",
+        "ScriptDirectory" : "../Scripts/Linux",
+        "ScriptFileExtension" : ".sh"
+    },
+
+    "macOs":
+    {
+        "Shell" :"bash",
+        "ShellArgsTemplate" : "/c \"{SCRIPT} {SCRIPT_ARGS}\"",
+        "ScriptDirectory": "../Scripts/Linux",
+        "ScriptFileExtension" : ".sh"
+    },
+
+    "Windows":
+    {
+        "Shell" :"cmd.exe",
+        "ShellArgsTemplate" : "/c \"{SCRIPT} {SCRIPT_ARGS}\"",
+        "ScriptDirectory": "..\\Scripts\\Windows",
+        "ScriptFileExtension" : ".bat"
+    }
+
+
+}
