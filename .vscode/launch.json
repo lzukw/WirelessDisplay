@@ -1,0 +1,82 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "LocalScriptRunner_Test",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_LocalScriptRunner_Test",
+            "program": "${workspaceFolder}/Tests/Common.LocalScriptRunner_Test/bin/Debug/netcoreapp3.1/Common.LocalScriptRunner_Test.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Tests/Common.LocalScriptRunner_Test/bin/Debug/netcoreapp3.1/",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+
+        {
+            "name": "CustomConfigProvider_Test",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_CustomConfigProvider_Test",
+            "program": "${workspaceFolder}/Tests/Common.CustomConfigProvider_Test/bin/Debug/netcoreapp3.1/Common.CustomConfigProvider_Test.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Tests/Common.CustomConfigProvider_Test/bin/Debug/netcoreapp3.1",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+
+        {
+            "name": "ScriptingRestApiServer",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_ScriptingRestApiServer",
+            "program": "${workspaceFolder}/ScriptingRestApiServer/bin/Debug/netcoreapp3.1/ScriptingRestApiServer.dll",
+            "args": ["--urls=http://*:6001"],
+            "cwd": "${workspaceFolder}/ScriptingRestApiServer",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },  
+
+        {
+            "name": "RemoteScriptRunner_Test",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_RemoteScriptRunner_Test",
+            "program": "${workspaceFolder}/Tests/Common.RemoteScriptRunner_Test/bin/Debug/netcoreapp3.1/Common.RemoteScriptRunner_Test.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Tests/Common.RemoteScriptRunner_Test/bin/Debug/netcoreapp3.1",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+       
+        {
+            "name": "WirelessDisplayServer",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_WirelessDisplayServer",
+            "program": "${workspaceFolder}/WirelessDisplayServer/bin/Debug/netcoreapp3.1/WirelessDisplayServer.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/WirelessDisplayServer",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+        
+        {
+            "name": "WirelessDisplayClient",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_WirelessDisplayClient",
+            "program": "${workspaceFolder}/WirelessDisplayClient/bin/Debug/netcoreapp3.1/WirelessDisplayClient.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/WirelessDisplayClient",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+        
+        
+    ]
+}
