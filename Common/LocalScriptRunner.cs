@@ -183,7 +183,7 @@ namespace WirelessDisplay.Common
             int processId = longProcess.Id;
             _processes[processId] = longProcess;
             
-            _logger?.LogInformation($"Successfully started script '{scriptName}{_scriptExtension} {scriptArgs}. Process-ID is {processId}.");
+            _logger?.LogInformation($"Successfully started script '{scriptName}{_scriptExtension} {scriptArgs}'. Process-ID is {processId}.");
             return processId;
         }
 

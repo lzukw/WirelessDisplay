@@ -15,7 +15,7 @@ namespace WirelessDisplayServer
 {
     public class App : Application
     {
-////////// Original code from template - start //////////////////
+//############# Original code from template - start ####################
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -25,7 +25,7 @@ namespace WirelessDisplayServer
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-////////// Original code from template - end //////////////////
+//############ Original code from template - end ########################
 
                 // Create the MainWindowModel instance
                 ILogger<MainWindowViewModel> loggerForMainWindowModel;
@@ -42,7 +42,7 @@ namespace WirelessDisplayServer
                                             serverController, hostName, iPAddress, 
                                             portNumbers);
 
-////////// (Nearly) original code from template - start //////////////////
+//############ (Nearly) original code from template - start ##################
                 desktop.MainWindow = new MainWindow
                 {
                     // inject MainwindowModel into the DataContext-Property of the
@@ -53,7 +53,7 @@ namespace WirelessDisplayServer
 
             base.OnFrameworkInitializationCompleted();
         }
-////////// Original code from template - end //////////////////
+//############ Original code from template - end ##############################
 
         /// <summary>
         /// Creates all objects that need to be injected into the constructor

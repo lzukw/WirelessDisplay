@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 ARG1=$1
 ARG2=$2

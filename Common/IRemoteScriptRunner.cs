@@ -1,11 +1,26 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace WirelessDisplay.Common
 {
+    /// <summary>
+    /// Objects implementing this interface communicate with a remote
+    /// scripting-REST-API-server, in order to run, start and stop
+    /// scripts in the remote computer.
+    /// </summary>
     public interface IRemoteScriptRunner
     {
+        /// <summary>
+        /// Sets the IP-Address and port-number, the remote 
+        /// scripting-REST-API-server listens on.
+        /// </summary>
+        /// <param name="ipAddress"> The IP-Address. </param>
+        /// <param name="port"> The port-number. </param>
+        void SetIpAddressAndPort( string ipAddress, UInt16 port);
+
+
         /// <summary>
         /// Asks the remote computer to execute a script, and returns the script's 
         /// output.
@@ -28,7 +43,7 @@ namespace WirelessDisplay.Common
         /// </returns>
         Task<Tuple<int,List<string>,List<string>>> RunAndWaitForScript( 
                             string scriptName, string scriptArgs, 
-                            string stdin="", int timeoutMillis=10000 );
+                            string stdin="");
 
 
         /// <summary>

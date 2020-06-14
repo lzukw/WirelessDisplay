@@ -62,8 +62,8 @@ namespace WirelessDisplay.Tests.Common.RemoteScriptRunner_Test
             });
             var logger = loggerFactory.CreateLogger<RemoteScriptRunner>();
 
-            _scriptRunner = new RemoteScriptRunner(logger, SERVER_IP, 
-                            Convert.ToUInt16(SERVER_PORT));
+            _scriptRunner = new RemoteScriptRunner(logger);
+            _scriptRunner.SetIpAddressAndPort( SERVER_IP, Convert.ToUInt16(SERVER_PORT));
         }
 
         [TearDown]

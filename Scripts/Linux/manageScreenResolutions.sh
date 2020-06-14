@@ -4,9 +4,9 @@
 # from the C#-program. 
 # ACTION ... what to do (GET the current screen-resolution, SET it, list
 #            ALL available screen-resolutions on the primary display.
-# RESOLUTION ...only used for ACTION == "SET". A String like 1024x768
+# SCREEN_RESOLUTION ...only used for ACTION == "SET". A String like 1024x768
 ACTION=$1
-RESOLUTION=$2
+SCREEN_RESOLUTION=$2
 
 if [ $ACTION == "GET" ]
 then
@@ -29,7 +29,7 @@ elif [ $ACTION == "SET" ]
 then
     # SET the screen-resolution of the primary display using xrandr.
     PRIMARY_DISP=$(xrandr | grep primary | cut -d " " -f 1)
-    xrandr --output ${PRIMARY_DISP} --mode "${RESOLUTION}"
+    xrandr --output ${PRIMARY_DISP} --mode "${SCREEN_RESOLUTION}"
     # return with the same exit-code as the last xrandr-command
     exit $?
 

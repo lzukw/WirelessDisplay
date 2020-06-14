@@ -3,6 +3,11 @@ using System.Diagnostics;
 
 namespace WirelessDisplayServer.Services
 {
+    /// <summary>
+    /// Object implementing this interface can start and stop the 
+    /// sripting-REST-API-Serverm and provide an event, to get the lines 
+    /// written by the server to its stdout and stderr.
+    /// </summary>
     public interface IServerController
     {
         /// <summary> Starts the Scripting-REST-API-Server. </summary>

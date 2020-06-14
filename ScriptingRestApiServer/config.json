@@ -15,7 +15,7 @@
     {
         "Shell" :"bash",
         "ShellArgsTemplate" : "/c \"{SCRIPT} {SCRIPT_ARGS}\"",
-        "ScriptDirectory": "../Scripts/Linux",
+        "ScriptDirectory": "../Scripts/macOs",
         "ScriptFileExtension" : ".sh"
     },
 

@@ -96,8 +96,19 @@
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
+        },
+
+        {
+            "label": "build_WDClientServices_Test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Tests/WirelessDisplayClient.WDClientServices_Test/WirelessDisplayClient.WDClientServices_Test.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
         }
-
-
     ]
 }

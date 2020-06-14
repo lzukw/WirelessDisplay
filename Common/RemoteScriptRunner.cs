@@ -25,29 +25,14 @@ namespace WirelessDisplay.Common
 
         private readonly ILogger<RemoteScriptRunner> _logger;
 
-        private readonly IPAddress _ipAddress;
-        private readonly UInt16 _portNo;
+        private IPAddress _ipAddress;
+        private UInt16 _portNo;
 
         private static readonly HttpClient _client = new HttpClient();
 
-        public RemoteScriptRunner(ILogger<RemoteScriptRunner> logger, 
-                                  string iPAddress, UInt16 portNo
-                                 )
+        public RemoteScriptRunner(ILogger<RemoteScriptRunner> logger )
         {
             _logger = logger;
-
-            try
-            {
-                _ipAddress = IPAddress.Parse(iPAddress);
-            }
-            catch (FormatException)
-            {
-                string msg = $"Cannot convert to a valid IP-Address: {iPAddress}.";
-                _logger?.LogError(msg);
-                throw new WDException(msg);
-            }
-
-            _portNo = portNo;
         }
 
         #endregion
@@ -57,10 +42,29 @@ namespace WirelessDisplay.Common
         //#####################################################################
         #region
 
+        /// <see cref="IRemoteScriptRunner.SetIpAddressAndPort(string, ushort)"></see>
+        void IRemoteScriptRunner.SetIpAddressAndPort( string ipAddress, UInt16 port)
+        {
+            try
+            {
+                _ipAddress = IPAddress.Parse(ipAddress);
+            }
+            catch (FormatException)
+            {
+                string msg = $"Cannot convert to a valid IP-Address: {ipAddress}.";
+                _logger?.LogError(msg);
+                throw new WDException(msg);
+            }
+            _portNo = port;
+        }
+
+
         /// <see cref="WirelessDisplay.Common.IRemoteScriptRunner.RunAndWaitForScript"></see>
         async Task<Tuple<int,List<string>,List<string>>> IRemoteScriptRunner.RunAndWaitForScript( 
-            string scriptName, string scriptArgs, string stdin, int timeoutMillis )
+            string scriptName, string scriptArgs, string stdin )
         {
+
+
             var postData = new StartOrRunScriptRequestData()
             {
                 ScriptName = scriptName,
@@ -174,13 +178,20 @@ namespace WirelessDisplay.Common
         #endregion
 
 
-        /////////////////////////////////////////////////////////
+        //#####################################################################
         // Helper methods
-        /////////////////////////////////////////////////////////
+        //#####################################################################
         #region 
 
         async Task<TResponse> performPost<TRequest,TResponse>(TRequest postData, string lastPartOfApiPath)
         {
+            if (_ipAddress == null || _portNo == 0)
+            {
+                string msg = $"Tried to perform POST-Request, but IP-Address and/or port-number have not been set first.";
+                _logger?.LogError(msg);
+                throw new WDException(msg);
+            }
+
             // This never throws an exception
             string postString = JsonSerializer.Serialize(postData);
 

@@ -25,9 +25,9 @@ On the local computer the following actions are performed
 - Start a sreaming-source on the local computer, that streams the local 
   desktop to the remote computer.
 
-The WirelessDisplayClient uses a local `ScriptRunner`-class to run, start
+The WirelessDisplayClient uses a `LocalScriptRunner`-class to run, start
 or stop scripts on the local computer. Again the scripts on the local
-computer use other programs to do the reals work.
+computer use other programs to do the real work.
 
 ## Using this program
 

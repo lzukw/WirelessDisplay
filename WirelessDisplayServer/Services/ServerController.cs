@@ -6,6 +6,8 @@ using WirelessDisplay.Common;
 
 namespace WirelessDisplayServer.Services
 {
+    /// <summary> The class implementing IServerController. </summary>
+    /// <see cref="WirelessDisplayServer.Services.IServerController"></see>
     public class ServerController : IServerController
     {
         
@@ -17,6 +19,16 @@ namespace WirelessDisplayServer.Services
 
         private Process _serverProcess;
 
+        /// <summary> Constructor. </summary>
+        /// <param name="logger"> For logging. </param>
+        /// <param name="pathToServerExecutable"> 
+        /// File-path to the executable of the scripting-REST-API-server
+        /// </param>
+        /// <param name="argsTemplateForServerExecutable">
+        /// Template with command-line-arguments passed to the 
+        /// scripting-REST-API-server. Must contain a placeholder for the used
+        /// port.
+        /// </param>
         public ServerController(ILogger<ServerController> logger, 
                                 string pathToServerExecutable,
                                 string argsTemplateForServerExecutable)
@@ -32,17 +44,17 @@ namespace WirelessDisplayServer.Services
             }
 
             _argsTemplateForServerExecutable = argsTemplateForServerExecutable;
-            if ( ! _argsTemplateForServerExecutable.Contains(MAGICSTRINGS.PORT_PLACEHOLDER))
+            if ( ! _argsTemplateForServerExecutable.Contains(MAGICSTRINGS.PLACEHOLDER_PORT))
             {
-                string msg = $"Template for server-arguments must contain '{MAGICSTRINGS.PORT_PLACEHOLDER}', but is: '{_argsTemplateForServerExecutable}'.";
+                string msg = $"Template for server-arguments must contain '{MAGICSTRINGS.PLACEHOLDER_PORT}', but is: '{_argsTemplateForServerExecutable}'.";
                 logger?.LogCritical(msg);
                 throw new WDFatalException(msg);
             }
         }
 
-        ///////////////////////////////////////////////////////////
+        //#####################################################################
         // Implentation of the interface
-        ///////////////////////////////////////////////////////////
+        //#####################################################################
         #region 
 
         // For event-handling in C#, see
@@ -74,7 +86,7 @@ namespace WirelessDisplayServer.Services
             ((IServerController) this).StopServer();
 
             string commandLineArgs = _argsTemplateForServerExecutable
-                            .Replace(MAGICSTRINGS.PORT_PLACEHOLDER, PortNo.ToString());
+                            .Replace(MAGICSTRINGS.PLACEHOLDER_PORT, PortNo.ToString());
 
             _serverProcess = new Process();
             _serverProcess.StartInfo.FileName = _pathToServerExecutable.FullName;

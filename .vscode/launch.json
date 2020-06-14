@@ -63,7 +63,7 @@
             "cwd": "${workspaceFolder}/WirelessDisplayServer",
             "console": "internalConsole",
             "stopAtEntry": false
-        }
+        },
         
         {
             "name": "WirelessDisplayClient",
@@ -75,7 +75,20 @@
             "cwd": "${workspaceFolder}/WirelessDisplayClient",
             "console": "internalConsole",
             "stopAtEntry": false
+        },
+
+        {
+            "name": "WDClientServices_Test",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_WDClientServices_Test",
+            "program": "${workspaceFolder}/Tests/WirelessDisplayClient.WDClientServices_Test/bin/Debug/netcoreapp3.1/WirelessDisplayClient.WDClientServices_Test.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Tests/WirelessDisplayClient.WDClientServices_Test/bin/Debug/netcoreapp3.1",
+            "console": "internalConsole",
+            "stopAtEntry": false
         }
+       
         
         
     ]

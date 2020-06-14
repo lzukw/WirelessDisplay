@@ -1,0 +1,49 @@
+{
+    "PlatformIndependent" :
+    {
+        "PreferredServerPort" : "80",
+        "PreferredStreamingPort" : "5500",
+        "IndexOfpreferredStreamingType" : "0",
+
+        "ScriptNameManageScreenResolutions" : "manageScreenResolutions",
+        "ScriptArgsManageScreenResolutions" : "{ACTION} {SCREEN_RESOLUTION}",
+        "ScriptNameStartStreamingSink" : "startStreamingSink",
+        "ScriptArgsStartStreamingSink" : "{STREAMING_TYPE} {PORT}",
+        "ScriptNameStartStreamingSource" : "startStreamingSource",
+        "ScriptArgsStartStreamingSource" : "{STREAMING_TYPE} {IP} {PORT} {SCREEN_RESOLUTION}",
+        "ScriptNamePreventScreensaver" : "preventScreensaver",
+        "ScriptArgsPreventScreensaver" : "{SECONDS}"
+    },
+
+    "Linux":
+    {
+        "PreferredLocalScreenWidth" : "10000",
+        "PreferredRemoteScreenWidth" : "1024",
+        "Shell" :"bash",
+        "ShellArgsTemplate" : "{SCRIPT} {SCRIPT_ARGS}",
+        "ScriptDirectory" : "../Scripts/Linux",
+        "ScriptFileExtension" : ".sh"
+    },
+
+    "macOs":
+    {
+        "PreferredLocalScreenWidth" : "1024",
+        "PreferredRemoteScreenWidth" : "1024",
+        "Shell" :"bash",
+        "ShellArgsTemplate" : "{SCRIPT} {SCRIPT_ARGS}",
+        "ScriptDirectory" : "../Scripts/macOs",
+        "ScriptFileExtension" : ".sh"
+    },
+
+    "Windows":
+    {
+        "PreferredLocalScreenWidth" : "1024",
+        "PreferredRemoteScreenWidth" : "1024",
+        "Shell" :"cmd.exe",
+        "ShellArgsTemplate" : "/c \"{SCRIPT} {SCRIPT_ARGS}\"",
+        "ScriptDirectory": "..\\Scripts\\Windows",
+        "ScriptFileExtension" : ".bat"
+    }
+
+
+}

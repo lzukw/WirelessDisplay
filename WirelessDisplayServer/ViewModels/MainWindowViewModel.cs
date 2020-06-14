@@ -12,9 +12,9 @@ namespace WirelessDisplayServer.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        ///////////////////////////////////////////////////////////////////////
+        //#####################################################################
         // Constructor and private Fields
-        //////////////////////////////////////////////////////////////////////
+        //#####################################################################
         #region 
 
         private readonly ILogger<MainWindowViewModel> _logger;
@@ -77,9 +77,9 @@ namespace WirelessDisplayServer.ViewModels
 
         #endregion
 
-        ///////////////////////////////////////////////////////////
+        //#####################################################################
         // Value-properties bound to controls in the view.
-        ///////////////////////////////////////////////////////////
+        //#####################################################################
         #region 
 
         // backup-field for RestartButtonIsEnabled
@@ -160,10 +160,10 @@ namespace WirelessDisplayServer.ViewModels
         #endregion
 
 
-        ///////////////////////////////////////////////////////////
+        //#####################################################################
         // - React on Button-Clicks and Window-Close-Button. 
         // - Event-Handler, if sript-running-server produces output
-        ///////////////////////////////////////////////////////////
+        //#####################################################################
         #region
 
         /// <summary>
