@@ -91,34 +91,34 @@ namespace WirelessDisplayClient
             // Create reader for config.json
             var customConfigProviderLogger = loggerFactory.CreateLogger<CustomConfigProvider>();
             var customConfigProvider = new CustomConfigProvider( customConfigProviderLogger,
-                                                                 MAGICSTRINGS.CONFIG_FILE );
+                                                                 MagicStrings.CONFIG_FILE );
 
             // Assign out-objects read from config.json
             preferredServerPort = Convert.ToUInt16(
-                customConfigProvider[MAGICSTRINGS.PREFERRED_SERVER_PORT]);
+                customConfigProvider[MagicStrings.PREFERRED_SERVER_PORT]);
 
             preferredStreamingPort = Convert.ToUInt16(
-                customConfigProvider[MAGICSTRINGS.PREFERRED_STREAMING_PORT]);
+                customConfigProvider[MagicStrings.PREFERRED_STREAMING_PORT]);
             
             preferredLocalScreenWidth = Convert.ToInt32(
-                customConfigProvider[MAGICSTRINGS.PREFERRED_LOCAL_SCREEN_WIDTH]);
+                customConfigProvider[MagicStrings.PREFERRED_LOCAL_SCREEN_WIDTH]);
 
             preferredRemoteScreenWidth = Convert.ToInt32(
-                customConfigProvider[MAGICSTRINGS.PREFERRED_REMOTE_SCREEN_WIDTH]);
+                customConfigProvider[MagicStrings.PREFERRED_REMOTE_SCREEN_WIDTH]);
             
             indexOfpreferredStreamingType = Convert.ToInt32(
-                customConfigProvider[MAGICSTRINGS.INDEX_OF_PREFERRED_STREAMING_TYPE]);
+                customConfigProvider[MagicStrings.INDEX_OF_PREFERRED_STREAMING_TYPE]);
 
 
             var loggerForLocalScriptRunner = loggerFactory.CreateLogger<LocalScriptRunner>();
             var scriptDir = new DirectoryInfo(
-                            customConfigProvider[MAGICSTRINGS.SCRIPT_DIRECTORY]);
+                            customConfigProvider[MagicStrings.SCRIPT_DIRECTORY]);
             var localScriptRunner = new LocalScriptRunner(
                         loggerForLocalScriptRunner,
-                        customConfigProvider[MAGICSTRINGS.SHELL],
-                        customConfigProvider[MAGICSTRINGS.SHELL_ARGS_TEMPLATE],
+                        customConfigProvider[MagicStrings.SHELL],
+                        customConfigProvider[MagicStrings.SHELL_ARGS_TEMPLATE],
                         scriptDir,
-                        customConfigProvider[MAGICSTRINGS.SCRIPT_FILE_EXTENSION]
+                        customConfigProvider[MagicStrings.SCRIPT_FILE_EXTENSION]
             );
 
             var loggerForRemoteScriptRunner = loggerFactory.CreateLogger<RemoteScriptRunner>();
@@ -129,14 +129,14 @@ namespace WirelessDisplayClient
                         logger : loggerForWdClientServices,
                         localScriptRunner : localScriptRunner,
                         remoteScriptRunner : remoteScriptRunner,
-                        scriptNameManageScreenResolutions : customConfigProvider[MAGICSTRINGS.SCRIPTNAME_MANAGE_SCREEN_RESOLUTION],
-                        scriptArgsManageScreenResolutions : customConfigProvider[MAGICSTRINGS.SCRIPTARGS_MANAGE_SCREEN_RESOLUTION],
-                        scriptNameStartStreamingSink : customConfigProvider[MAGICSTRINGS.SCRIPTNAME_START_STREAMING_SINK],
-                        scriptArgsStartStreamingSink : customConfigProvider[MAGICSTRINGS.SCRIPTARGS_START_STREAMING_SINK],
-                        scriptNameStartStreamingSource : customConfigProvider[MAGICSTRINGS.SCRIPTNAME_START_STREAMING_SOURCE],
-                        scriptArgsStartStreamingSource : customConfigProvider[MAGICSTRINGS.SCRIPTARGS_START_STREAMING_SOURCE],
-                        scriptNamePreventScreensaver : customConfigProvider[MAGICSTRINGS.SCRIPTNAME_PREVENT_SCREENSAVER],
-                        scriptArgsPreventScreensaver : customConfigProvider[MAGICSTRINGS.SCRIPTARGS_PREVENT_SCREENSAVER]
+                        scriptNameManageScreenResolutions : customConfigProvider[MagicStrings.SCRIPTNAME_MANAGE_SCREEN_RESOLUTION],
+                        scriptArgsManageScreenResolutions : customConfigProvider[MagicStrings.SCRIPTARGS_MANAGE_SCREEN_RESOLUTION],
+                        scriptNameStartStreamingSink : customConfigProvider[MagicStrings.SCRIPTNAME_START_STREAMING_SINK],
+                        scriptArgsStartStreamingSink : customConfigProvider[MagicStrings.SCRIPTARGS_START_STREAMING_SINK],
+                        scriptNameStartStreamingSource : customConfigProvider[MagicStrings.SCRIPTNAME_START_STREAMING_SOURCE],
+                        scriptArgsStartStreamingSource : customConfigProvider[MagicStrings.SCRIPTARGS_START_STREAMING_SOURCE],
+                        scriptNamePreventScreensaver : customConfigProvider[MagicStrings.SCRIPTNAME_PREVENT_SCREENSAVER],
+                        scriptArgsPreventScreensaver : customConfigProvider[MagicStrings.SCRIPTARGS_PREVENT_SCREENSAVER]
             );
 
         }

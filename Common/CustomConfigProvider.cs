@@ -66,15 +66,15 @@ namespace WirelessDisplay.Common
             // Find out operating system and store corresponding section in osSection
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                _osSection=MAGICSTRINGS.LINUX_SECTION;
+                _osSection=MagicStrings.LINUX_SECTION;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                _osSection=MAGICSTRINGS.MAC_OS_SECTION;
+                _osSection=MagicStrings.MAC_OS_SECTION;
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                _osSection=MAGICSTRINGS.WINDOWS_SECTION;
+                _osSection=MagicStrings.WINDOWS_SECTION;
             }
             else
             {
@@ -86,7 +86,7 @@ namespace WirelessDisplay.Common
             // Check for the presence of the required sections (plaftorm-independent
             // and specific to the used operating-system).
             foreach (string section in new[] { 
-                        MAGICSTRINGS.PLATFORM_INDEPENDENT_SECTION, _osSection, } )
+                        MagicStrings.PLATFORM_INDEPENDENT_SECTION, _osSection, } )
             {
                 if ( ! _jsonConfig.ContainsKey(section))
                 {
@@ -109,7 +109,7 @@ namespace WirelessDisplay.Common
         public string GetValue(string key)
         {
             foreach (string section in new[] { 
-                        MAGICSTRINGS.PLATFORM_INDEPENDENT_SECTION, _osSection, } )
+                        MagicStrings.PLATFORM_INDEPENDENT_SECTION, _osSection, } )
             {
                 if ( _jsonConfig[section].ContainsKey(key) )
                 {

@@ -60,8 +60,8 @@ namespace WirelessDisplayClient.ViewModels
             
             StreamingTypes = new ObservableCollection<string>( new[] 
             {
-                MAGICSTRINGS.STREAMING_METHOD_VNC,
-                MAGICSTRINGS.STREAMING_METHOD_FFMPEG
+                MagicStrings.STREAMING_METHOD_VNC,
+                MagicStrings.STREAMING_METHOD_FFMPEG
             });
 
             if (indexOfpreferredStreamingType >= StreamingTypes.Count)

@@ -74,7 +74,7 @@ namespace WirelessDisplay.Common
 
             // If an exception occurs, let it handle the caller
             RunOrStopScriptResponseData rd = await
-            performPost<StartOrRunScriptRequestData,RunOrStopScriptResponseData>(postData, MAGICSTRINGS.RESTAPI_RUNSCRIPT);
+            performPost<StartOrRunScriptRequestData,RunOrStopScriptResponseData>(postData, MagicStrings.RESTAPI_RUNSCRIPT);
 
             if ( ! rd.Success)
             {
@@ -100,7 +100,7 @@ namespace WirelessDisplay.Common
             // If an exception occurs, let it handle the caller
             StartScriptResponseData rd = await
                 performPost<StartOrRunScriptRequestData,StartScriptResponseData>(postData1, 
-                MAGICSTRINGS.RESTAPI_STARTSCRIPT);
+                MagicStrings.RESTAPI_STARTSCRIPT);
 
             if ( ! rd.Success)
             {
@@ -140,7 +140,7 @@ namespace WirelessDisplay.Common
             // If an exception occurs, let it handle the caller
             RunOrStopScriptResponseData rd = await
                 performPost<QueryOrStopScriptRequestData,RunOrStopScriptResponseData>(
-                                postData, MAGICSTRINGS.RESTAPI_STOPSCRIPT);
+                                postData, MagicStrings.RESTAPI_STOPSCRIPT);
 
             if ( ! rd.Success)
             {
@@ -163,7 +163,7 @@ namespace WirelessDisplay.Common
                         
             QueryScriptResponseData rd = await 
                 performPost<QueryOrStopScriptRequestData,QueryScriptResponseData>(postData, 
-                MAGICSTRINGS.RESTAPI_IS_SCRIPT_RUNNING);
+                MagicStrings.RESTAPI_IS_SCRIPT_RUNNING);
 
             if ( ! rd.Success)
             {
@@ -195,7 +195,7 @@ namespace WirelessDisplay.Common
             // This never throws an exception
             string postString = JsonSerializer.Serialize(postData);
 
-            string uriString = $"http://{_ipAddress}:{_portNo}/{MAGICSTRINGS.RESTAPI_MAIN_PATH}/{lastPartOfApiPath}";
+            string uriString = $"http://{_ipAddress}:{_portNo}/{MagicStrings.RESTAPI_MAIN_PATH}/{lastPartOfApiPath}";
 
             HttpResponseMessage response;
 

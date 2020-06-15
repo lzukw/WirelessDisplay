@@ -46,10 +46,10 @@ namespace ScriptingRestApiServer
                 var loggerForCustomConfig = s.GetRequiredService<ILogger<CustomConfigProvider>>();
 
                 CustomConfigProvider myConfig = 
-                        new CustomConfigProvider(loggerForCustomConfig, MAGICSTRINGS.CONFIG_FILE);
+                        new CustomConfigProvider(loggerForCustomConfig, MagicStrings.CONFIG_FILE);
 
                 DirectoryInfo scriptDir = 
-                        new DirectoryInfo(myConfig[MAGICSTRINGS.SCRIPT_DIRECTORY]);
+                        new DirectoryInfo(myConfig[MagicStrings.SCRIPT_DIRECTORY]);
                 if ( ! scriptDir.Exists)
                 {
                     string msg=$"FATAL: Cannot find Script-directory '{scriptDir.FullName}'";
@@ -57,10 +57,10 @@ namespace ScriptingRestApiServer
                     throw new WDFatalException(msg);
                 }
                 return new LocalScriptRunner ( logger, 
-                                         myConfig[MAGICSTRINGS.SHELL],
-                                         myConfig[MAGICSTRINGS.SHELL_ARGS_TEMPLATE],
+                                         myConfig[MagicStrings.SHELL],
+                                         myConfig[MagicStrings.SHELL_ARGS_TEMPLATE],
                                          scriptDir,
-                                         myConfig[MAGICSTRINGS.SCRIPT_FILE_EXTENSION] );
+                                         myConfig[MagicStrings.SCRIPT_FILE_EXTENSION] );
             });
 
         }

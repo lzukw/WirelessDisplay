@@ -4,12 +4,18 @@ This folder contains a C#-class-library that is used by all projects
 
 The class-library (assembly) provides:
 
-- A class for reading a custom configuration (json-file).
+- A class for reading a custom configuration (json-file) 
+  [CustomConfigProvider.cs].
 - A class for executing scripts (shell-scripts or batch-scritps) in a 
-  platform-independet way on the local computer.
+  platform-independet way on the local computer [LocalScriptRunner.cs].
 - A class that asks via POST-requests the remote computer to exeute 
-  scripts. 
-- A static class containing all magic strings for every project.
+  scripts [RemoteScxriptRunner.cs]. 
+- A static class containing all magic strings for all projects as 
+  readonly members [MagicStrings.cs].
+
+The classes `LocalScriptRunner` and `RemoteScxriptRunner` expose their
+functionalities vie the interfaces `ILocalScriptRunner` and 
+`IRemoteScxriptRunner`.
 
 ## Project creation
 

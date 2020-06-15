@@ -268,8 +268,8 @@ namespace WirelessDisplay.Common
             }
 
             string shellArgs = _shellArgsTemplate;
-            shellArgs = shellArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SCRIPT_PATH, scriptPath.FullName);
-            shellArgs = shellArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SCRIPT_ARGS, scriptArgs);
+            shellArgs = shellArgs.Replace(MagicStrings.PLACEHOLDER_SCRIPT_PATH, scriptPath.FullName);
+            shellArgs = shellArgs.Replace(MagicStrings.PLACEHOLDER_SCRIPT_ARGS, scriptArgs);
 
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = _shell;

@@ -2,10 +2,10 @@
 
 ## Overview 
 
-This project provides the webserver, that offers a REST-API for the client
-('presentation-computer'). It is the heart of the WirelessDisplay-solution. 
-Clients can run, start and stop scripts on the server-computer 
-('peojecting-computer').
+The ScriptingRestApiServer-project provides the webserver, that offers a 
+REST-API for the client ('presentation-computer'). It is the heart of the 
+WirelessDisplay-solution. Clients can run, start and stop scripts on the 
+server-computer ('projecting-computer').
 
 The scripts typically are shell-scripts executed with bash on Linux and 
 batch-files executed with cmd.exe on Windows.
@@ -17,8 +17,8 @@ remote-controlling a Linux-, Windows- or macOS-computer.
 
 ScriptingRestApiServer is an ASP.NET-core webapi-program.
 
-Depending on the operating system, the WirelessDisplayServer is running on, 
-the scripts reside in one of the subfolders 
+Depending on the operating system of the server-computer, the scripts reside 
+in one of the subfolders 
 
 - [../Scripts/Linux]
 - [../Scripts/maxOS]
@@ -26,28 +26,31 @@ the scripts reside in one of the subfolders
 
 The script-location, as well as the shell for executing the scripts, for 
 example bash, cmd.exe, but also powershell or python, can be configured by 
-modifying the file [config.json]. Also the location of the scripts could be 
-configured. In most cases there is no need to change the default-configuration 
-(A python-program can also be started from within a bash-script or a 
-Windows-batch-file).
+modifying the file [config.json]. In most cases there is no need to change the 
+default-configuration (A python-program could also be started from within a 
+bash-script or a Windows-batch-file).
 
 See the [README.md](../Scripts/README.md) 
 
 This approach is quite generic, so every kind of script could be executed
 on the server-computer by the client-computer. For the WirelessDisplay-project
-the scripts
+there are scripts to
 
 - query and modify the screen-resolution of the 'projecting-computer',
 - prevent the screensaver from activating, and
-- start and stop a streaming-sink on the 'projecting-computer'.
+- start a streaming-sink on the 'projecting-computer'.
 
 But, as already said, everything that can be done by executing a script, 
 can be done. The client-computer uses the REST-API as a sort of remote-
 control for the server-computer.
 
-The scripts do not do the work by themselves, but they start external programs.
-Some of these external programs have to be made available in the Folder 
-[ThirdParty]. See the [README.md](../ThirdParty/README.md) in this folder.
+There is also a script for starting a streamins-source, but this script is
+executed on the client-computer (presentation-computer).
+
+The scripts do their work by starting external programs.
+Some of these external programs have to be made available in a subfolder
+of the folder [ThirdParty]. See the [README.md](../ThirdParty/README.md) 
+in this folder.
 
 ## Allowed REST-API-calls
 

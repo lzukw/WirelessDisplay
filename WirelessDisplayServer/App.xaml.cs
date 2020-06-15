@@ -86,12 +86,12 @@ namespace WirelessDisplayServer
             // Create reader for config.json
             var customConfigProviderLogger = loggerFactory.CreateLogger<CustomConfigProvider>();
             var customConfigProvider = new CustomConfigProvider( customConfigProviderLogger,
-                                                                 MAGICSTRINGS.CONFIG_FILE );
+                                                                 MagicStrings.CONFIG_FILE );
 
             // Read Port-Numbers from config.json
             List<UInt16> portNumberList = new List<UInt16>();
 
-            string portsAsString = customConfigProvider[MAGICSTRINGS.PORT_NUMBERS];
+            string portsAsString = customConfigProvider[MagicStrings.PORT_NUMBERS];
             string[] ports = portsAsString.Split(',', StringSplitOptions.RemoveEmptyEntries);
             foreach (string port in ports)
             {
@@ -99,7 +99,7 @@ namespace WirelessDisplayServer
                 bool success = UInt16.TryParse(port, out portNumber);
                 if ( ! success )
                 {
-                    throw new WDFatalException($"In config-file '{MAGICSTRINGS.CONFIG_FILE}' the port-numbers cannot be parsed: '{MAGICSTRINGS.PORT_NUMBERS} : {portsAsString}'");
+                    throw new WDFatalException($"In config-file '{MagicStrings.CONFIG_FILE}' the port-numbers cannot be parsed: '{MagicStrings.PORT_NUMBERS} : {portsAsString}'");
                 }
                 portNumberList.Add(portNumber);
             }
@@ -109,9 +109,9 @@ namespace WirelessDisplayServer
             // Create instance implementing IServerController
             var serverControllerLogger = loggerFactory.CreateLogger<ServerController>();
             string serverPath = 
-                customConfigProvider[MAGICSTRINGS.PATH_TO_SCRIPTING_REST_API_SERVER];
+                customConfigProvider[MagicStrings.PATH_TO_SCRIPTING_REST_API_SERVER];
             string argsTemplate = 
-                customConfigProvider[MAGICSTRINGS.ARGS_TEMPLATE_FOR_SCRIPTING_REST_API_SERVER];
+                customConfigProvider[MagicStrings.ARGS_TEMPLATE_FOR_SCRIPTING_REST_API_SERVER];
             // Assign out-object serverController
             serverController = new ServerController(serverControllerLogger,
                                                     serverPath, argsTemplate);

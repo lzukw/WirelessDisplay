@@ -2,7 +2,7 @@
 
 namespace WirelessDisplay.Common
 {
-    public static class MAGICSTRINGS
+    public static class MagicStrings
     {
 
         //#####################################################################

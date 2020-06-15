@@ -109,8 +109,8 @@ namespace WirelessDisplayClient.Services
         string IWDClientServices.GetCurrentLocalScreenResolution() 
         {
             string scriptArgs = _scriptArgsManageScreenResolutions;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_ACTION, 
-                                                MAGICSTRINGS.ACTION_GET);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_ACTION, 
+                                                MagicStrings.ACTION_GET);
 
             List<string> stdoutLines = runLocalManageScreenResolutionsScript(scriptArgs);
             return findFirstScreenResolution(stdoutLines);
@@ -121,8 +121,8 @@ namespace WirelessDisplayClient.Services
         List<string> IWDClientServices.GetAvailableLocalScreenResolutions()
         {
             string scriptArgs = _scriptArgsManageScreenResolutions;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_ACTION, 
-                                                MAGICSTRINGS.ACTION_ALL);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_ACTION, 
+                                                MagicStrings.ACTION_ALL);
 
             List<string> stdoutLines = runLocalManageScreenResolutionsScript(scriptArgs);
             List<string> allResolutions = findAllScreenResolutions(stdoutLines);
@@ -139,9 +139,9 @@ namespace WirelessDisplayClient.Services
         void IWDClientServices.SetLocalScreenResolution(string screenResolution)
         {
             string scriptArgs = _scriptArgsManageScreenResolutions;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_ACTION, 
-                                                MAGICSTRINGS.ACTION_SET);
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SCREEN_RESOLUTION, 
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_ACTION, 
+                                                MagicStrings.ACTION_SET);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SCREEN_RESOLUTION, 
                                                 screenResolution);
             
             runLocalManageScreenResolutionsScript(scriptArgs);
@@ -165,7 +165,7 @@ namespace WirelessDisplayClient.Services
         async Task<string> IWDClientServices.GetCurrentRemoteScreenResolution() 
         {
             string scriptArgs = _scriptArgsManageScreenResolutions;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_ACTION, MAGICSTRINGS.ACTION_GET);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_ACTION, MagicStrings.ACTION_GET);
 
             List<string> outputLines = await runRemoteManageScreenResolutionsScript(scriptArgs);
 
@@ -178,8 +178,8 @@ namespace WirelessDisplayClient.Services
         async Task<List<string>> IWDClientServices.GetAvailableRemoteScreenResolutions()
         {
             string scriptArgs = _scriptArgsManageScreenResolutions;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_ACTION, 
-                                                MAGICSTRINGS.ACTION_ALL);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_ACTION, 
+                                                MagicStrings.ACTION_ALL);
 
             List<string> stdoutLines = await runRemoteManageScreenResolutionsScript(scriptArgs);
             List<string> allResolutions = findAllScreenResolutions(stdoutLines);
@@ -196,9 +196,9 @@ namespace WirelessDisplayClient.Services
         async Task IWDClientServices.SetRemoteScreenResolution(string screenResolution)
         {
             string scriptArgs = _scriptArgsManageScreenResolutions;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_ACTION, 
-                                                MAGICSTRINGS.ACTION_SET);
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SCREEN_RESOLUTION, 
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_ACTION, 
+                                                MagicStrings.ACTION_SET);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SCREEN_RESOLUTION, 
                                                 screenResolution);
 
             await runRemoteManageScreenResolutionsScript(scriptArgs);    
@@ -233,10 +233,10 @@ namespace WirelessDisplayClient.Services
 
             // Run the local script to start the streaming-source
             string scriptArgs = _scriptArgsStartStreamingSource;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_STREAMING_TYPE, streamType);
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_IP, remoteIpAddress);
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_PORT, port.ToString());
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SCREEN_RESOLUTION, !string.IsNullOrEmpty(streamResolution) ? streamResolution : "null");
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_STREAMING_TYPE, streamType);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_IP, remoteIpAddress);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_PORT, port.ToString());
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SCREEN_RESOLUTION, !string.IsNullOrEmpty(streamResolution) ? streamResolution : "null");
 
             // Exceptions have to be handled by the caller.
             // Store the process-ID of the started process in _processIdStramingSource
@@ -266,8 +266,8 @@ namespace WirelessDisplayClient.Services
             await ((IWDClientServices) this).StopRemoteStreamingSink();
 
             string scriptArgs = _scriptArgsStartStreamingSink;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_STREAMING_TYPE, streamType);
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_PORT, port.ToString());
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_STREAMING_TYPE, streamType);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_PORT, port.ToString());
             
             // Exceptions have to be handled by the caller.
             // Store the process-ID of the started process in _processIdStreamingSink
@@ -305,7 +305,7 @@ namespace WirelessDisplayClient.Services
             await ((IWDClientServices) this).StopRemotePreventScreensaver();
 
             string scriptArgs = _scriptArgsPreventScreensaver;
-            scriptArgs = scriptArgs.Replace(MAGICSTRINGS.PLACEHOLDER_SECONDS, 
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SECONDS, 
                             seconds.ToString());
 
             // Exceptions have to be handled by the caller.

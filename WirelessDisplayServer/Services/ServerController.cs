@@ -44,9 +44,9 @@ namespace WirelessDisplayServer.Services
             }
 
             _argsTemplateForServerExecutable = argsTemplateForServerExecutable;
-            if ( ! _argsTemplateForServerExecutable.Contains(MAGICSTRINGS.PLACEHOLDER_PORT))
+            if ( ! _argsTemplateForServerExecutable.Contains(MagicStrings.PLACEHOLDER_PORT))
             {
-                string msg = $"Template for server-arguments must contain '{MAGICSTRINGS.PLACEHOLDER_PORT}', but is: '{_argsTemplateForServerExecutable}'.";
+                string msg = $"Template for server-arguments must contain '{MagicStrings.PLACEHOLDER_PORT}', but is: '{_argsTemplateForServerExecutable}'.";
                 logger?.LogCritical(msg);
                 throw new WDFatalException(msg);
             }
@@ -86,7 +86,7 @@ namespace WirelessDisplayServer.Services
             ((IServerController) this).StopServer();
 
             string commandLineArgs = _argsTemplateForServerExecutable
-                            .Replace(MAGICSTRINGS.PLACEHOLDER_PORT, PortNo.ToString());
+                            .Replace(MagicStrings.PLACEHOLDER_PORT, PortNo.ToString());
 
             _serverProcess = new Process();
             _serverProcess.StartInfo.FileName = _pathToServerExecutable.FullName;
