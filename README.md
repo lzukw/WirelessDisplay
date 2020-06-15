@@ -115,12 +115,39 @@ build-instructions:
 - Download and extract, or clone the WirelessDisplay-repository. Then `cd` into
   the [WirelessDisplay]-folder
 
-- Build the ScriptingRestApiServer-project:
+- Build the ScriptingRestApiServer-project (in a powershell):
 ```
 cd ScriptingRestApiServer
-dotnet publich -c Release -r win-x64 --self-contained false -o ../ScriptingRestApiServer_executable
+dotnet publish -c Release -r win-x64 --self-contained false -o ../ScriptingRestApiServer_executable
+cp config.json ../ScriptingRestApiServer_executable
 cd ..
 ```
 
-- Build the 
+- Build the WirelessDisplayServer-project (in a powershell)
+```
+cd WirelessDisplayServer
+dotnet publich -c Release -r win-x64 --self-contained false -o ../WirelessDisplayServer_executable
+cp config.json ../WirelessDisplayServer_executable
+cd ..
+```
+
+- Third-Party-executables must be made available in [ThirdParty/Windows]
+  TODO
+
+- The following folders can now be copied to the target-computer:
+  * [ScriptingRestApiServer_executable]
+  * [WirelessDisplayServer_executable]
+  * [ThirdParty], where only the subfolder [ThirdParty/Windows] is relevant.
+  * [Scripts], where only [Scripts/Windows] is relevant.
+
+The program can be started by double-clicking the executable file
+[WirelessDisplayServer_executable/WirelessDisplayServer.exe]. A link to this
+executable can be made on the Desktop or in the start-menu.
+
+
+### Build-instructions for the presentation-computer using Linux
+
+TODO
+
+
 

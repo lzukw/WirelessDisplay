@@ -12,9 +12,13 @@ if [ ${STREAMING_TYPE} == "VNC" ]
 then
 
   # Start VNC-viewer in reverse connection, listening on PORT
+  # On Debian-based-systems xtightvncviewer is used
+  xtightvncviewer -fullscreen -nocursorshape -viewonly -listen $(expr ${PORT} - 5500)
+
+  # On Fedora, xtightvncviewer is not available, so use tigervnc
   # tigervnc is used (Fedora 31), but the arguments seem to be valid for other 
   # vncviewers as well
-  vncviewer -Shared -FullScreen -ViewOnly -listen ${PORT}
+  #vncviewer -Shared -FullScreen -ViewOnly -listen ${PORT}
 
 elif [ ${STREAMING_TYPE} == "FFmpeg" ]
 then
