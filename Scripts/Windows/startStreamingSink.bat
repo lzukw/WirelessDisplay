@@ -2,7 +2,7 @@
 
 REM The command-line-arguments passed to this script
 SET STREAMING_TYPE=%1
-set PORT_NO=%2
+SET PORT_NO=%2
 
 IF "%STREAMING_TYPE%" == "VNC" (
     REM The call to vncviewer.exe returns immediately but START /W waits for 

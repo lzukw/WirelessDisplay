@@ -119,15 +119,15 @@ build-instructions:
 ```
 cd ScriptingRestApiServer
 dotnet publish -c Release -r win-x64 --self-contained false -o ../ScriptingRestApiServer_executable
-cp config.json ../ScriptingRestApiServer_executable
+cp config.json ../ScriptingRestApiServer_executable/
 cd ..
 ```
 
 - Build the WirelessDisplayServer-project (in a powershell)
 ```
 cd WirelessDisplayServer
-dotnet publich -c Release -r win-x64 --self-contained false -o ../WirelessDisplayServer_executable
-cp config.json ../WirelessDisplayServer_executable
+dotnet publish -c Release -r win-x64 --self-contained false -o ../WirelessDisplayServer_executable
+cp config.json ../WirelessDisplayServer_executable/
 cd ..
 ```
 
@@ -147,7 +147,47 @@ executable can be made on the Desktop or in the start-menu.
 
 ### Build-instructions for the presentation-computer using Linux
 
-TODO
+If dotnet core 3.1 (at least the runtime) is installed on the 
+target-Linux-computer, you can use the following build instructions:
+
+- Download and extract, or clone the WirelessDisplay-repository. Then `cd` into
+  the [WirelessDisplay]-folder
+
+- Build the WirelessDisplayServer-project (in a powershell)
+```
+cd WirelessDisplayClient
+dotnet publish -c Release -r linux-x64 --self-contained false -o ../WirelessDisplayClient_executable
+cp config.json ../WirelessDisplayClient_executable/
+cd ..
+```
+
+- On Linux no third-party-executables are necessary, but for the 
+  presentation-computer `xrandr` and `x11vnc` must be available:
+
+```
+sudo apt-get install x11vnc
+```
+or
+```
+sudo dnf install x11vnc
+```
+
+Note: `xdotool` and a VNC-viewer are only necessary on the projecting computer.
+
+- Since on Linux no third-party-programs are necessary, only the following
+  two folders need to be copied to the target-computer:
+
+  * [WirelessDisplayClient_executable]
+  * [Scripts], where only [Scripts/Windows] is relevant.
 
 
+The program can be started by:
+
+```
+cd pathToWirelessDisplay/WirelessDisplayClient_executable
+./WirelessDisplayClient
+```
+
+An equivalent .desktop-file or a shell-script containing these two commands 
+can be created. 
 
