@@ -1,20 +1,17 @@
 # Third-Party-programs
 
-Three external tools are needed by WirelessDisplayClientGUI, and like
-WirelessDisplayClientGUI itself, they all run on the presentation-computer:
+Three external tools are needed by WirelessDisplay:
 
-- A VNC-server,
-- ffmpeg,
+- A VNC-server and a VNC-client,
+- ffmpeg (and ffplay),
 - A tool to mangage screen-resolutions of the local computer.
 
-These three tools are not started directly by WirelessDisplayClientGUI, but
-they are started using the scripts in the directory 
+These three tools are started by the scripts in the directory 
 [Scripts/<Operating-System>]. Have a look at the [README.md] in the directory
 [Scripts] for furhter information.
 
 Note: If you plan to use only VNC or only ffmpeg, it is not necessary to
-install the other tool, since WirelessDisplayClientGUI does start a script
-if you don't start it.
+install the other tool.
 
 ## For Linux
 
@@ -28,31 +25,32 @@ TODO
 
 ## For Windows
 
-The programs TightVNC, version 1.3.10 
-[see here](https://www.tightvnc.com/download/1.3.10/tightvnc-1.3.10_x86.zip), 
+The programs VNC open for Windows, version 4.1.3
+[see here](https://archive.realvnc.com/download/open/), 
 and ffmpeg 
 [see here](https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.2.2-win64-static.zip) 
-are used as streaming-source by the scripts in [Scripts\Windows]. The ffmpeg 
-zip-File is about 60MB large. As long as github doesn't complain, I provide a 
-copy of both zip-files in my repository
+are used as streaming-source and streaming-sink by the scripts in 
+[Scripts\Windows]. The ffmpeg zip-File is about 60MB large. As long as github 
+doesn't complain because of large files, I provide a copy here: 
 [Third-party-tools](https://github.com/lzukw/Third-party-tools).
 
 For managing the local screen-resolution
 [ScreenRes](https://github.com/lzukw/ScreenRes) is used. This repository
 contains the executable screenres.exe, which depends on ??? Microsoft C++ 
 Runtime 2015 TODO find out real name ???. On most Windows-systems this is 
-installed. If not you can also download the few .dll-files manually and
+installed. If not, you can also download the few .dll-files manually and
 place them in the same folder as sreenres.exe.
 
-Download the zip-Files (ffmpeg, tightvnc) to the [ThirdParty]-folder and 
+Download the zip-Files (ffmpeg, vncopen) to the [ThirdParty/Windows]-folder and 
 extract them.
 
 Clone the screenres-repository or download it as zip and extract it - also
-to the [ThirdParty]-folder. 
+to the [ThirdParty/Windows]-folder. 
 
 Double-check the paths to the executables. The original sripts (batch-files)
 in [Scripts\Windows] look for the three executeables here:
 
+TODO:
 - [..\..\ThirdParty\ffmpeg-4.2.2-win64-static\bin\ffplay.exe]
 - [..\..\ThirdParty\tightvnc-1.3.10_x86\vncviewer.exe]
 - [..\..\ThirdParty\ScreenRes\screenres.exe]

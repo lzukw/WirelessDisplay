@@ -20,10 +20,13 @@ IF "%STREAMING_TYPE%" == "VNC" (
 
 )
 
-
-IF "%STREAMING_TYPE%" == "FFmpeg" (
+ELSE IF "%STREAMING_TYPE%" == "FFmpeg" (
 
 
 )
 
+ELSE (
+    ECHO Wrong streaming type: %STREAMING_TYPE%
+    EXIT 1
+)
 
