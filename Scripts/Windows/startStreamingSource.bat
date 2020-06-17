@@ -25,7 +25,7 @@ IF "%STREAMING_TYPE%" == "VNC" (
     PAUSE
 
 ) ELSE IF "%STREAMING_TYPE%" == "FFmpeg" ( 
-    ECHO FFmpeg
+    ..\..\ThirdParty\Windows\ffmpeg\bin\ffmpeg.exe -f gdigrab -i desktop TODO
 
 ) ELSE (
     ECHO Wrong streaming type: %STREAMING_TYPE%

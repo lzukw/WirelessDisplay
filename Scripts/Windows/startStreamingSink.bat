@@ -11,7 +11,7 @@ IF "%STREAMING_TYPE%" == "VNC" (
     ..\..\ThirdParty\Windows\VNC4\vncviewer.exe -console SendKEyEvents=0 SendPointerEvents=0 FullScreen=1 UseLocalCursor=0 Listen=1 %PORT%
 	
 ) ELSE IF "%STREAMING_TYPE%" == "FFmpeg" (
-	..\..\ThirdParty\Windows\ffmpeg-4.2.2-win64-static\bin\ffplay.exe -fs -an -sn -fflags nobuffer -i udp://0.0.0.0:%PORT%
+	..\..\ThirdParty\Windows\ffmpeg\bin\ffplay.exe -fs -an -sn -fflags nobuffer -i udp://0.0.0.0:%PORT%
 	
 ) ELSE (
     ECHO "Wrong streaming type"
