@@ -51,9 +51,11 @@ Double-check the paths to the executables. The original sripts (batch-files)
 in [Scripts\Windows] look for the three executeables here:
 
 TODO:
-- [..\..\ThirdParty\ffmpeg-4.2.2-win64-static\bin\ffplay.exe]
-- [..\..\ThirdParty\tightvnc-1.3.10_x86\vncviewer.exe]
-- [..\..\ThirdParty\ScreenRes\screenres.exe]
+- [..\..\ThirdParty\ffmpeg\bin\ffplay.exe]
+- [..\..\ThirdParty\ffmpeg\bin\ffmpeg.exe]
+- [..\..\ThirdParty\Windows\VNC4\vncviewer.exe]
+- [..\..\ThirdParty\Windows\VNC4\winvnc4.exe]
+- [..\..\ThirdParty\Windows\ScreenRes\screenres.exe]
 
 If the paths are not correct you can either modify the folder-structure in 
 [ThirdParty] or modify the batch-files in [Scripts\Windows].
