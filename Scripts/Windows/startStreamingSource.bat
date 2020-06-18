@@ -1,4 +1,4 @@
-@echo off
+REM @echo off
 REM Starts the streaming-source, which sends the stream to 
 REM the remote streaming-sink
 
@@ -25,7 +25,7 @@ IF "%STREAMING_TYPE%" == "VNC" (
     PAUSE
 
 ) ELSE IF "%STREAMING_TYPE%" == "FFmpeg" ( 
-    ..\..\ThirdParty\Windows\ffmpeg\bin\ffmpeg.exe -f gdigrab -i desktop TODO
+    ..\..\ThirdParty\Windows\ffmpeg\bin\ffmpeg.exe -f gdigrab -i desktop -r 30 -vf scale=%SCREEN_RESOLUTION% -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts udp://%IP%:%PORT%
 
 ) ELSE (
     ECHO Wrong streaming type: %STREAMING_TYPE%
