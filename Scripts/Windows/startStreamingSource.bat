@@ -1,4 +1,4 @@
-REM @echo off
+@echo off
 REM Starts the streaming-source, which sends the stream to 
 REM the remote streaming-sink
 
@@ -18,9 +18,9 @@ SET PORT=%3
 SET SCREEN_RESOLUTION=%4
 
 IF "%STREAMING_TYPE%" == "VNC" (
-    START /B ..\..\ThirdParty\Windows\VNC4\winvnc4.exe SecurityTypes=None AcceptPointerEvents=0 AcceptKeyEvents=0 AcceptCutText=0
+    START /B ..\..\ThirdParty\Windows\VNCopen\winvnc4.exe SecurityTypes=None AcceptPointerEvents=0 AcceptKeyEvents=0 AcceptCutText=0
     timeout /t 2 /nobreak > nul
-    ..\..\ThirdParty\Windows\VNC4\winvnc4.exe -connect %IP%::%PORT%
+    ..\..\ThirdParty\Windows\VNCopen\winvnc4.exe -connect %IP%::%PORT%
     REM Hang her forever
     PAUSE
 

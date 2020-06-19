@@ -4,18 +4,19 @@ This folder contains a C#-class-library that is used by all projects
 
 The class-library (assembly) provides:
 
-- A class for reading a custom configuration (json-file) 
+- A class for reading a custom configuration.file ([config.json]) defined in 
   [CustomConfigProvider.cs].
 - A class for executing scripts (shell-scripts or batch-scritps) in a 
   platform-independet way on the local computer [LocalScriptRunner.cs].
 - A class that asks via POST-requests the remote computer to exeute 
-  scripts [RemoteScxriptRunner.cs]. 
+  scripts [RemoteScriptRunner.cs]. 
 - A static class containing all magic strings for all projects as 
   readonly members [MagicStrings.cs].
+- The Exception `WDException` used by all WirelessDisplay-projects. 
 
-The classes `LocalScriptRunner` and `RemoteScxriptRunner` expose their
+The classes `LocalScriptRunner` and `RemoteScriptRunner` expose their
 functionalities vie the interfaces `ILocalScriptRunner` and 
-`IRemoteScxriptRunner`.
+`IRemoteScriptRunner`.
 
 ## Project creation
 

@@ -50,12 +50,12 @@ to the [ThirdParty/Windows]-folder.
 Double-check the paths to the executables. The original sripts (batch-files)
 in [Scripts\Windows] look for the three executeables here:
 
-TODO:
-- [..\..\ThirdParty\ffmpeg\bin\ffplay.exe]
-- [..\..\ThirdParty\ffmpeg\bin\ffmpeg.exe]
-- [..\..\ThirdParty\Windows\VNC4\vncviewer.exe]
-- [..\..\ThirdParty\Windows\VNC4\winvnc4.exe]
+- [..\..\ThirdParty\Windows\ffmpeg\bin\ffplay.exe]
+- [..\..\ThirdParty\Windows\ffmpeg\bin\ffmpeg.exe]
+- [..\..\ThirdParty\Windows\VNCopen\vncviewer.exe]
+- [..\..\ThirdParty\Windows\VNCopen\winvnc4.exe]
 - [..\..\ThirdParty\Windows\ScreenRes\screenres.exe]
+- [..\..\ThirdParty\Windows\PreventTurnOffDisplay\PreventTurnOffDisplay.exe]
 
 If the paths are not correct you can either modify the folder-structure in 
 [ThirdParty] or modify the batch-files in [Scripts\Windows].

@@ -28,16 +28,13 @@ namespace WirelessDisplayClient.ViewModels
         private readonly int _preferredLocalScreenWidth;
         private readonly int _preferredRemoteScreenWidth;
 
-        private readonly int _indexOfpreferredStreamingType;
-
-
         public MainWindowViewModel( ILogger<MainWindowViewModel> logger,
                   IWDClientServices wdClientServices, 
+                  string[] streamingTypes,
                   UInt16 preferredServerPort = 80,
                   UInt16 preferredStreamingPort = 5500,
                   int preferredLocalScreenWidth = 1024,
-                  int preferredRemoteScreenWidth = 1024,
-                  int indexOfpreferredStreamingType = 0)
+                  int preferredRemoteScreenWidth = 1024 )
         {
             _logger = logger;
             _wdClientServices = wdClientServices;
@@ -58,18 +55,10 @@ namespace WirelessDisplayClient.ViewModels
             AvailableRemoteScreenResolutions = new ObservableCollection<string>();
             SelectedRemoteScreenResolutionIndex = -1;
             
-            StreamingTypes = new ObservableCollection<string>( new[] 
-            {
-                MagicStrings.STREAMING_METHOD_VNC,
-                MagicStrings.STREAMING_METHOD_FFMPEG
-            });
+            StreamingTypes = new ObservableCollection<string>( streamingTypes);
 
-            if (indexOfpreferredStreamingType >= StreamingTypes.Count)
-            {
-                indexOfpreferredStreamingType = 0;
-            }
-            _indexOfpreferredStreamingType = indexOfpreferredStreamingType;
-            SelectedStreamingTypeIndex = _indexOfpreferredStreamingType;
+            // pre-select first of the provided straming-types
+            SelectedStreamingTypeIndex = 0;
 
             StreamingPort = _preferredStreamingPort;
         }
@@ -397,6 +386,20 @@ namespace WirelessDisplayClient.ViewModels
                 // Don't bail out here, this is not too critical.
             }
 
+            // Start remote prevent-screensaver-script
+            try
+            {
+                await _wdClientServices.StartRemotePreventScreensaver();
+                StatusLogLines.Add("Successfully started remote script to prevent screensaver from activating.");
+            }
+            catch (WDException e)
+            {
+                string msg = $"Couldn't Start remote script to prevent screensaver from activating. Inner error-message: {e.Message}";
+                _logger?.LogWarning(msg);
+                StatusLogLines.Add(msg);
+                // Don't bail out here, this is not too critical.
+            }
+
             // Start remote streaming-sink
             string streamType;
             streamType = StreamingTypes[SelectedStreamingTypeIndex];
@@ -412,20 +415,6 @@ namespace WirelessDisplayClient.ViewModels
                 StatusLogLines.Add(msg);
                 // Bail out, this is critical
                 return;
-            }
-
-            // Start remote prevent-screensaver-script
-            try
-            {
-                await _wdClientServices.StartRemotePreventScreensaver();
-                StatusLogLines.Add("Successfully started remote script to prevent screensaver from activating.");
-            }
-            catch (WDException e)
-            {
-                string msg = $"Couldn't Start remote script to prevent screensaver from activating. Inner error-message: {e.Message}";
-                _logger?.LogWarning(msg);
-                StatusLogLines.Add(msg);
-                // Don't bail out here, this is not too critical.
             }
 
             // Start local streaming-source

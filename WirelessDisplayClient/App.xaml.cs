@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -27,25 +28,29 @@ namespace WirelessDisplayClient
 
                 ILogger<MainWindowViewModel> loggerforMainWindowModel;
                 IWDClientServices wdClientServices;
+                string[] streamingTypes;
                 UInt16 preferredServerPort;
                 UInt16 preferredStreamingPort;
                 int preferredLocalScreenWidth;
                 int preferredRemoteScreenWidth;
-                int indexOfpreferredStreamingType;
 
                 realizeDependencyInjection(
                             out loggerforMainWindowModel,
                             out wdClientServices,
+                            out streamingTypes,
                             out preferredServerPort,
                             out preferredStreamingPort,
                             out preferredLocalScreenWidth,
-                            out preferredRemoteScreenWidth,
-                            out indexOfpreferredStreamingType);
+                            out preferredRemoteScreenWidth);
 
-                var mwm = new MainWindowViewModel(loggerforMainWindowModel, wdClientServices,
-                            preferredServerPort, preferredStreamingPort, 
-                            preferredLocalScreenWidth, preferredRemoteScreenWidth, 
-                            indexOfpreferredStreamingType);
+                var mwm = new MainWindowViewModel(
+                            logger : loggerforMainWindowModel, 
+                            wdClientServices : wdClientServices,
+                            streamingTypes : streamingTypes,
+                            preferredServerPort :preferredServerPort, 
+                            preferredStreamingPort : preferredStreamingPort, 
+                            preferredLocalScreenWidth : preferredLocalScreenWidth, 
+                            preferredRemoteScreenWidth : preferredRemoteScreenWidth );
 
 //############ (Nearly) original code from template - start ################
                 desktop.MainWindow = new MainWindow
@@ -68,11 +73,11 @@ namespace WirelessDisplayClient
         private void realizeDependencyInjection(
                     out ILogger<MainWindowViewModel> loggerforMainWindowModel,
                     out IWDClientServices wdClientServices,
+                    out string[] streamingTypes,
                     out UInt16 preferredServerPort,
                     out UInt16 preferredStreamingPort,
                     out int preferredLocalScreenWidth,
-                    out int preferredRemoteScreenWidth,
-                    out int indexOfpreferredStreamingType )
+                    out int preferredRemoteScreenWidth )
         {
             // Create typed loggers.
             // See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-3.1#non-host-console-app
@@ -94,6 +99,13 @@ namespace WirelessDisplayClient
                                                                  MagicStrings.CONFIG_FILE );
 
             // Assign out-objects read from config.json
+            string streamtypeList = customConfigProvider[MagicStrings.STREAMING_TYPES];
+            streamingTypes = streamtypeList.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i<streamingTypes.Length; i++)
+            {
+                streamingTypes[i] = streamingTypes[i].Trim();
+            }
+
             preferredServerPort = Convert.ToUInt16(
                 customConfigProvider[MagicStrings.PREFERRED_SERVER_PORT]);
 
@@ -105,9 +117,6 @@ namespace WirelessDisplayClient
 
             preferredRemoteScreenWidth = Convert.ToInt32(
                 customConfigProvider[MagicStrings.PREFERRED_REMOTE_SCREEN_WIDTH]);
-            
-            indexOfpreferredStreamingType = Convert.ToInt32(
-                customConfigProvider[MagicStrings.INDEX_OF_PREFERRED_STREAMING_TYPE]);
 
 
             var loggerForLocalScriptRunner = loggerFactory.CreateLogger<LocalScriptRunner>();

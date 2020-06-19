@@ -31,6 +31,7 @@ namespace WirelessDisplay.Common
         public const string PORT_NUMBERS = "PortNumbers";
 
         // Keys in config.json for project WirelessDisplayClient
+        public const string STREAMING_TYPES = "StreamingTypes";
         public const string PREFERRED_SERVER_PORT = "PreferredServerPort";
         public const string PREFERRED_STREAMING_PORT = "PreferredStreamingPort";
         public const string INDEX_OF_PREFERRED_STREAMING_TYPE = "IndexOfpreferredStreamingType";

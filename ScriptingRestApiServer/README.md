@@ -2,8 +2,9 @@
 
 ## Overview 
 
-The ScriptingRestApiServer-project provides the webserver, that offers a 
-REST-API for the client ('presentation-computer'). It is the heart of the 
+The ScriptingRestApiServer-program runs on the 'procecting-computer' 
+(WirelessDisplay-Server) and provides the webserver, that offers a REST-API for 
+the client ('presentation-computer'). It is the heart of the 
 WirelessDisplay-solution. Clients can run, start and stop scripts on the 
 server-computer ('projecting-computer').
 
@@ -21,7 +22,7 @@ Depending on the operating system of the server-computer, the scripts reside
 in one of the subfolders 
 
 - [../Scripts/Linux]
-- [../Scripts/maxOS]
+- [../Scripts/macOS]
 - [../Scripts/Windows]
 
 The script-location, as well as the shell for executing the scripts, for 
@@ -37,15 +38,15 @@ on the server-computer by the client-computer. For the WirelessDisplay-project
 there are scripts to
 
 - query and modify the screen-resolution of the 'projecting-computer',
-- prevent the screensaver from activating, and
+- prevent the display from blanking, and
 - start a streaming-sink on the 'projecting-computer'.
 
 But, as already said, everything that can be done by executing a script, 
-can be done. The client-computer uses the REST-API as a sort of remote-
+could be done. The client-computer uses the REST-API as a sort of remote-
 control for the server-computer.
 
-There is also a script for starting a streamins-source, but this script is
-executed on the client-computer (presentation-computer).
+There is also a script for starting a streaming-source, but this script is
+executed directly on the client-computer (presentation-computer).
 
 The scripts do their work by starting external programs.
 Some of these external programs have to be made available in a subfolder
@@ -114,7 +115,7 @@ of the script. If the script does not read anything from stdin, you can
 provide an empty string (`""`). If the script reads more than one line,
 you can separate the lines with `'\n'` in the value of `"ScriptArgs"`.
 
-Please note. that the request does not return until the script terminates.
+Please note, that the request does not return until the script terminates.
 After the script completes, the POST-request returns a Json-object, that looks 
 for example like this:
 
@@ -238,35 +239,17 @@ of one of the "killed" child-processes, and not the exit-code of the script.
 
 The source-code of this program (ScriptingRestApiServer) is in the folder 
 [WirelessDisplay/ScriptingRestApiServer]. From within this directory the 
-program can be started using dotnet run. 
+program can be started using `dotnet run`. 
 
 Some scripts started via the REST-API look for further executable programs
 in the folder [WirelessDisplay/ThirdParty]. 
 
-On Windows the following third-party programs are used:
+See [WirelessDisplay/ThirdParty/README.md] for further information about
+the 
 
-- tightvnc-1.3.10_x86.zip for a VNC-viewer,
-- ffmpeg-4.2.2-win64-static.zip as an alternative streaming-sink.
-- screenres.exe from the folder ScreenRes for managing screen-resolution.
-- TODO Program for preventing the screen-saver from activating.
-
-The scripts in [Scripts/Windows] look for the executables in
-
-- [..\..\Third_Party\tightvnc-1.3.10_x86\vncviewer.exe]
-- [..\..\Third_Party\ffmpeg-4.2.2-win64-static\bin\ffplay.exe]
-- [..\..\Third_Party\ScreenRes\screenres.exe]
-
-Downlaod the zip-Files 
-[tightvnc-1.3.10_x86_viewer.zip](https://www.tightvnc.com/download/1.3.10/tightvnc-1.3.10_x86.zip) 
-and 
-[ffmpeg-4.2.2-win64-static.zip](https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.2.2-win64-static.zip) 
-and extract them into the [ThirdParty]-folder. Clone the 
-[ScreenRes-Repository](https://github.com/lzukw/ScreenRes) 
-or download it as zip and also put it into the [ThirdParty]-folder.
-
-Double-check the correct paths. If this program can't find the executables in 
-the specified paths, the scripts starting these executable fail, and so 
-will the client trying to remote-control the server.
+Double-check the correct of the third-party-programs with the scripts. If a 
+script can't find an executables in the specified path, the script starting this
+executable fails.
 
 ## Installing
 
@@ -300,7 +283,6 @@ Personally, I found it difficult to learn ASP.NET using
 In my opinion, a very good place to learn ASP.NET is
 [Learn razor pages](https://www.learnrazorpages.com/).
 
-
 ## Project Setup
 
 This project was created by the command `dotnet new webapi --no-https` (run in 
@@ -328,6 +310,11 @@ similar line was added, but the port there is 6000.
 ```
 "urls" : "http://*:80"
 ```
+
+Note that this value will be overriden by the WirelessDisplayServer when
+it starts the ScriptingRestApiServer, because it provides a 
+command-line-argument `--urls=http://*:{PORT}`, where {PORT} is replaced by
+the value chosen by the user.
 
 New files are:
 
@@ -448,7 +435,8 @@ The contents of config.json are simply read as a
 
 Loggers are dependency-injected into the constructor of each used class.
 
-TODO: Explanation of injected Ilogger<T>. 
+The constructor of each class receices as first parameter a logger-object
+of type `ILogger<T>` where T is the class itself. 
 
 See [Logging in .NET Core and ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/?view=aspnetcore-3.1)
 
@@ -458,11 +446,11 @@ All objects are very loosly coupled, which results in a very good
 code-structure. The method for the loose coupling is provided by a 
 mechanism called "Dependecy-Injection (DI)". 
 
-All references and all data an object needs to work are given as parameters 
+All references and all data an object needs to work, are given as parameters 
 to the constructor for this object. Here, the type of a reference-parameter for
 the constructor is not the class of a needed object, but an interface that
 is implemented by this class. The interface just exposes the needed 
-features of the class, and not all the implementation details. The class could
+features of the class, and not all the implementation details. The class
 implementing the interface and providing services could change, only 
 the interface has to remain stable.
 
@@ -490,7 +478,7 @@ object implementing the `IScriptRunner`-interface, and
 `ScriptRunnerController.Post_StartScript()` just calls 
 `IScriptRunner.StartScript()` to start the script. 
 
-The "code behind the scenes" and the code provided in `Startup-cs` glues 
+The "code behind the scenes" and the code provided in `Startup.cs` glues 
 everything togheter, because it is responsible for instantiating objects and 
 is able to provide them with the necessary data and references.
 

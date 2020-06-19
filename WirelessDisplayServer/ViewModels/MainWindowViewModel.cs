@@ -50,17 +50,8 @@ namespace WirelessDisplayServer.ViewModels
 
             _ipAddress = iPAddress;
 
-            int indexOfPort80 = PortNumbers.IndexOf(80);
-            if ( indexOfPort80 != -1 )
-            {
-                // if port 80 is available, then pre-select it
-                SelectedPortNumberIndex = indexOfPort80;
-            }
-            else
-            {
-                // select first port-number in Combobox
-                SelectedPortNumberIndex = 0;
-            }
+            // pre-select first port-number in Combobox
+            SelectedPortNumberIndex = 0;
 
             // IpAddressAndPort has already been initialized by the setter of
             // SelectedPortNumberIndex
