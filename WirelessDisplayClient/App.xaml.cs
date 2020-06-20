@@ -144,8 +144,8 @@ namespace WirelessDisplayClient
                         scriptArgsStartStreamingSink : customConfigProvider[MagicStrings.SCRIPTARGS_START_STREAMING_SINK],
                         scriptNameStartStreamingSource : customConfigProvider[MagicStrings.SCRIPTNAME_START_STREAMING_SOURCE],
                         scriptArgsStartStreamingSource : customConfigProvider[MagicStrings.SCRIPTARGS_START_STREAMING_SOURCE],
-                        scriptNamePreventScreensaver : customConfigProvider[MagicStrings.SCRIPTNAME_PREVENT_SCREENSAVER],
-                        scriptArgsPreventScreensaver : customConfigProvider[MagicStrings.SCRIPTARGS_PREVENT_SCREENSAVER]
+                        scriptNamePreventDisplayBlanking : customConfigProvider[MagicStrings.SCRIPTNAME_PREVENT_DISPLAY_BLANKING],
+                        scriptArgsPreventDisplayBlanking : customConfigProvider[MagicStrings.SCRIPTARGS_PREVENT_DISPLAY_BLANKING]
             );
 
         }

@@ -11,8 +11,8 @@
         "ScriptArgsStartStreamingSink" : "{STREAMING_TYPE} {PORT}",
         "ScriptNameStartStreamingSource" : "startStreamingSource",
         "ScriptArgsStartStreamingSource" : "{STREAMING_TYPE} {IP} {PORT} {SCREEN_RESOLUTION}",
-        "ScriptNamePreventScreensaver" : "preventScreensaver",
-        "ScriptArgsPreventScreensaver" : "{SECONDS}"
+        "ScriptNamePreventDisplayBlanking" : "preventDisplayBlanking",
+        "ScriptArgsPreventDisplayBlanking" : "{SECONDS}"
     },
 
     "Linux":

@@ -155,18 +155,18 @@ namespace WirelessDisplayClient.Services
         Task StopRemoteStreamingSink();
 
         /// <summary>
-        /// Starts the remote script, that prevents the screensaver from activating.
+        /// Starts the remote script, that prevents the display from blanking.
         /// </summary>
         /// <param name="seconds">
         /// The maximum time (in seconds), the program should run. If this time
-        /// ellapses, the prevent-screensaver-script shuts down alone.
+        /// ellapses, the prevent-display-blanking-script shuts down alone.
         /// </param>
-        Task StartRemotePreventScreensaver( int seconds = 7200);
+        Task StartRemotePreventDisplayBlanking( int seconds = 7200);
 
         /// <summary>
-        /// Stops the remote script, that prevents the screensaver from activating,
+        /// Stops the remote script, that prevents the display from blanking,
         /// if this script is still running
         /// </summary>
-        Task StopRemotePreventScreensaver();
+        Task StopRemotePreventDisplayBlanking();
     }
 }

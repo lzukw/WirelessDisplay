@@ -386,15 +386,15 @@ namespace WirelessDisplayClient.ViewModels
                 // Don't bail out here, this is not too critical.
             }
 
-            // Start remote prevent-screensaver-script
+            // Start remote prevent-display-blanking-script
             try
             {
-                await _wdClientServices.StartRemotePreventScreensaver();
-                StatusLogLines.Add("Successfully started remote script to prevent screensaver from activating.");
+                await _wdClientServices.StartRemotePreventDisplayBlanking();
+                StatusLogLines.Add("Successfully started remote script to prevent display from blanking.");
             }
             catch (WDException e)
             {
-                string msg = $"Couldn't Start remote script to prevent screensaver from activating. Inner error-message: {e.Message}";
+                string msg = $"Couldn't Start remote script to prevent display from blanking. Inner error-message: {e.Message}";
                 _logger?.LogWarning(msg);
                 StatusLogLines.Add(msg);
                 // Don't bail out here, this is not too critical.
@@ -464,15 +464,15 @@ namespace WirelessDisplayClient.ViewModels
                 StatusLogLines.Add(msg);
             }
 
-            // Stop remote prevent-screensaver-script
+            // Stop remote prevent-display-blanking-script
             try
             {
-                await _wdClientServices.StopRemotePreventScreensaver();
-                StatusLogLines.Add("Successfully stopped remote script to prevent screensaver from activating.");
+                await _wdClientServices.StopRemotePreventDisplayBlanking();
+                StatusLogLines.Add("Successfully stopped remote script to prevent display from blanking.");
             }
             catch (WDException e)
             {
-                string msg = $"Couldn't stop remote script, that prevents screensaver from activating. Inner error-message: {e.Message}";
+                string msg = $"Couldn't stop remote script, that prevents display from blanking. Inner error-message: {e.Message}";
                 _logger?.LogWarning(msg);
                 StatusLogLines.Add(msg);
             }

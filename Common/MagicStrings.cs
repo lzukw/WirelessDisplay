@@ -47,8 +47,8 @@ namespace WirelessDisplay.Common
         public const string SCRIPTARGS_START_STREAMING_SINK = "ScriptArgsStartStreamingSink";
         public const string SCRIPTNAME_START_STREAMING_SOURCE = "ScriptNameStartStreamingSource";
         public const string SCRIPTARGS_START_STREAMING_SOURCE = "ScriptArgsStartStreamingSource";
-        public const string SCRIPTNAME_PREVENT_SCREENSAVER = "ScriptNamePreventScreensaver";
-        public const string SCRIPTARGS_PREVENT_SCREENSAVER = "ScriptArgsPreventScreensaver";
+        public const string SCRIPTNAME_PREVENT_DISPLAY_BLANKING = "ScriptNamePreventDisplayBlanking";
+        public const string SCRIPTARGS_PREVENT_DISPLAY_BLANKING = "ScriptArgsPreventDisplayBlanking";
         public const string PLACEHOLDER_SCRIPT_PATH="{SCRIPT}";
         public const string PLACEHOLDER_SCRIPT_ARGS="{SCRIPT_ARGS}";
         public const string PLACEHOLDER_IP = "{IP}";

@@ -29,8 +29,8 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
         const string SCRIPT_ARGS_START_STREAMING_SINK = "{STREAMING_TYPE} {PORT}";
         const string SCRIPT_NAME_START_STREAMING_SOURCE = "startStreamingSource";
         const string SCRIPT_ARGS_START_STREAMING_SOURCE = "{STREAMING_TYPE} {IP} {PORT} {SCREEN_RESOLUTION}";
-        const string SCRIPT_NAME_PREVENT_SCREENSAVER = "preventScreensaver";
-        const string SCRIPT_ARGS_PREVENT_SCREENSAVER = "{SECONDS}";
+        const string SCRIPT_NAME_PREVENT_DISPLAY_BLANKING = "preventDisplayBlanking";
+        const string SCRIPT_ARGS_PREVENT_DISPLAY_BLANKING = "{SECONDS}";
         const string ARG_FOR_STREAMING_TYPE = "VNC";
         const UInt16 ARG_FOR_STREAMING_PORT = 5500;
         const string ARG_FOR_SCREEN_RESOLUTION_STREAM = "1024x768";
@@ -105,8 +105,8 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
                         scriptArgsStartStreamingSink : SCRIPT_ARGS_START_STREAMING_SINK,
                         scriptNameStartStreamingSource : SCRIPT_NAME_START_STREAMING_SOURCE,
                         scriptArgsStartStreamingSource : SCRIPT_ARGS_START_STREAMING_SOURCE,
-                        scriptNamePreventScreensaver : SCRIPT_NAME_PREVENT_SCREENSAVER,
-                        scriptArgsPreventScreensaver : SCRIPT_ARGS_PREVENT_SCREENSAVER 
+                        scriptNamePreventDisplayBlanking : SCRIPT_NAME_PREVENT_DISPLAY_BLANKING,
+                        scriptArgsPreventDisplayBlanking : SCRIPT_ARGS_PREVENT_DISPLAY_BLANKING 
             );
 
         }
@@ -288,9 +288,9 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
 
 
         [Test]
-        public async Task StartAndStopScriptToPreventScreensaver_NormalUseCase_ShouldPass()
+        public async Task StartAndStopScriptToPreventDisplayBlanking_NormalUseCase_ShouldPass()
         {
-            Console.WriteLine("Test prevent-remote-screensaver-from-activating:");
+            Console.WriteLine("Test prevent-remote-display-from-blanking:");
             Console.WriteLine("================================================");
             Console.WriteLine("Connecting to remote scripting-REST-API-Server");
             try
@@ -303,10 +303,10 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
                 Assert.Fail();
             }
 
-            Console.WriteLine("Starting remote script to prevent screensaver from activating");
+            Console.WriteLine("Starting remote script to prevent display from blanking");
             try
             {
-                await _wdClientServices.StartRemotePreventScreensaver();
+                await _wdClientServices.StartRemotePreventDisplayBlanking();
             }
             catch (WDException)
             {
@@ -321,10 +321,10 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
             }
             Console.WriteLine();
 
-            Console.WriteLine("Stopping remote script to prevent screensaver from activating");
+            Console.WriteLine("Stopping remote script to prevent display from blanking");
             try
             {
-                await _wdClientServices.StopRemotePreventScreensaver();
+                await _wdClientServices.StopRemotePreventDisplayBlanking();
             }
             catch (WDException)
             {
@@ -351,7 +351,7 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
             //test.ManageLocalScreenResolutions_NormalUseCase_ShouldPass();
             //await test.ConnectAndRemoteScreenResolutions_NormalUseCase_ShouldPass();
             //await test.StartAndStopStreaming_NormalUseCase_ShouldPass();
-            await test.StartAndStopScriptToPreventScreensaver_NormalUseCase_ShouldPass();
+            await test.StartAndStopScriptToPreventDisplayBlanking_NormalUseCase_ShouldPass();
 
             test.TearDown();
         }

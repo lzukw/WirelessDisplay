@@ -1,4 +1,4 @@
-REM Prevent the screensaver from activation
+REM Prevent the display from blanking
 
 REM Prerequistes:
 REM TODO
@@ -9,5 +9,4 @@ REM SECONDS_TO_PREVENT ... The program shuts down after that amount of seconds
 
 SET SECONDS_TO_PREVENT=%1
 
-REM This is just a fake, until a program is available
 ..\..\ThirdParty\Windows\PreventTurnOffDisplay\PreventTurnOffDisplay.exe %SECONDS_TO_PREVENT%

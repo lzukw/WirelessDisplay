@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace WirelessDisplay.Tests.Common.CustomConfigProvider_Test
 {
+    [TestFixture]
     public class Test
     {
         // The magic strings are keys and values in the used test-Configuration-File

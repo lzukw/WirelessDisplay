@@ -11,7 +11,7 @@ ScriptingRestApiServer and remote-control the 'projecting-computer' by the
 following means:
 
 - Run a script to change the screen-resolution of the 'projecting-computer'
-- Start/stop a script to prevent the screensaver from activating.
+- Start/stop a script to prevent the display from blanking.
 - Start/stop a script that runs a streaming-sink.
 
 All the work is done by the scripts and the ScriptingRestApiServer. This

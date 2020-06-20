@@ -29,8 +29,8 @@ namespace WirelessDisplayClient.Services
         private readonly string _scriptArgsStartStreamingSink;
         private readonly string _scriptNameStartStreamingSource;
         private readonly string _scriptArgsStartStreamingSource;
-        private readonly string _scriptNamePreventScreensaver;
-        private readonly string _scriptArgsPreventScreensaver;
+        private readonly string _scriptNamePreventDisplayBlanking;
+        private readonly string _scriptArgsPreventDisplayBlanking;
 
         private readonly string _inialLocalScreenResolution;
 
@@ -50,11 +50,11 @@ namespace WirelessDisplayClient.Services
         private int _processIdStreamingSink = 0;
 
         /// <summary>
-        /// The process-ID of the remote sript that prevents the screensaver
-        /// from activating on the remote computer. Zero means, that no 
+        /// The process-ID of the remote sript that prevents the display
+        /// from blanking on the remote computer. Zero means, that no 
         /// remote process has been started.
         /// </summary>
-        private int _processIdPreventScreensaver = 0;
+        private int _processIdPreventDisplayBlanking = 0;
 
         public WDClientServices( ILogger<WDClientServices> logger,
                                 ILocalScriptRunner localScriptRunner,
@@ -65,8 +65,8 @@ namespace WirelessDisplayClient.Services
                                 string scriptArgsStartStreamingSink,
                                 string scriptNameStartStreamingSource,
                                 string scriptArgsStartStreamingSource,
-                                string scriptNamePreventScreensaver,
-                                string scriptArgsPreventScreensaver )
+                                string scriptNamePreventDisplayBlanking,
+                                string scriptArgsPreventDisplayBlanking )
         {
             _logger = logger;
             _localScriptRunner = localScriptRunner;
@@ -77,8 +77,8 @@ namespace WirelessDisplayClient.Services
             _scriptArgsStartStreamingSink = scriptArgsStartStreamingSink;
             _scriptNameStartStreamingSource = scriptNameStartStreamingSource;
             _scriptArgsStartStreamingSource = scriptArgsStartStreamingSource;
-            _scriptNamePreventScreensaver = scriptNamePreventScreensaver;
-            _scriptArgsPreventScreensaver = scriptArgsPreventScreensaver;
+            _scriptNamePreventDisplayBlanking = scriptNamePreventDisplayBlanking;
+            _scriptArgsPreventDisplayBlanking = scriptArgsPreventDisplayBlanking;
 
             _inialLocalScreenResolution = 
                     ((IWDClientServices) this).GetCurrentLocalScreenResolution();
@@ -294,37 +294,37 @@ namespace WirelessDisplayClient.Services
 
         //#####################################################################
         // Implementation of the interface 
-        // - start and stop remote script to prevent screensaver from acitvating.
+        // - start and stop remote script to prevent display from blanking.
         //#####################################################################
         #region
 
-        /// <see cref="IWDClientServices.StartRemotePreventScreensaver"></see>
-        async Task IWDClientServices.StartRemotePreventScreensaver( int seconds )
+        /// <see cref="IWDClientServices.StartRemotePreventDisplayBlanking"></see>
+        async Task IWDClientServices.StartRemotePreventDisplayBlanking( int seconds )
         {
             // First stop eventually running remote script
-            await ((IWDClientServices) this).StopRemotePreventScreensaver();
+            await ((IWDClientServices) this).StopRemotePreventDisplayBlanking();
 
-            string scriptArgs = _scriptArgsPreventScreensaver;
+            string scriptArgs = _scriptArgsPreventDisplayBlanking;
             scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SECONDS, 
                             seconds.ToString());
 
             // Exceptions have to be handled by the caller.
-            // Store the process-ID of the started process in _processIdPreventScreensaver
-            _processIdPreventScreensaver = await _remoteScriptRunner.StartScript(
-                            _scriptNamePreventScreensaver, scriptArgs );
+            // Store the process-ID of the started process in _processIdPreventDisplayBlanking
+            _processIdPreventDisplayBlanking = await _remoteScriptRunner.StartScript(
+                            _scriptNamePreventDisplayBlanking, scriptArgs );
 
-            _logger?.LogInformation($"Started remote script to prevent screensaver from activating for {seconds} seconds. Process-ID={_processIdPreventScreensaver}");
+            _logger?.LogInformation($"Started remote script to prevent display from blanking for {seconds} seconds. Process-ID={_processIdPreventDisplayBlanking}");
         }
 
 
-        /// <see cref="IWDClientServices.StartRemotePreventScreensaver"></see>
-        async Task IWDClientServices.StopRemotePreventScreensaver()
+        /// <see cref="IWDClientServices.StartRemotePreventDisplayBlanking"></see>
+        async Task IWDClientServices.StopRemotePreventDisplayBlanking()
         {
-            if (_processIdPreventScreensaver != 0 )
+            if (_processIdPreventDisplayBlanking != 0 )
             {
-                await _remoteScriptRunner.StopScript(_processIdPreventScreensaver);
-                _logger?.LogInformation($"Stopped remote scipt to prevent screensaver from activation with process-ID {_processIdPreventScreensaver}");
-                _processIdPreventScreensaver = 0;
+                await _remoteScriptRunner.StopScript(_processIdPreventDisplayBlanking);
+                _logger?.LogInformation($"Stopped remote scipt to prevent the display from blanking with process-ID {_processIdPreventDisplayBlanking}");
+                _processIdPreventDisplayBlanking = 0;
             }
         }
 

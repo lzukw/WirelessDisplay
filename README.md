@@ -62,7 +62,7 @@ happen:
   set to the desired value, by asking the remote-computer via a POST-request
   to run the script for managing the screen-resolution.
 - With another POST-request the remote-computer is instructed to run a script
-  that prevents the screensaver from activating.
+  that prevents the display from blanking.
 - With another POST-request, the remote-computer is asked to execute a script
   that starts a streaming-sink.
 - On the local computer a script is started, that runs a streaming-source.
@@ -181,7 +181,7 @@ sudo apt-get install ffmpeg libavcodec-extra
 
 The script for streaming uses a H264-codec for ffmpeg-streaming, so 
 the package libavcodes-extra is necessary. On Fedora, this codec is
-part of the RPM fusion repositories, but there seems to be an openh264.
+part of the rpmfusion-free repository.
 
 Note: `xdotool` and a `tigervnc-viewer` are only necessary on the 
 projecting-computer. For a Linux-projecting-computer they can be easily 

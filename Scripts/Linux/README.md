@@ -3,35 +3,39 @@
 Needed external programs (xrandr, x11vnc, vncviewer and ffmpeg) are 
 best installed with the packagemanager of the Linux-distribution:
 
-Note: Only X-server based desktops are supported, wayland is not supported
-by all needed tools (as of June 2020)!
+NOTE: Only X-server based desktops are supported, wayland is not supported
+by all needed tools (as of June 2020)! On wayland there seems to be no
+possibility to change the screen-resolution (xrandr definitively can't be used
+for this purpose). But see [Scripts/README.md] for how to add other 
+Streaming-Types. Help on how to support wayland-based systems would be 
+appreciated.
 
-No ThirdParty-executables are necessary.
+No ThirdParty-executables are necessary in the [ThirdParty/Linux]-folder.
 
 # Debian / Ubuntu
 
+The tool `xrandr` to change screen-resolutions should already be installed.
+
 ```
-xrandr should be installed.
 sudo apt-get install xdotool
 sudo apt-get install x11vnc
-sudo apt-get install xtightvncviewer
+sudo apt-get install tigervnc-viewer
+sudo apt-get install ffmpeg libavcodec-extra
 ```
 
 # Fedora
 
+The tool `xrandr` to change screen-resolutions should already be installed.
+
 ```
-xrandr should be installed
 sudo dnf install xdotool
 sudo dnf install x11vnc
 sudo dnf install tigervnc
+sudo dnf install ffmpeg x264-libs
 ```
-xtightvncviewer does not seem to be available on Feroda, so tignervnc is used
-as streaming-sink. The big disadvantage is, that the mouse-cursor is not shown
-by tigervnc (vncviewer). So a debian-based system is definitifely better suited
-as presentation-computer. 
 
-The script [Scripts/Linux/startStreamingSink.sh] has to be modified: The line
-containing `xtightvncviewer` must be commented out, and the comment-hash-tag
-must be removed from the line containing `vncviewer`.
+The x264-libs package is in the rpmfusion-free repositories.
+
+
 
 

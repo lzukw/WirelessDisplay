@@ -1,7 +1,7 @@
 # WirelessDisplayClient
 
 This program is intended to be run on the 'presentation computer'. It provides
-a GUI with that the user can change the screen-resolutions of 
+a GUI for the user to change the screen-resolutions of 
 both computers (local 'presentation-computer' and remote 'projecting computer'),
 and start streaming. The method used for streaming (VNC, FFmpeg) can be
 chosen with a ComboBox.
@@ -10,14 +10,14 @@ The following actions are performed via calls to the REST-API offered by the
 ScriptingRestApiServer which is running on the remote 'projecting computer':
 
 - Change the screen-resolution of the remote computer.
-- Start a program, that prevents the screensaver of the remote computer from
-  activating
+- Start a program, that prevents the display of the remote computer from
+  blanking.
 - Start a streaming-sink on the remote computer.
 
 The ScriptingRestApiServer provides POST-Requests, which run, start and stop 
 scripts on the remote computer. The scripts then perform the above actions
 by using external programs (either installed programs, or executables
-in the [TirdParty]-folder).
+in the [TirdParty]-folder of the remote computer).
 
 On the local computer the following actions are performed
 
@@ -34,31 +34,32 @@ computer use other programs to do the real work.
 This program is a GUI-program with the following relevant elements:
 
 - A connection-Panel with:
-  * A TextBox where the user can enter the IP-Address of the remote computer
+  * A TextBox where the user can enter the IP-Address of the remote computer.
   * A NumericUpDown for the port-Number, the remote ScriptingRestApiServer
-    listens on
+    listens on.
   * A Connect-Button and Disconnect-Button to start/stop a connection to
     the remote ScriptingApiServer.
 - A screen-resolutions-panel:
   * With four TextBoxes to show the initial and the current screen-resolution
-    of the local and the remote computer
+    of the local and the remote computer.
   * Two ComboBoxes to select the screen-resolutions of the local and the 
-    remote computer when the streaming is started.
+    remote computer when the streaming is started or stopped.
 - A streaming-Panel with:
-  * A ComboBox to choose the streaming-method (VNC, FFmpeg for now, but 
+  * A ComboBox to choose the streaming-type (VNC, FFmpeg for now, but 
     others can be added just by modifying the scripts and [config.json]).
-  * A NumbericUpDown for choosing the port-number for the streaming (the
+  * A NumbericUpDown for choosing the port-number for streaming (the
     streaming-sink on the remote computer will listen on this port)
   * Start- and stop-Buttons to start and stop the streaming.
-- A Status-Panel with
-  * A Listbox showing status-logs 
+- A Status-Panel with:
+  * A Listbox showing Log-lines
 
 ## Configuration
 
 The configuration-parameters for each operating system (of the 
-projecting-computer) as well as platform-independent parameters can be changed 
-in [config.json]. There is no need to recompile after changing [config.json].
-The configurable parameters are:
+presentation-computer) as well as platform-independent parameters can be changed 
+in [config.json]. There is no need to recompile after changing [config.json],
+only be sure to edit the correct [config.json]-file. The configurable 
+parameters are:
 
 - Names of local and remote scripts (without the platform-dependent 
   file-extension).
@@ -84,16 +85,21 @@ From within the folder `WirelessDisplayClient` run the following command:
 
 ```
 dotnet publish -c Release -o ../WirelessDisplayClient_executable/ -r linux-x64 --self-contained false
+cp config.json ../WirelessDisplayClient_executable/
 ```
 
-On macOS replace `linux-x64` with `osx-x64` and on Windows with `win-x64`. 
+On macOS replace `linux-x64` with `osx-x64` and on Windows with `win-x64` (On 
+windows also be sure to use `\` as path seperator instead of `/`).
 
 The paremter `--self-contained true` creates a 'stand-alone' executable version. 
 This  paremeter can be set to `false`, if .NET-Core version 3.1 is installed on 
-the target system. All necessary files are put in the directory 
-[WirelessDisplayClient_executable]. The executable to start is
+the target system. 
+
+All necessary files are put in the directory 
+[WirelessDisplayClient_executable]. The executable to start is 
 [WirelessDisplayClient_executable/WirelessDisplayClient.exe] on Windows or
 [WirelessDisplayClient_executable/WirelessDisplayClient] on Linux or macOS. 
+
 The configuration can still be changed, by changing the contents of
 [WirelessDisplayClient_executable/config.json].
 
@@ -103,12 +109,16 @@ double-clicking this link. You can also create a
 start-menu-entry, by creating the link in 
 [%AppData%\Microsoft\Windows\Start Menu\Programs].
 
+On Linux, when starting the executable, the current-working-directory be the
+folder where this executable resides:
+
+[/path/to/WirelessDisplayClient_executable]
 
 # Technical details
 
 Please have a look at [README.md] in the folder [WirelessDisplayServer] first.
 Everthing explained at the beginning of the section "Technical details" there
-also apply for this project:
+also applies to this project:
 
 - How to create the project and add the references and packages.
 - How to change the target-framework from dotnet-core 3.0 to 3.1
