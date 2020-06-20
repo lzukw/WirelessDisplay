@@ -89,7 +89,7 @@ cp config.json ../WirelessDisplayClient_executable/
 ```
 
 On macOS replace `linux-x64` with `osx-x64` and on Windows with `win-x64` (On 
-windows also be sure to use `\` as path seperator instead of `/`).
+windows also be sure to use `\` as filepath seperator instead of `/`).
 
 The paremter `--self-contained true` creates a 'stand-alone' executable version. 
 This  paremeter can be set to `false`, if .NET-Core version 3.1 is installed on 
@@ -127,20 +127,134 @@ also applies to this project:
 The following files were created later:
 
 - [config.json]
-- The folder [Services]
-- TODO
+- The folder [Services] conatining the interface [IWDClientServices.cs] and 
+  the class [WDClientServices.cs] implementing this interface.
 
-## TODO explanation of each file
+## Startup-code and dependency-injection
 
-## TODO startup-code and dependenca-injection (how is everything glued 
-   together
+[App.xaml.cs] contains the whole startup-code. With the method
+`realizeDependencyInjection()` the follwing things are done:
 
+- A `loggerFactory` is created, which is used to create logger-objects for
+  every other object, that needs do some logging. The loggers are injected into
+  the contructors ot these objects.
+- A `CustomConfigProvider`-instance is created to read the contents of 
+  [config-json]. 
+- A `LocalScriptRunner`-object is instantiated using some values read from
+  [config.json]. This object is used by the `WDClientServices` to execute
+  scripts on the local presentation-computer. The `WDClientServices` "sees" 
+  the `LocalScriptRunner`-object only through its interface 
+  `ILocalScriptRunner`.
+- A `RemoteScriptRunner`-object is instantiated, also using some values from 
+  [config.json]. This object is used by the `WDClientServices` to execute 
+  scripts on the remote projecting-computer. The `WDClientServices` "sees" the 
+  `RemoteScriptRunner`-object  only through its interface 
+  `IRemoteScriptRunner`.
+- Finally, the already mentioned instance of `WDClientServices` is created,
+  receiving references to a logger, the `(I)LocalScriptRunner`- and the 
+  `(I)RemoteScriptRunner`-objects, and some strings containing information
+  about the local and remote scripts to run.
 
+Then a `MainWindowViewModel`-instance is created. It receives a reference to 
+the just created `WDClientServices`-instance, and some data read from
+[config.json] (for example a List with the used streaming-types). Again, the
+`MainWindowViewModel`-instance "sees" the `WDClientServices`-object only 
+through its interface `IWDClientServices`. Using this object/interface, the 
+`MainWindowViewModel`-instance is able to run scripts on the local and on the
+remote computer to change screen-resolutions, prevent the display of the 
+projecting-computer from blanking, and to start ans stop streaming.
 
+Finally the code in [App.xaml.cs] creates a `MainWindow`-instance and
+sets its `DataContext`-property to the just created 
+`MainWindowViewModel`-instance.
 
+## Bindings between the MainWindow-view and the MainWindowViewModel
 
+The `MainWindow`-object (the view) is defined in the two files 
+[Views/MainWindow.xaml] and [Views/MainWindow.xaml.cs]. The second file, the
+so called 'code-behind' is nearly empty. It only ensures, that the async 
+`OnWindowClose()`-method of the `MainWindowModel` is called once, when the
+user closes the window using the (X)-Button in the title-bar.
 
+The file [Views/MainWindow.xaml] defines the GUI-Elements of the 
+MainWindow-view. Some of the values of xaml-Attributes have the form
+`"{Binding ...}"`. These Attributes are bound to the corresponding 
+properties of the viewmodel (`MainWindowViewModel`). 
 
+For example: In [MainWindow.xaml] a TextBox is defined, that the user uses to enter the IP-Address of the remote computer:
 
+```
+<TextBox Grid.Row="1" Grid.Column="0" Text="{Binding IpAddress}" IsEnabled="{Binding !ConnectionEstablished}" VerticalAlignment="Center" Margin="4" MinWidth="120" Watermark="192.168.x.y" />
+```
 
+The `MainWindowViewModel`-class defines two corresponding properties:
+
+```
+private string _ipAddress="";
+public string IpAddress
+{
+    get => _ipAddress;
+    set => this.RaiseAndSetIfChanged(ref _ipAddress, value);
+}
+```
+
+and
+
+```
+private bool _connectionEstablished = false;
+public bool ConnectionEstablished
+        {
+            get => _connectionEstablished;
+            set => this.RaiseAndSetIfChanged(ref _connectionEstablished, value);
+        }
+```
+
+The code in `MainWindowViewModel` change enable or disable the TextBox by
+setting the value of its `ConnectionEstablished`-property. The value, the
+user typed into the TextBox can be read by the code in `MainWindowViewModel`
+by reading the `IpAddress`-property. (The code could also set this property
+to a certain string, and the TextBox then would contain this string. The user
+then sees this string in the TextBox.)
+
+## The program-logic defined in the MainWindowViewModel
+
+When the user pushes the "Connect"-Button, the mehtod 
+`MainWindowViewModel.ButtonConnect_Click()` is executed. In this method the 
+following things happen:
+
+- `WDClientServices.ConnectToServer()` is called, which only performs a 
+  POST-request to the remote ScriptingRestApiServer to see, if it can
+  communicate to it.
+- The current and the initial screen-resolutions of the local and the
+  remote computer are fetched and displayed with four TextBlocks to the user.
+- The available screen-resolutions on both computers are fetched and put
+  as items in the two ComboBoxes. The user can later choose the 
+  local and remote screen-resolution with these two ComboBoxes.
+- In each ComboBox the screen-resolution that fits best to the preferred
+  screen-widths for streaming, given in [config.json] is pre-selected.
+
+When the user then pushes the "Start streaming"-Button, the following things
+happen:
+
+- The local and the remote screen-resolution are changed to the selected
+  values in the ComboBoxes. 
+- The script to prevent the display from blanking is started on the remote
+  projecting-computer.
+- The streaming-sink is started on the remote projecting-computer
+- The streaming-source is started on the local presentation-computer
+- In the ComboBoxes for both screen-resolutions, the initial screen-resolutions
+  are pre-selected (They take effect, when the user stops the streaming).
+
+When the user pushes the "Stop streaming"-Button (or the "Disconnect"-Button,
+or closes the Application), the following things happen:
+
+- The local streaming-source is stopped.
+- The remote streaming-sink is stopped.
+- The remote script to prevent the display from blanking is stopped.
+- The local and the remote screen-resolutions are set to the values selected
+  in the ComboBoxes (which are the previously preselected initial 
+  screen-resolutions, if the user didn't select another value).
+- Again, the screen-resolutions that fit best to the preferred
+  screen-widths for streaming, given in [config.json] are pre-selected in the
+  ComboBoxes (in case the user wants to start the streaming again).
 

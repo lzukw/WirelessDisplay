@@ -34,13 +34,19 @@ namespace WirelessDisplayServer
                 string iPAddress;
                 List<UInt16> portNumbers;
 
-                realizeDependencyInjection( out loggerForMainWindowModel, 
-                                            out serverController, out hostName, 
-                                            out iPAddress, out portNumbers);
+                realizeDependencyInjection( 
+                        loggerforMainWindowModel : out loggerForMainWindowModel, 
+                        serverController : out serverController, 
+                        hostName : out hostName, 
+                        iPAddress : out iPAddress, 
+                        portNumbers : out portNumbers);
 
-                MainWindowViewModel mwm = new MainWindowViewModel(loggerForMainWindowModel, 
-                                            serverController, hostName, iPAddress, 
-                                            portNumbers);
+                MainWindowViewModel mwm = new MainWindowViewModel(
+                                    logger : loggerForMainWindowModel, 
+                                    serverController : serverController, 
+                                    hostName : hostName, 
+                                    iPAddress : iPAddress, 
+                                    portNumbers : portNumbers);
 
 //############ (Nearly) original code from template - start ##################
                 desktop.MainWindow = new MainWindow

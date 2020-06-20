@@ -8,8 +8,9 @@ The class-library (assembly) provides:
   [CustomConfigProvider.cs].
 - A class for executing scripts (shell-scripts or batch-scritps) in a 
   platform-independet way on the local computer [LocalScriptRunner.cs].
-- A class that asks via POST-requests the remote computer to exeute 
-  scripts [RemoteScriptRunner.cs]. 
+- A class that asks via POST-requests to the ScriptingRestApiServer running
+  on the remote computer to exeute scripts on the remote computer
+  [RemoteScriptRunner.cs]. 
 - A static class containing all magic strings for all projects as 
   readonly members [MagicStrings.cs].
 - The Exception `WDException` used by all WirelessDisplay-projects. 
@@ -17,6 +18,11 @@ The class-library (assembly) provides:
 The classes `LocalScriptRunner` and `RemoteScriptRunner` expose their
 functionalities vie the interfaces `ILocalScriptRunner` and 
 `IRemoteScriptRunner`.
+
+The folder [JsonObjects] contain simple classes that can be serialized to
+Json-strings. Also Json-strings can be deserialized to these objects. These
+Json-objects are used as data and as responses for the POST-requests to the
+ScriptingRestApiServer.
 
 ## Project creation
 

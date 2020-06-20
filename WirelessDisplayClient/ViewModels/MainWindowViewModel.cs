@@ -464,19 +464,6 @@ namespace WirelessDisplayClient.ViewModels
                 StatusLogLines.Add(msg);
             }
 
-            // Stop remote prevent-display-blanking-script
-            try
-            {
-                await _wdClientServices.StopRemotePreventDisplayBlanking();
-                StatusLogLines.Add("Successfully stopped remote script to prevent display from blanking.");
-            }
-            catch (WDException e)
-            {
-                string msg = $"Couldn't stop remote script, that prevents display from blanking. Inner error-message: {e.Message}";
-                _logger?.LogWarning(msg);
-                StatusLogLines.Add(msg);
-            }
-
             // Stop remote streaming-sink
             try
             {
@@ -487,6 +474,19 @@ namespace WirelessDisplayClient.ViewModels
             {
                 string msg = $"ERROR: Couldn't stop remote streaming-sink. Inner error-message: {e.Message}";
                 _logger?.LogError(msg);
+                StatusLogLines.Add(msg);
+            }
+
+            // Stop remote prevent-display-blanking-script
+            try
+            {
+                await _wdClientServices.StopRemotePreventDisplayBlanking();
+                StatusLogLines.Add("Successfully stopped remote script to prevent display from blanking.");
+            }
+            catch (WDException e)
+            {
+                string msg = $"Couldn't stop remote script, that prevents display from blanking. Inner error-message: {e.Message}";
+                _logger?.LogWarning(msg);
                 StatusLogLines.Add(msg);
             }
 

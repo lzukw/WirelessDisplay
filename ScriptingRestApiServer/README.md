@@ -258,9 +258,11 @@ the folder, where Program.cs and Startup.cs are):
 
 ```
 dotnet publish -c Release -o ..\ScriptingRestApiServer_executable -r win-x64 --self-contained true
+cp config.json ..\ScriptingRestApiServer_executable
 ```
 
-On Linux, replace `win-x64` with `linux-x64` and on macOS with `osx-x64`.
+On Linux, replace `win-x64` with `linux-x64` and on macOS with `osx-x64`. And
+also change the filepath-separators from `\` to `/`.
 
 If dotnet core 3.1 is installed on the target-computer, set the 
 parameter `--self-contained` to `false`, which saves a lot of disk-space.
