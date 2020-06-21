@@ -11,6 +11,8 @@ The class-library (assembly) provides:
 - A class that asks via POST-requests to the ScriptingRestApiServer running
   on the remote computer to exeute scripts on the remote computer
   [RemoteScriptRunner.cs]. 
+- A static class [Services/HostAddressProvider.cs] for getting get the 
+  hostname and the IPv4-Address of the local computer
 - A static class containing all magic strings for all projects as 
   readonly members [MagicStrings.cs].
 - The Exception `WDException` used by all WirelessDisplay-projects. 

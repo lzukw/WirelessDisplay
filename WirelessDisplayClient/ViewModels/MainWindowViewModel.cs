@@ -355,32 +355,37 @@ namespace WirelessDisplayClient.ViewModels
 
         public async Task ButtonStartStreaming_Click()
         {
+            // prepare arguments for the following  actions
+            string localRes = AvailableLocalScreenResolutions[SelectedLocalScreenResolutionIndex];
+            string remoteRes = AvailableRemoteScreenResolutions[SelectedRemoteScreenResolutionIndex];
+            //The remote screen-ersolution is also used as streaming-screen-resolution
+            string streamRes = remoteRes;
+            string streamType = StreamingTypes[SelectedStreamingTypeIndex];
+
+
             // Change local screen-resoltution
-            string res;
-            res = AvailableLocalScreenResolutions[SelectedLocalScreenResolutionIndex];
             try
             {
-                _wdClientServices.SetLocalScreenResolution( res );
-                StatusLogLines.Add($"Successfully set screen-resolution of local computer to {res}");
+                _wdClientServices.SetLocalScreenResolution( localRes );
+                StatusLogLines.Add($"Successfully set screen-resolution of local computer to {localRes}");
             }
             catch (WDException e)
             {
-                string msg=$"Couldn't set screen-resolution of local computer to {res}. Inner error-message: {e.Message}";
+                string msg=$"Couldn't set screen-resolution of local computer to {localRes}. Inner error-message: {e.Message}";
                 _logger?.LogWarning(msg);
                 StatusLogLines.Add(msg);
                 // Don't bail out here, this is not too critical.
             }
 
             // Change remote screen-resolution
-            res = AvailableRemoteScreenResolutions[SelectedRemoteScreenResolutionIndex];
             try
             {
-                await _wdClientServices.SetRemoteScreenResolution( res );          
-                StatusLogLines.Add($"Successfully set screen-resolution of remote computer to {res}");
+                await _wdClientServices.SetRemoteScreenResolution( remoteRes );          
+                StatusLogLines.Add($"Successfully set screen-resolution of remote computer to {remoteRes}");
             }
             catch(WDException e)
             {
-                string msg = $"WARNING: Couldn't set screen-resolution of remote computer to {res}. Inner error-message: {e.Message}";
+                string msg = $"WARNING: Couldn't set screen-resolution of remote computer to {remoteRes}. Inner error-message: {e.Message}";
                 _logger?.LogWarning(msg);
                 StatusLogLines.Add(msg);
                 // Don't bail out here, this is not too critical.
@@ -401,12 +406,11 @@ namespace WirelessDisplayClient.ViewModels
             }
 
             // Start remote streaming-sink
-            string streamType;
-            streamType = StreamingTypes[SelectedStreamingTypeIndex];
             try
             {
-                await _wdClientServices.StartRemoteStreamingSink(streamType, StreamingPort);
-                StatusLogLines.Add($"Successfully started remote streaming-sink: {streamType}, listening on port {StreamingPort}");
+                await _wdClientServices.StartRemoteStreamingSink(streamType, 
+                        StreamingPort, streamRes);
+                StatusLogLines.Add($"Successfully started remote streaming-sink: {streamType}, listening on port {StreamingPort} using a stream-resolution of {streamRes}");
             }
             catch (WDException e)
             {
@@ -418,15 +422,11 @@ namespace WirelessDisplayClient.ViewModels
             }
 
             // Start local streaming-source
-            streamType = StreamingTypes[SelectedStreamingTypeIndex];
-            string screenRsolutionForStreaming = 
-                    AvailableRemoteScreenResolutions[SelectedRemoteScreenResolutionIndex];
-  
             try
             {
                 _wdClientServices.StartLocalStreamingSource( streamType, 
-                                IpAddress, StreamingPort, screenRsolutionForStreaming);
-                StatusLogLines.Add($"Sucessfully started local streaming-source: {streamType} to {IpAddress}:{StreamingPort} using a stream-resolution of {screenRsolutionForStreaming}");
+                                IpAddress, StreamingPort, streamRes);
+                StatusLogLines.Add($"Sucessfully started local streaming-source: {streamType} to {IpAddress}:{StreamingPort} using a stream-resolution of {streamRes}");
             }
             catch (WDException e)
             {

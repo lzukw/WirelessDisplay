@@ -1,14 +1,17 @@
 #!/bin/bash
 
 # The command-line-arguments passed to this script
-# STREAMING_TYPE is either "VNC" or "FFmpeg"
+# STREAMING_TYPE is either "VNC-Reverse" or "FFmpeg"
 # PORT is the Port-Number the streaming sink (VNC-Client in 
 #         reverse-connections / FFplay) will listen on.
 
 STREAMING_TYPE=$1
-PORT=$2
+SOURCE_IP=$2
+PORT=$3
+SINK_SCREEN_RESOLUTION=$4
+STREAM_SCREEN_RESOLUTION=$5
 
-if [ ${STREAMING_TYPE} == "VNC" ]
+if [ ${STREAMING_TYPE} == "VNC-Reverse" ]
 then
 
   # tigervnc is used, as this seems to be available on most Linux-distros:

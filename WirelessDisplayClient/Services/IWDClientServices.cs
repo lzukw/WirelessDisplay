@@ -104,24 +104,23 @@ namespace WirelessDisplayClient.Services
         /// <param name="streamType">
         /// One of the stream-types given in enum StreamType (VNC or FFmpeg).
         /// </param>
-        /// <param name="remoteIpAddress">
+        /// <param name="sinkIpAddress">
         /// The IP-Address of the remote 'projecting'-computer to send the stream to.
         /// </param>
         /// <param name="portNo">
         /// The port-Number used for the remote streaming-sink to listen on.
         /// </param>
-        /// <param name="streamResolution">
+        /// <param name="streamScreenResolution">
         /// A string contating the screen-resolution used for streaming.
-        /// In some cases (operating-system / type of streaming) null is allowed.
         /// </param>
         /// <expection cref="WirelessDisplay.Common.WDException">
         /// The local streaming source could not be started, for example because of
         /// an error in the script starting the streaming-source.
         /// </exception>
         void StartLocalStreamingSource( string streamType,
-                                     string remoteIpAddress,
+                                     string sinkIpAddress,
                                      UInt16 port,
-                                     string streamResolution = null );
+                                     string streamScreenResolution );
 
 
         /// <summary>
@@ -141,10 +140,15 @@ namespace WirelessDisplayClient.Services
         /// <param name="port">
         /// The port-Number used for the remote streaming-sink to listen on.
         /// </param>
+        /// <param name="streamScreenResolution">
+        /// A string contating the screen-resolution used for streaming.
+        /// </param>
         /// <expection cref="WirelessDisplay.Common.WDException">
         /// The remote streaming-sink could not be started.
         /// </exception>
-        Task StartRemoteStreamingSink( string streamType, UInt16 port);
+        Task StartRemoteStreamingSink( string streamType, 
+                                       UInt16 port,
+                                       string streamScreenResolution );
 
         /// <summary>
         /// Stops the streaming-sink on the remote computer.

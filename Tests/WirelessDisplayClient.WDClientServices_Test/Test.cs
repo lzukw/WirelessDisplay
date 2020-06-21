@@ -15,6 +15,7 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
     {
         const string SERVER_IP = "127.0.0.1";
         const string SERVER_PORT = "6789";
+        const string LOCAL_IP = "127.0.0.1";
 
         const string SERVER_EXECUTABLE_PATH_LINUX = @"../../../../../ScriptingRestApiServer_executable/ScriptingRestApiServer";
         const string SERVER_CMD_LINE_ARGS = "--urls=http://" + SERVER_IP + ":" + SERVER_PORT;
@@ -26,14 +27,14 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
         const string SCRIPT_NAME_MANAGE_SCREEN_RESOLUTIONS = "manageScreenResolutions";
         const string SCRIPT_ARGS_MANAGE_SCREEN_RESOLUTIONS = "{ACTION} {SCREEN_RESOLUTION}";
         const string SCRIPT_NAME_START_STREAMING_SINK = "startStreamingSink";
-        const string SCRIPT_ARGS_START_STREAMING_SINK = "{STREAMING_TYPE} {PORT}";
+        const string SCRIPT_ARGS_START_STREAMING_SINK = "{STREAMING_TYPE} {SOURCE_IP} {PORT} {SINK_SCREEN_RESOLUTION} {STREAM_SCREEN_RESOLUTION}";
         const string SCRIPT_NAME_START_STREAMING_SOURCE = "startStreamingSource";
-        const string SCRIPT_ARGS_START_STREAMING_SOURCE = "{STREAMING_TYPE} {IP} {PORT} {SCREEN_RESOLUTION}";
+        const string SCRIPT_ARGS_START_STREAMING_SOURCE = "{STREAMING_TYPE} {SINK_IP} {PORT} {SOURCE_SCREEN_RESOLUTION} {STREAM_SCREEN_RESOLUTION}";
         const string SCRIPT_NAME_PREVENT_DISPLAY_BLANKING = "preventDisplayBlanking";
         const string SCRIPT_ARGS_PREVENT_DISPLAY_BLANKING = "{SECONDS}";
-        const string ARG_FOR_STREAMING_TYPE = "VNC";
+        const string ARG_FOR_STREAMING_TYPE = "VNC-Reverse";
         const UInt16 ARG_FOR_STREAMING_PORT = 5500;
-        const string ARG_FOR_SCREEN_RESOLUTION_STREAM = "1024x768";
+        const string ARG_FOR_STREAM_SCREEN_RESOLUTION = "1024x768";
 
 
         private IWDClientServices _wdClientServices;
@@ -99,6 +100,7 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
                         logger : loggerForWdClientServices,
                         localScriptRunner : localScriptRunner,
                         remoteScriptRunner : remoteScriptRunner,
+                        localIpAddress : LOCAL_IP,
                         scriptNameManageScreenResolutions : SCRIPT_NAME_MANAGE_SCREEN_RESOLUTIONS,
                         scriptArgsManageScreenResolutions : SCRIPT_ARGS_MANAGE_SCREEN_RESOLUTIONS,
                         scriptNameStartStreamingSink : SCRIPT_NAME_START_STREAMING_SINK,
@@ -253,7 +255,7 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
             try
             {
                 await _wdClientServices.StartRemoteStreamingSink(ARG_FOR_STREAMING_TYPE,
-                        ARG_FOR_STREAMING_PORT);
+                        ARG_FOR_STREAMING_PORT, ARG_FOR_STREAM_SCREEN_RESOLUTION);
             }
             catch (WDException)
             {
@@ -264,7 +266,7 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
             Assert.DoesNotThrow( ()=>
             {
                 _wdClientServices.StartLocalStreamingSource( ARG_FOR_STREAMING_TYPE, 
-                                SERVER_IP, ARG_FOR_STREAMING_PORT , ARG_FOR_SCREEN_RESOLUTION_STREAM);
+                                SERVER_IP, ARG_FOR_STREAMING_PORT , ARG_FOR_STREAM_SCREEN_RESOLUTION);
             });
 
             Thread.Sleep(10000);
@@ -348,9 +350,9 @@ namespace WirelessDisplay.Tests.WirelessDisplayClient.WDClientServices_Test
             test.Setup();
             
             // You can individually comment out tests
-            //test.ManageLocalScreenResolutions_NormalUseCase_ShouldPass();
-            //await test.ConnectAndRemoteScreenResolutions_NormalUseCase_ShouldPass();
-            //await test.StartAndStopStreaming_NormalUseCase_ShouldPass();
+            test.ManageLocalScreenResolutions_NormalUseCase_ShouldPass();
+            await test.ConnectAndRemoteScreenResolutions_NormalUseCase_ShouldPass();
+            await test.StartAndStopStreaming_NormalUseCase_ShouldPass();
             await test.StartAndStopScriptToPreventDisplayBlanking_NormalUseCase_ShouldPass();
 
             test.TearDown();

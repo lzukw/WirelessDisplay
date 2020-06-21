@@ -88,8 +88,9 @@ if one of the WirelessDisplay-programs crash.
 This script receives four command-line-arguments.
 
 The first argument ("STREAMING_TYPE") is a string indicating the method,
-that is used for streaming (for now: "VNC" or "FFMpeg", but new streaming-types
-could be added by modifying only the scripts and the [config.json]-files).
+that is used for streaming (for now: "VNC-Reverse" or "FFMpeg", but new 
+streaming-types could be added by modifying only the scripts and the 
+[config.json]-files).
 
 The second argument ("IP") is the IP-Address of remote computer receiving the 
 stream.
@@ -153,7 +154,7 @@ done:
 
 - Extend the startStreamingSink- and the startStreamingSource-scripts to 
   support a streaming-method "RealVNC", besides the already supported
-  methods "VNC" and "FFmpeg".
+  methods "VNC-Reverse" and "FFmpeg".
 
 - In [WirelessDisplayClient/config.json] change the line
   `"StreamingTypes" : "VNC, FFmpeg",` to 

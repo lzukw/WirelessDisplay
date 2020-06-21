@@ -2,9 +2,12 @@
 
 REM The command-line-arguments passed to this script
 SET STREAMING_TYPE=%1
-SET PORT=%2
+SET SOURCE_IP=%2
+SET PORT=%3
+SET SINK_SCREEN_RESOLUTION=%4
+SET STREAM_SCREEN_RESOLUTION=%5
 
-IF "%STREAMING_TYPE%" == "VNC" (
+IF "%STREAMING_TYPE%" == "VNC-Reverse" (
     REM The call to vncviewer.exe returns immediately but START /W waits for 
 	REM the process to finish
     REM START /W ..\..\ThirdParty\tightvnc-1.3.10_x86\vncviewer.exe /shared /fullscreen /restricted /viewonly /disableclipboard /nocursorshape /listen %PORT%

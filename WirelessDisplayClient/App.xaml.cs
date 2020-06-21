@@ -133,10 +133,13 @@ namespace WirelessDisplayClient
             var loggerForRemoteScriptRunner = loggerFactory.CreateLogger<RemoteScriptRunner>();
             var remoteScriptRunner = new RemoteScriptRunner(loggerForRemoteScriptRunner);      
 
+            string localIpAddress = HostAddressProvider.IPv4Address;
+
             var loggerForWdClientServices = loggerFactory.CreateLogger<WDClientServices>();
             wdClientServices = new WDClientServices(
                         logger : loggerForWdClientServices,
                         localScriptRunner : localScriptRunner,
+                        localIpAddress : localIpAddress,
                         remoteScriptRunner : remoteScriptRunner,
                         scriptNameManageScreenResolutions : customConfigProvider[MagicStrings.SCRIPTNAME_MANAGE_SCREEN_RESOLUTION],
                         scriptArgsManageScreenResolutions : customConfigProvider[MagicStrings.SCRIPTARGS_MANAGE_SCREEN_RESOLUTION],

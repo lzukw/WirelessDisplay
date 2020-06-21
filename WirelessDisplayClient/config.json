@@ -3,14 +3,14 @@
     {
         "PreferredServerPort" : "80",
         "PreferredStreamingPort" : "5500",
-        "StreamingTypes" : "VNC, FFmpeg",
+        "StreamingTypes" : "VNC-Reverse, FFmpeg",
 
         "ScriptNameManageScreenResolutions" : "manageScreenResolutions",
         "ScriptArgsManageScreenResolutions" : "{ACTION} {SCREEN_RESOLUTION}",
         "ScriptNameStartStreamingSink" : "startStreamingSink",
-        "ScriptArgsStartStreamingSink" : "{STREAMING_TYPE} {PORT}",
+        "ScriptArgsStartStreamingSink" : "{STREAMING_TYPE} {SOURCE_IP} {PORT} {SINK_SCREEN_RESOLUTION} {STREAM_SCREEN_RESOLUTION}",
         "ScriptNameStartStreamingSource" : "startStreamingSource",
-        "ScriptArgsStartStreamingSource" : "{STREAMING_TYPE} {IP} {PORT} {SCREEN_RESOLUTION}",
+        "ScriptArgsStartStreamingSource" : "{STREAMING_TYPE} {SINK_IP} {PORT} {SOURCE_SCREEN_RESOLUTION} {STREAM_SCREEN_RESOLUTION}",
         "ScriptNamePreventDisplayBlanking" : "preventDisplayBlanking",
         "ScriptArgsPreventDisplayBlanking" : "{SECONDS}"
     },

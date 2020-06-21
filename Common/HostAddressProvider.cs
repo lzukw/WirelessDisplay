@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace WirelessDisplayServer.Services
+namespace WirelessDisplay.Common
 {
     public static class HostAddressProvider
     {

@@ -23,6 +23,7 @@ namespace WirelessDisplayClient.Services
         private readonly ILogger<WDClientServices> _logger;
         private readonly ILocalScriptRunner _localScriptRunner;
         private readonly IRemoteScriptRunner _remoteScriptRunner;
+        private readonly string _localIpAddress;
         private readonly string _scriptNameManageScreenResolutions;
         private readonly string _scriptArgsManageScreenResolutions;
         private readonly string _scriptNameStartStreamingSink;
@@ -59,6 +60,7 @@ namespace WirelessDisplayClient.Services
         public WDClientServices( ILogger<WDClientServices> logger,
                                 ILocalScriptRunner localScriptRunner,
                                 IRemoteScriptRunner remoteScriptRunner,
+                                string localIpAddress,
                                 string scriptNameManageScreenResolutions,
                                 string scriptArgsManageScreenResolutions,
                                 string scriptNameStartStreamingSink,
@@ -71,6 +73,7 @@ namespace WirelessDisplayClient.Services
             _logger = logger;
             _localScriptRunner = localScriptRunner;
             _remoteScriptRunner = remoteScriptRunner;
+            _localIpAddress = localIpAddress;
             _scriptNameManageScreenResolutions = scriptNameManageScreenResolutions;
             _scriptArgsManageScreenResolutions = scriptArgsManageScreenResolutions;
             _scriptNameStartStreamingSink = scriptNameStartStreamingSink;
@@ -214,16 +217,16 @@ namespace WirelessDisplayClient.Services
 
         /// <see cref="IWDClientServices.StartLocalStreamingSource"></see>
         void IWDClientServices.StartLocalStreamingSource( string streamType,
-                                     string remoteIpAddress,
+                                     string sinkIpAddress,
                                      UInt16 port,
-                                     string streamResolution )
+                                     string streamScreenResolution )
         {
             // First check the given remoteIpAddress
             IPAddress dummy;
-            if ( string.IsNullOrWhiteSpace(remoteIpAddress) || 
-                 ! IPAddress.TryParse( remoteIpAddress, out dummy ) )
+            if ( string.IsNullOrWhiteSpace(sinkIpAddress) || 
+                 ! IPAddress.TryParse( sinkIpAddress, out dummy ) )
             {
-                string msg = $"This is not a valid IP-Address: '{remoteIpAddress}'";
+                string msg = $"This is not a valid IP-Address: '{sinkIpAddress}'";
                 _logger?.LogWarning(msg);
                 throw new WDException(msg);
             }
@@ -231,19 +234,23 @@ namespace WirelessDisplayClient.Services
             // Then stop eventually running streaming-source
             ((IWDClientServices) this).StopLocalStreamingSource();
 
+            string sourceScreenResolution = 
+                    ((IWDClientServices) this).GetCurrentLocalScreenResolution();
+
             // Run the local script to start the streaming-source
             string scriptArgs = _scriptArgsStartStreamingSource;
             scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_STREAMING_TYPE, streamType);
-            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_IP, remoteIpAddress);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SINK_IP, sinkIpAddress);
             scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_PORT, port.ToString());
-            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SCREEN_RESOLUTION, !string.IsNullOrEmpty(streamResolution) ? streamResolution : "null");
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SOURCE_SCREEN_RESOLUTION, sourceScreenResolution);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_STREAM_SCREEN_RESOLUTION, streamScreenResolution);
 
             // Exceptions have to be handled by the caller.
             // Store the process-ID of the started process in _processIdStramingSource
             _processIdStramingSource = _localScriptRunner.StartScript(
                                 _scriptNameStartStreamingSource, scriptArgs);
 
-            _logger?.LogInformation($"Started local streaming-source of type '{streamType}' to '{remoteIpAddress}:{port}' using stream-resolution {streamResolution}. Process-Id={_processIdStramingSource}");
+            _logger?.LogInformation($"Started local streaming-source of type '{streamType}' to '{sinkIpAddress}:{port}' using stream-resolution {streamScreenResolution}. Process-Id={_processIdStramingSource}");
         }
         
         /// <see cref="IWDClientServices.StopLocalStreamingSource"></see>
@@ -260,14 +267,22 @@ namespace WirelessDisplayClient.Services
         }
 
         /// <see cref="IWDClientServices.StartRemoteStreamingSink"></see>
-        async Task IWDClientServices.StartRemoteStreamingSink( string streamType, UInt16 port)
+        async Task IWDClientServices.StartRemoteStreamingSink( string streamType, 
+                                UInt16 port, string streamScreenResolution )
         {
             // First stop eventually running remote streaming-sink
             await ((IWDClientServices) this).StopRemoteStreamingSink();
 
+            string sinkScreenResolution = await 
+                    ((IWDClientServices) this).GetCurrentRemoteScreenResolution();
+
             string scriptArgs = _scriptArgsStartStreamingSink;
             scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_STREAMING_TYPE, streamType);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SOURCE_IP, _localIpAddress);
             scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_PORT, port.ToString());
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_SINK_SCREEN_RESOLUTION, sinkScreenResolution);
+            scriptArgs = scriptArgs.Replace(MagicStrings.PLACEHOLDER_STREAM_SCREEN_RESOLUTION, streamScreenResolution);
+            
             
             // Exceptions have to be handled by the caller.
             // Store the process-ID of the started process in _processIdStreamingSink

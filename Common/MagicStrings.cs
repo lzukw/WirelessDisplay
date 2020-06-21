@@ -34,7 +34,6 @@ namespace WirelessDisplay.Common
         public const string STREAMING_TYPES = "StreamingTypes";
         public const string PREFERRED_SERVER_PORT = "PreferredServerPort";
         public const string PREFERRED_STREAMING_PORT = "PreferredStreamingPort";
-        public const string INDEX_OF_PREFERRED_STREAMING_TYPE = "IndexOfpreferredStreamingType";
         public const string PREFERRED_LOCAL_SCREEN_WIDTH = "PreferredLocalScreenWidth";
         public const string PREFERRED_REMOTE_SCREEN_WIDTH = "PreferredRemoteScreenWidth";
 
@@ -51,16 +50,18 @@ namespace WirelessDisplay.Common
         public const string SCRIPTARGS_PREVENT_DISPLAY_BLANKING = "ScriptArgsPreventDisplayBlanking";
         public const string PLACEHOLDER_SCRIPT_PATH="{SCRIPT}";
         public const string PLACEHOLDER_SCRIPT_ARGS="{SCRIPT_ARGS}";
-        public const string PLACEHOLDER_IP = "{IP}";
+        public const string PLACEHOLDER_SINK_IP = "{SINK_IP}";
+        public const string PLACEHOLDER_SOURCE_IP = "{SOURCE_IP}";
         public const string PLACEHOLDER_PORT = "{PORT}";
         public const string PLACEHOLDER_ACTION = "{ACTION}";
         public const string ACTION_GET = "GET";
         public const string ACTION_ALL = "ALL";
         public const string ACTION_SET = "SET";
         public const string PLACEHOLDER_SCREEN_RESOLUTION = "{SCREEN_RESOLUTION}";
+        public const string PLACEHOLDER_SOURCE_SCREEN_RESOLUTION = "{SOURCE_SCREEN_RESOLUTION}";
+        public const string PLACEHOLDER_SINK_SCREEN_RESOLUTION = "{SINK_SCREEN_RESOLUTION}";
+        public const string PLACEHOLDER_STREAM_SCREEN_RESOLUTION = "{STREAM_SCREEN_RESOLUTION}";
         public const string PLACEHOLDER_STREAMING_TYPE ="{STREAMING_TYPE}";
-        public const string STREAMING_METHOD_VNC = "VNC";
-        public const string STREAMING_METHOD_FFMPEG = "FFmpeg";
         public const string PLACEHOLDER_SECONDS = "{SECONDS}";
 
         #endregion
@@ -80,6 +81,4 @@ namespace WirelessDisplay.Common
         #endregion
         
     }
-
-
 }

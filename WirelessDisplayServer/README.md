@@ -169,13 +169,9 @@ The following files were created:
 - The folder [Services]
 - The interface [Services/IServerController.cs] and the class 
   [Services/ServerController.cs] that implements this interface.
-- The static class [Services/HostAddressProvider.cs]
 
 `IServerController` and `ServerController` provide two methods to start the 
 ScriptingRestApiServer in background and to stop it again.
-
-The static class `HostAddressProvider` contains two simple static readonly 
-properties to get the hostname and the IPv4-Address of the local computer.
 
 [MainWindow.xaml] contains four relevant UI-Elemnts:
 
