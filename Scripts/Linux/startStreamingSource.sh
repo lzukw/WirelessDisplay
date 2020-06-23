@@ -32,7 +32,7 @@ then
   # Alternatively use tigervnc's x0vncserver
   # debian: sudo apt-get install tigervnc-scraping-server
   # fedora: sudo dnf install tigervnc-server
-  # x0vncserver -SecurityTypes=None -AcceptKeyEvents=0 -AcceptPointerEvents=0 -AcceptCutText=0 -rfbport=${PORT}
+  #x0vncserver -SecurityTypes=None -AcceptKeyEvents=0 -AcceptPointerEvents=0 -AcceptCutText=0 -rfbport=${PORT}
 
 elif [ ${STREAMING_TYPE} == "VNC-Reverse" ]
 then

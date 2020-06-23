@@ -19,6 +19,8 @@ then
   # debian: sudo apt-get install tigervnc-viewer
   while true
   do
+    # Note: the following line doesn't work with TigerVNC viewer version 1.7.0
+    # but it works with verison 1.10.1
     vncviewer -ViewOnly -SecurityTypes=None -FullScreen -AlertOnFatalError=0 ${SOURCE_IP}::${PORT}
     sleep 2
   done

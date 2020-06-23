@@ -528,8 +528,8 @@ namespace WirelessDisplayClient.ViewModels
                                 AvailableRemoteScreenResolutions, _preferredRemoteScreenWidth);
 
             // Switch Window state
-            ConnectionEstablished = false;
-            StreamStarted = true;
+            ConnectionEstablished = true;
+            StreamStarted = false;
  
         }
 
