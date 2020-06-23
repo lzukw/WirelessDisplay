@@ -24,30 +24,28 @@ echo "startStreamingSource.sh called with arguments STREAMING_TYPE=${STREAMING_T
 
 if [ ${STREAMING_TYPE} == "VNC" ]
 then
-  # Use tigervnc's x0vncserver
+
+  # debian: sudo apt-get install x11vnc
+  # fedora: sudo apt-get install x11vnc
+  x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -nocursorshape -rfbport ${PORT}
+
+  # Alternatively use tigervnc's x0vncserver
   # debian: sudo apt-get install tigervnc-scraping-server
   # fedora: sudo dnf install tigervnc-server
-  x0vncserver -SecurityTypes=None -AcceptKeyEvents=0 -AcceptPointerEvents=0 -AcceptCutText=0 -rfbport=${PORT}
-
+  # x0vncserver -SecurityTypes=None -AcceptKeyEvents=0 -AcceptPointerEvents=0 -AcceptCutText=0 -rfbport=${PORT}
 
 elif [ ${STREAMING_TYPE} == "VNC-Reverse" ]
 then
 
-  echo "Executing: 'x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -cursor arrow -scale_cursor 1 -connect ${SINK_IP}:${PORT}'"
-  # debian: sudo apt-get install x11vnc
-  # fedora: sudo apt-get install x11vnc
   #x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -cursor arrow -scale_cursor 1 -connect ${SINK_IP}:${PORT}
-  x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -connect ${SINK_IP}:${PORT}
+  x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -nocursorshape -connect ${SINK_IP}:${PORT}
 
+  # With x0vncserver no reverse-connection is possible  
 
 elif [ ${STREAMING_TYPE} == "FFmpeg" ]
 then
  
-  # Now start ffmpeg
-  echo "Executing: 'fmpeg -f x11grab -s ${SOURCE_SCREEN_RESOLUTION} -r 30 -i :0.0 -vf scale=${STREAM_SCREEN_RESOLUTION} -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts "udp://${SINK_IP}:${PORT}"'"
-
   ffmpeg -f x11grab -s ${SOURCE_SCREEN_RESOLUTION} -r 30 -i :0.0 -vf scale=${STREAM_SCREEN_RESOLUTION} -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts "udp://${SINK_IP}:${PORT}"
-
 
 else
   echo "Script-ERROR: Unknown Streaming Type ${STREAMING_TYPE}"
