@@ -19,6 +19,7 @@ The tool `xrandr` to change screen-resolutions should already be installed.
 ```
 sudo apt-get install xdotool
 sudo apt-get install x11vnc
+sudo apt-get install tigervnc-scraping-server
 sudo apt-get install tigervnc-viewer
 sudo apt-get install ffmpeg libavcodec-extra
 ```
@@ -30,6 +31,7 @@ The tool `xrandr` to change screen-resolutions should already be installed.
 ```
 sudo dnf install xdotool
 sudo dnf install x11vnc
+sudo dnf install tigervnc-server
 sudo dnf install tigervnc
 sudo dnf install ffmpeg x264-libs
 ```

@@ -17,3 +17,5 @@ Third-Party-executables.
 - ..\..\Third_Party\Windows\ScreenRes\screenres.exe
 - ..\..\Third_Party\Windows\PreventTurnOffDisplay\PreventTurnOffDisplay.exe
 
+if you want to try [TigerVNC](https://tigervnc.org/) instead of VNCopen, you
+should install it, and change the filepath to the executables in the scripts.
