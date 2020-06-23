@@ -22,11 +22,18 @@ STREAM_SCREEN_RESOLUTION=$5
 
 echo "startStreamingSource.sh called with arguments STREAMING_TYPE=${STREAMING_TYPE=}, SINK_IP=${SINK_IP}, PORT=${PORT}, WxH_SENDER=${WxH_SENDER}, STREAM_SCREEN_RESOLUTION=${STREAM_SCREEN_RESOLUTION}"
 
-if [ ${STREAMING_TYPE} == "VNC-Reverse" ]
+if [ ${STREAMING_TYPE} == "VNC" ]
+then
+  # Use tigervnc's x0vncserver
+  x0vncserver -SecurityTypes=None -AcceptKeyEvents=0 -AcceptPointerEvents=0 -AcceptCutText=0 -rfbport=${PORT}
+
+
+elif [ ${STREAMING_TYPE} == "VNC-Reverse" ]
 then
 
   echo "Executing: 'x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -cursor arrow -scale_cursor 1 -connect ${SINK_IP}:${PORT}'"
-  x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -cursor arrow -scale_cursor 1 -connect ${SINK_IP}:${PORT}
+  #x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -cursor arrow -scale_cursor 1 -connect ${SINK_IP}:${PORT}
+  x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -connect ${SINK_IP}:${PORT}
 
 
 elif [ ${STREAMING_TYPE} == "FFmpeg" ]

@@ -2,12 +2,16 @@
 ## Project-specific ignores:
 
 # Ignore everthing in folder ThirdParty, exept README.md
-ThirdParty/Windows/ScreenRes/*
-!ThirdParty/Windows/ScreenRes/README.md
-ThirdParty/Windows/VNCopen/*
-!ThirdParty/Windows/VNCopen/README.md
 ThirdParty/Windows/ffmpeg/*
 !ThirdParty/Windows/ffmpeg/README.md
+ThirdParty/Windows/PreventTurnOffDisplay
+!ThirdParty/Windows/PreventTurnOffDisplay/README.md
+ThirdParty/Windows/ScreenRes/*
+!ThirdParty/Windows/ScreenRes/README.md
+ThirdParty/Windows/TigerVNC/*
+!ThirdParty/Windows/TigerVNC/README.md
+ThirdParty/Windows/VNCopen/*
+!ThirdParty/Windows/VNCopen/README.md
 
 
 # Ignore build-folders except the README.md

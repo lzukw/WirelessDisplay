@@ -3,7 +3,7 @@
     {
         "PreferredServerPort" : "80",
         "PreferredStreamingPort" : "5500",
-        "StreamingTypes" : "VNC-Reverse, FFmpeg",
+        "StreamingTypes" : "VNC, VNC-Reverse, FFmpeg",
 
         "ScriptNameManageScreenResolutions" : "manageScreenResolutions",
         "ScriptArgsManageScreenResolutions" : "{ACTION} {SCREEN_RESOLUTION}",

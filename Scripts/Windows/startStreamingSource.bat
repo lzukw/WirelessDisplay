@@ -20,7 +20,13 @@ SET PORT=%3
 SET SOURCE_SCREEN_RESOLUTION=%4
 SET STREAM_SCREEN_RESOLUTION=%5
 
-IF "%STREAMING_TYPE%" == "VNC-Reverse" (
+IF "%STREAMING_TYPE%" == "VNC" (
+    START /B ..\..\ThirdParty\Windows\VNCopen\winvnc4.exe SecurityTypes=None AcceptPointerEvents=0 AcceptKeyEvents=0 AcceptCutText=0 PortNumber=%PORT%
+    REM START /B ..\..\ThirdParty\Windows\TigerVNC\winvnc4.exe SecurityTypes=None AcceptPointerEvents=0 AcceptKeyEvents=0 AcceptCutText=0 PortNumber=%PORT%
+    REM Hang her forever
+    PAUSE
+
+) ELSE IF "%STREAMING_TYPE%" == "VNC-Reverse" (
     START /B ..\..\ThirdParty\Windows\VNCopen\winvnc4.exe SecurityTypes=None AcceptPointerEvents=0 AcceptKeyEvents=0 AcceptCutText=0
     timeout /t 2 /nobreak > nul
     ..\..\ThirdParty\Windows\VNCopen\winvnc4.exe -connect %SINK_IP%::%PORT%

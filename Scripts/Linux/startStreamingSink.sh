@@ -11,13 +11,21 @@ PORT=$3
 SINK_SCREEN_RESOLUTION=$4
 STREAM_SCREEN_RESOLUTION=$5
 
-if [ ${STREAMING_TYPE} == "VNC-Reverse" ]
+if [ ${STREAMING_TYPE} == "VNC" ]
 then
 
   # tigervnc is used, as this seems to be available on most Linux-distros:
   # Fedora (31): sudo dnf install tigervnc
   # debian: sudo apt-get install tigervnc-viewer
-  #vncviewer -Shared -FullScreen -ViewOnly -listen ${PORT}
+  while true
+  do
+    vncviewer -ViewOnly -SecurityTypes=None -FullScreen -AlertOnFatalError=0 ${SOURCE_IP}::${PORT}
+    sleep 2
+  done
+
+elif [ ${STREAMING_TYPE} == "VNC-Reverse" ]
+then
+
   vncviewer -ViewOnly -SecurityTypes=None -FullScreen -AlertOnFatalError=0 -listen ${PORT}
 
 elif [ ${STREAMING_TYPE} == "FFmpeg" ]
