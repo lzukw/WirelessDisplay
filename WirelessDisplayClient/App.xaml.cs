@@ -118,16 +118,23 @@ namespace WirelessDisplayClient
             preferredRemoteScreenWidth = Convert.ToInt32(
                 customConfigProvider[MagicStrings.PREFERRED_REMOTE_SCREEN_WIDTH]);
 
+            bool letShellWindowsPopUpWhenStartScript;
+            bool success = bool.TryParse(customConfigProvider[MagicStrings.LET_SHELL_WINDOW_POP_UP_WHEN_START_SCRIPT], out letShellWindowsPopUpWhenStartScript);
+            if (! success )
+            {
+                throw new WDFatalException($"Value '{customConfigProvider[MagicStrings.LET_SHELL_WINDOW_POP_UP_WHEN_START_SCRIPT]}' for key '{MagicStrings.LET_SHELL_WINDOW_POP_UP_WHEN_START_SCRIPT}' in configuration-file '{MagicStrings.CONFIG_FILE}' is not 'true' or 'false'.");
+            }
 
             var loggerForLocalScriptRunner = loggerFactory.CreateLogger<LocalScriptRunner>();
             var scriptDir = new DirectoryInfo(
                             customConfigProvider[MagicStrings.SCRIPT_DIRECTORY]);
             var localScriptRunner = new LocalScriptRunner(
-                        loggerForLocalScriptRunner,
-                        customConfigProvider[MagicStrings.SHELL],
-                        customConfigProvider[MagicStrings.SHELL_ARGS_TEMPLATE],
-                        scriptDir,
-                        customConfigProvider[MagicStrings.SCRIPT_FILE_EXTENSION]
+                        logger : loggerForLocalScriptRunner,
+                        shell : customConfigProvider[MagicStrings.SHELL],
+                        shellArgsTemplate : customConfigProvider[MagicStrings.SHELL_ARGS_TEMPLATE],
+                        scriptDirectory : scriptDir,
+                        scriptExtension : customConfigProvider[MagicStrings.SCRIPT_FILE_EXTENSION],
+                        letShellWindowsPopUpWhenStartScript : letShellWindowsPopUpWhenStartScript
             );
 
             var loggerForRemoteScriptRunner = loggerFactory.CreateLogger<RemoteScriptRunner>();
