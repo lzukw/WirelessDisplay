@@ -86,10 +86,9 @@ namespace WirelessDisplay.Tests.Common.RemoteScriptRunner_Test
 
             Assert.True( exitCode == TEST_SCRIPT_EXITCODE );
             
-            // The testscript writes the first two arguments and the line read from stin to stdout
+            // The testscript writes the first two arguments to stdout
             Assert.AreEqual( stdoutLines[0], TEST_SCRIPT_ARGS[0]);
             Assert.AreEqual( stdoutLines[1], TEST_SCRIPT_ARGS[1]);
-            Assert.AreEqual( stdoutLines[2], TEST_SCRIPT_STDIN.Trim() );
 
             // The testsript writes the third and fourth argument to stderr
             Assert.AreEqual( stderrLines[0], TEST_SCRIPT_ARGS[2]);
@@ -97,12 +96,12 @@ namespace WirelessDisplay.Tests.Common.RemoteScriptRunner_Test
         }
 
         [Test]
-        public void RunAndWaitForScript_ScriptNotStopping_ThrowsWDException()
+        public async Task RunAndWaitForScript_ScriptNotStopping_ThrowsWDException()
         {
             // Not the not ending script is started.
             
             
-            Assert.ThrowsAsync<WDException>( async ()=>
+            try
             {
                 (int exitCode, List<string> stdoutLines, List<string> stderrLines) = await
                 _scriptRunner.RunAndWaitForScript( 
@@ -110,14 +109,21 @@ namespace WirelessDisplay.Tests.Common.RemoteScriptRunner_Test
                             scriptArgs : string.Join(" ", TEST_SCRIPT_ARGS), 
                             stdin :      TEST_SCRIPT_STDIN
                             );
-            } );
+                // If we get here, no Exception has been thrown (but this should
+                // have happened).
+                Assert.Fail();
+            }
+            catch (WDException)
+            {
+                // It is expected, that this function throws a WDExcption
+            }
         }
 
 
         [Test]
         public async Task StartQueryAndStopScript_NormalUsecase_everythingOk()
         {
-                        // Start script
+            // Start script
             int processId = await _scriptRunner.StartScript( 
                             scriptName : TEST_SCRIPT_FOR_START_STOP, 
                             scriptArgs : string.Join(" ", TEST_SCRIPT_ARGS), 
@@ -145,27 +151,37 @@ namespace WirelessDisplay.Tests.Common.RemoteScriptRunner_Test
             // exit-codes like 137. 
             Assert.NotZero( exitCode );
             
-            // The testscript writes the first two arguments and the line read from stin to stdout
-            Assert.AreEqual( stdoutLines[0], TEST_SCRIPT_ARGS[0]);
-            Assert.AreEqual( stdoutLines[1], TEST_SCRIPT_ARGS[1]);
-            Assert.AreEqual( stdoutLines[2], TEST_SCRIPT_STDIN.Trim() );
+            // The following assertions only appy, if "LetShellWindowsPopUpWhenStartScript"
+            // in config.json of the ScritingRestApiServer is set to "false", so leave them
+            // commented out generally:
+
+            // The testscript writes the first two arguments to stdout
+            //Assert.AreEqual( stdoutLines[0], TEST_SCRIPT_ARGS[0]);
+            //Assert.AreEqual( stdoutLines[1], TEST_SCRIPT_ARGS[1]);
 
             // The testsript writes the third and fourth argument to stderr
-            Assert.AreEqual( stderrLines[0], TEST_SCRIPT_ARGS[2]);
-            Assert.AreEqual( stderrLines[1], TEST_SCRIPT_ARGS[3]);
+            //Assert.AreEqual( stderrLines[0], TEST_SCRIPT_ARGS[2]);
+            //Assert.AreEqual( stderrLines[1], TEST_SCRIPT_ARGS[3]);
         }
 
         [Test]
-        public void Startscript_ScriptExitsEarly_ThrowsWDException()
+        public async Task Startscript_ScriptExitsEarly_ThrowsWDException()
         {
-            Assert.ThrowsAsync<WDException>( async () =>
+            try
             {
                 int processId = await _scriptRunner.StartScript( 
                                 scriptName : TEST_SCRIPT_FOR_RUN, 
                                 scriptArgs : string.Join(" ", TEST_SCRIPT_ARGS), 
                                 stdin :      TEST_SCRIPT_STDIN
                                 );
-            } );
+                // If we get here, no Exception has been thrown (but this should
+                // have happened).
+                Assert.Fail();
+            }
+            catch (WDException)
+            {
+                // It is expected, that this function throws a WDExcption
+            }
         }
 
 
@@ -185,10 +201,11 @@ namespace WirelessDisplay.Tests.Common.RemoteScriptRunner_Test
             test.Setup();
 
             Console.WriteLine("Starting Tests");
+            Console.WriteLine("Some tests cause failures and exceptions. This is expected. Don't worry!");
             await test.RunAndWaitForScript_NormalUsecase_everythingOk();
-            test.RunAndWaitForScript_ScriptNotStopping_ThrowsWDException();
+            await test.RunAndWaitForScript_ScriptNotStopping_ThrowsWDException();
             await test.StartQueryAndStopScript_NormalUsecase_everythingOk();
-            test.Startscript_ScriptExitsEarly_ThrowsWDException();
+            await test.Startscript_ScriptExitsEarly_ThrowsWDException();
 
             Console.WriteLine("All tests passed. Stopping Sripting-REST-API-Server.");
             test.TearDown();

@@ -77,10 +77,9 @@ namespace WirelessDisplay.Tests.Common.LocalScriptRunner_Test
         
             Assert.True( exitCode == TEST_SCRIPT_EXITCODE );
             
-            // The testscript writes the first two arguments and the line read from stin to stdout
+            // The testscript writes the first two arguments
             Assert.AreEqual( stdoutLines[0], TEST_SCRIPT_ARGS[0]);
             Assert.AreEqual( stdoutLines[1], TEST_SCRIPT_ARGS[1]);
-            Assert.AreEqual( stdoutLines[2], TEST_SCRIPT_STDIN.Trim() );
 
             // The testsript writes the third and fourth argument to stderr
             Assert.AreEqual( stderrLines[0], TEST_SCRIPT_ARGS[2]);

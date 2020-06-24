@@ -9,8 +9,8 @@ ARG4=$4
 echo "$ARG1"
 echo "$ARG2"
 
-read fromstdin
-echo $fromstdin
+#read fromstdin
+#echo $fromstdin
 
 # Write two lines to stderr
 echo "$ARG3" 1>&2

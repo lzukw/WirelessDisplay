@@ -1,7 +1,7 @@
 {
     "PlatformIndependent" :
     {
-        "LetShellWindowsPopUpWhenStartScript" : "false"
+        "LetShellWindowsPopUpWhenStartScript" : "true"
     },
 
     "Linux":
