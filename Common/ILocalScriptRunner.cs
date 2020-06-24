@@ -19,6 +19,10 @@ namespace WirelessDisplay.Common
         /// <param name="stdin"> 
         /// A string passed as stdin to the shell. 
         /// </param>
+        /// <param name="timeoutMillis">
+        /// The time, wihtin the script must terminate execution. If not
+        /// an exception is thrown. Defaults to 10 000 Milliseconds.
+        /// </param>
         /// <returns> 
         /// First item of the Tuple: The exit-code of the script.
         /// Second item of Tuple: The lines, the script sent to its stdout.
@@ -51,7 +55,8 @@ namespace WirelessDisplay.Common
         /// The process-ID of the started shell. This can later be used to
         /// stop (kill) the process.
         /// </returns>
-        int StartScript(string scriptName, string scriptArgs, string stdin="", int shortTimeoutMillis=1000);
+        int StartScript(string scriptName, string scriptArgs, string stdin="", 
+                        int shortTimeoutMillis=1000);
 
 
         /// <summary> 

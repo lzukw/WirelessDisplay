@@ -35,7 +35,7 @@
             "request": "launch",
             "preLaunchTask": "build_ScriptingRestApiServer",
             "program": "${workspaceFolder}/ScriptingRestApiServer/bin/Debug/netcoreapp3.1/ScriptingRestApiServer.dll",
-            "args": ["--urls=http://*:6001"],
+            "args": ["--urls=http://*:6000"],
             "cwd": "${workspaceFolder}/ScriptingRestApiServer",
             "console": "internalConsole",
             "stopAtEntry": false

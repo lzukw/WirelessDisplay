@@ -36,6 +36,11 @@ namespace WirelessDisplay.Common
         private readonly string _scriptExtension;
 
         /// <summary>
+        /// Wheter to use a shell-window or use input/output-redirection.
+        /// </summary>
+        private bool _letShellWindowsPopUpWhenStartScript;
+
+        /// <summary>
         /// This dictionary contains all started processes. The key is the process-ID
         /// of the started shell, which is executing the script.
         /// </summary>
@@ -65,11 +70,17 @@ namespace WirelessDisplay.Common
         /// For example "sh". "bat" or "ps1".
         /// So the full path of a script is scriptDirectory/scritName.scriptExtension .
         /// </param>
+        /// <param name="letShellWindowsPopUpWhenStartScript">
+        /// if true, when starting a script (not when running it!) an external
+        /// shell-window pops up, where the user sees the script-output. If false
+        /// redirection of stdin, stdout, stderr is used.
+        /// </param>
         public LocalScriptRunner(ILogger<LocalScriptRunner> logger, 
                             string shell, 
                             string shellArgsTemplate, 
                             DirectoryInfo scriptDirectory,
-                            string scriptExtension)
+                            string scriptExtension,
+                            bool letShellWindowsPopUpWhenStartScript = false)
         {
             _logger = logger;
             _shell = shell;
@@ -81,6 +92,7 @@ namespace WirelessDisplay.Common
                 throw new WDFatalException($"FATAL: The script-directory {_scriptDirectory.FullName} doesn't exist.");
             }
             _scriptExtension = scriptExtension;
+            _letShellWindowsPopUpWhenStartScript = letShellWindowsPopUpWhenStartScript;
         }
 
         #endregion
@@ -93,9 +105,11 @@ namespace WirelessDisplay.Common
         /// <see cref="" >IScriptRunner.RunAndWaitForScript()</see>
 	    Tuple<int,List<string>,List<string>> ILocalScriptRunner.RunAndWaitForScript(
                         string scriptName, string scriptArgs, string stdin, 
-                        int timeoutMillis )
+                       int timeoutMillis )
         {           
-            ProcessStartInfo startInfo = preapareProcessStartInfo(scriptName, scriptArgs);
+            ProcessStartInfo startInfo = preapareProcessStartInfo(
+                                    scriptName, scriptArgs, 
+                                    redirectIO : true );
 
             var stdoutLines = new List<string>();
             var stderrLines = new List<string>();
@@ -108,8 +122,10 @@ namespace WirelessDisplay.Common
                 {
                     shortProcess.Start();
 
-                    // null is allowed (nothing is written)
-                    shortProcess.StandardInput.Write(stdin);
+                    if (shortProcess.StandardInput != null && stdin != null) 
+                    {
+                        shortProcess.StandardInput.Write(stdin);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -152,7 +168,9 @@ namespace WirelessDisplay.Common
         int ILocalScriptRunner.StartScript(string scriptName, string scriptArgs, 
                                         string stdin, int shortTimeoutMillis)        
         {
-            ProcessStartInfo startInfo = preapareProcessStartInfo(scriptName, scriptArgs);
+            ProcessStartInfo startInfo = preapareProcessStartInfo(
+                            scriptName, scriptArgs, 
+                            redirectIO : ! _letShellWindowsPopUpWhenStartScript);
 
             var longProcess = new Process { StartInfo = startInfo };
             
@@ -160,8 +178,11 @@ namespace WirelessDisplay.Common
             {
                 longProcess.Start();
 
-                // null is allowed (nothing is written)
-                longProcess.StandardInput.Write(stdin);
+                if ( ! _letShellWindowsPopUpWhenStartScript && 
+                        longProcess.StandardInput != null && stdin != null) 
+                {
+                    longProcess.StandardInput.Write(stdin);
+                }
             }
             catch (Exception e)
             {
@@ -209,19 +230,23 @@ namespace WirelessDisplay.Common
             {
                 // here, no exception should ever occur (otherwise it is a bug).
                 processToStop.Kill( entireProcessTree : true ); 
+                processToStop.WaitForExit();
             }              
             
             exitCode = processToStop.ExitCode;
 
-            string line;
-            while ( (line = processToStop.StandardOutput.ReadLine()) != null )
+            if (! _letShellWindowsPopUpWhenStartScript)
             {
-                stdoutLines.Add(line);
-            }
+                string line;
+                while ( (line = processToStop.StandardOutput.ReadLine()) != null )
+                {
+                    stdoutLines.Add(line);
+                }
 
-            while ( (line = processToStop.StandardError.ReadLine()) != null )
-            {
-                stderrLines.Add(line);
+                while ( (line = processToStop.StandardError.ReadLine()) != null )
+                {
+                    stderrLines.Add(line);
+                }
             }
 
             _logger?.LogInformation($"Successfully stopped script-process '{processToStop.StartInfo.FileName} {processToStop.StartInfo.Arguments}' with process-ID {processId}");
@@ -255,7 +280,8 @@ namespace WirelessDisplay.Common
         //## Helper methods
         //#####################################################################
         #region
-        private ProcessStartInfo preapareProcessStartInfo(string scriptName, string scriptArgs)
+        private ProcessStartInfo preapareProcessStartInfo(string scriptName, 
+                            string scriptArgs, bool redirectIO = true)
         {
             FileInfo scriptPath = new FileInfo (
                     Path.Join(_scriptDirectory.FullName, $"{scriptName}{_scriptExtension}"));
@@ -275,11 +301,14 @@ namespace WirelessDisplay.Common
             startInfo.FileName = _shell;
             startInfo.Arguments = shellArgs;
             startInfo.WorkingDirectory = scriptPath.Directory.FullName;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
-            startInfo.RedirectStandardInput = true;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
+
+            // if redirectIO is true, no external window is used, and stdin/out/err
+            // are redirected. Otherwise, an external Window pops up.
+            startInfo.UseShellExecute = !redirectIO;
+            startInfo.CreateNoWindow = redirectIO;
+            startInfo.RedirectStandardInput = redirectIO;
+            startInfo.RedirectStandardOutput = redirectIO;
+            startInfo.RedirectStandardError = redirectIO;
 
             return startInfo;
         }

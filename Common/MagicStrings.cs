@@ -20,6 +20,7 @@ namespace WirelessDisplay.Common
         public const string WINDOWS_SECTION = "Windows";
 
         // Keys in config.json for project ScriptingRestApiServer
+        public const string LET_SHELL_WINDOW_POP_UP_WHEN_START_SCRIPT = "LetShellWindowsPopUpWhenStartScript";
         public const string SHELL = "Shell";
         public const string SHELL_ARGS_TEMPLATE = "ShellArgsTemplate";
         public const string SCRIPT_DIRECTORY = "ScriptDirectory";

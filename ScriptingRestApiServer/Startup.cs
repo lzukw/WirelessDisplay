@@ -48,6 +48,13 @@ namespace ScriptingRestApiServer
                 CustomConfigProvider myConfig = 
                         new CustomConfigProvider(loggerForCustomConfig, MagicStrings.CONFIG_FILE);
 
+                bool letShellWindowsPopUpWhenStartScript;
+                bool success = bool.TryParse(myConfig[MagicStrings.LET_SHELL_WINDOW_POP_UP_WHEN_START_SCRIPT], out letShellWindowsPopUpWhenStartScript);
+                if (! success )
+                {
+                    throw new WDFatalException($"Value '{myConfig[MagicStrings.LET_SHELL_WINDOW_POP_UP_WHEN_START_SCRIPT]}' for key '{MagicStrings.LET_SHELL_WINDOW_POP_UP_WHEN_START_SCRIPT}' in configuration-file '{MagicStrings.CONFIG_FILE}' is not 'true' or 'false'.");
+                }
+
                 DirectoryInfo scriptDir = 
                         new DirectoryInfo(myConfig[MagicStrings.SCRIPT_DIRECTORY]);
                 if ( ! scriptDir.Exists)
@@ -60,7 +67,8 @@ namespace ScriptingRestApiServer
                                          myConfig[MagicStrings.SHELL],
                                          myConfig[MagicStrings.SHELL_ARGS_TEMPLATE],
                                          scriptDir,
-                                         myConfig[MagicStrings.SCRIPT_FILE_EXTENSION] );
+                                         myConfig[MagicStrings.SCRIPT_FILE_EXTENSION],
+                                         letShellWindowsPopUpWhenStartScript );
             });
 
         }
