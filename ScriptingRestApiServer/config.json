@@ -1,7 +1,6 @@
 {
     "PlatformIndependent" :
     {
-        "LetShellWindowsPopUpWhenStartScript" : "true"
     },
 
     "Linux":
@@ -9,7 +8,9 @@
         "Shell" :"bash",
         "ShellArgsTemplate" : "{SCRIPT} {SCRIPT_ARGS}",
         "ScriptDirectory" : "../Scripts/Linux",
-        "ScriptFileExtension" : ".sh"
+        "ScriptFileExtension" : ".sh",
+
+        "LetShellWindowsPopUpWhenStartScript" : "false"
     },
 
     "macOs":
@@ -17,7 +18,9 @@
         "Shell" :"bash",
         "ShellArgsTemplate" : "/c \"{SCRIPT} {SCRIPT_ARGS}\"",
         "ScriptDirectory": "../Scripts/macOs",
-        "ScriptFileExtension" : ".sh"
+        "ScriptFileExtension" : ".sh",
+
+        "LetShellWindowsPopUpWhenStartScript" : "false"
     },
 
     "Windows":
@@ -25,7 +28,9 @@
         "Shell" :"cmd.exe",
         "ShellArgsTemplate" : "/c \"{SCRIPT} {SCRIPT_ARGS}\"",
         "ScriptDirectory": "..\\Scripts\\Windows",
-        "ScriptFileExtension" : ".bat"
+        "ScriptFileExtension" : ".bat",
+
+        "LetShellWindowsPopUpWhenStartScript" : "true"
     }
 
 
