@@ -35,6 +35,8 @@ namespace WirelessDisplay.Common
                     if ( ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork ) //ipv4
                     {
                         ipv4Address = ip.ToString();
+                        // Return the first found IPv4-Address - This is most probalby the right one.
+                        break; 
                     }
                 }
                 return ipv4Address;

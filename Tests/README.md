@@ -25,7 +25,7 @@ output of this script, to see, if all tests have passed.
 
 ## Technical Details
 
-In teh remainder of this document is shown, how to create a unit-test, and run 
+In the remainder of this document is shown, how to create a unit-test, and run 
 it with `dotnet test` as well as with Visual-Studio-Code-Debug.
 
 As example the [Common]-classlib-project and its class `CustomConfigProvider` 

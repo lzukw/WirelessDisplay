@@ -30,6 +30,18 @@
         },
 
         {
+            "name": "HostAddressProvider_Test",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build_HostAddressProvider_Test",
+            "program": "${workspaceFolder}/Tests/Common.HostAddressProvider_Test/bin/Debug/netcoreapp3.1/Common.HostAddressProvider_Test.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Tests/Common.HostAddressProvider_Test/bin/Debug/netcoreapp3.1",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+
+        {
             "name": "ScriptingRestApiServer",
             "type": "coreclr",
             "request": "launch",

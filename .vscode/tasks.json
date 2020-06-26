@@ -13,6 +13,7 @@
             ],
             "problemMatcher": "$msCompile"
         },
+
         {
             "label": "build_LocalScriptRunner_Test",
             "command": "dotnet",
@@ -25,6 +26,7 @@
             ],
             "problemMatcher": "$msCompile"
         },
+
         {
             "label": "build_CustomConfigProvider_Test",
             "command": "dotnet",
@@ -37,6 +39,20 @@
             ],
             "problemMatcher": "$msCompile"
         },
+
+        {
+            "label": "build_HostAddressProvider_Test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Tests/Common.HostAddressProvider_Test/Common.HostAddressProvider_Test.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
         {
             "label": "build_ScriptingRestApiServer",
             "command": "dotnet",
