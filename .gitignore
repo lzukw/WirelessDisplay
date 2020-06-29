@@ -13,6 +13,11 @@ ThirdParty/Windows/TigerVNC/*
 ThirdParty/Windows/VNCopen/*
 !ThirdParty/Windows/VNCopen/README.md
 
+ThirdParty/macOS/screenresolution/*
+!ThirdParty/macOS/screenresolution/README.md
+ThirdParty/macOS/ffmpeg/*
+!ThirdParty/macOS/ffmpeg/README.md
+
 
 # Ignore build-folders except the README.md
 
