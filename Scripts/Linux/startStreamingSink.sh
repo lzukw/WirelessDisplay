@@ -34,6 +34,10 @@ elif [ ${STREAMING_TYPE} == "FFmpeg" ]
 then
   ffplay -fs -an -sn -fflags nobuffer -i udp://0.0.0.0:${PORT}
 
+elif [ ${STREAMING_TYPE} == "OBS" ]
+then
+  ffplay -fs -sn -fflags nobuffer -i udp://0.0.0.0:${PORT}
+
 else
   
   # Wrong STREAMING_TYPE

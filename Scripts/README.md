@@ -177,5 +177,51 @@ There is no need to recompile the C#-programs! The only knowledge you need is
 how to write shell-scripts or batch-files, and how to use RealVNC from the 
 command-line.
 
+## Open Broadcaster Software (OBS-Studio) as streaming-source
+
+On Linux and macOS OBS-Studio can be used as streaming-type. But this only
+works, if OBS-Studio has been installed and "prepared" correctly:
+
+### Create a new OBS-profile
+
+Start OBS, and create a new profile named "WirelessDisplayClientSide".
+ 
+Go to Settings >> Output. Set Output-Mode to "Advanced". Then switch to 
+"Recording"-Tab (Yes, for streaming via udp one uses "Recording").
+  
+- Type: Custom output (FFmpeg)
+- File path or URL: udp://192.168.1.20:5500   ...this ip-Address will be
+  changed by the startStreamingSource.sh-script
+- Container-Format: mpegts
+- Video-Bitrate: 2500 kBit/s ...or maybe lower 
+- Keyframe-interval: 60   ...each 60 frames a keyframe is sent (every 2s)
+- Video-Encoder: mpeg2video (Default-Encoder)
+- Audio-Bitrate: 160kBps
+- Audio-Encoder: mp2 (Default-Encoder)
+
+Go to Settings >> Video. 
+
+- Observe the values for the Base (Canvas)-Resolution and the 
+  Output (Scaled) Resolution. These values will be changed by by the 
+  startStreamingSource.sh-script.
+- Set "Common FPS-Values" (framerate) to 30.
+
+### Create a new scene-collection 
+
+Name the new scene-collection also "WirelessDisplayClientSide".
+Set up scenes for the presentation-computer (normally just one scene named 
+"main" with one screen-capture-source is sufficient. Adjust audio inputs as 
+needed.
+
+Closing OBS and reopening it should save all changes to the file
+[${HOME}/.config/obs-studio/basic/profiles/WirelessDisplayClientSide/basic.ini].
+
+Inspect this file. It should contain all the above settings (From OBS you can 
+use File >> Show Profile Folder).
+
+When the startStreamingSource.sh-script is started (when clicking the 
+start-streaming-Button in WirelessDisplayClient), the [basic.ini]-File is
+modified by the script. You can observe either this file or the settings
+again. They should have been changed to the proper values.
 
 

@@ -11,7 +11,6 @@ download the file [ffmpeg-4.2.2-win64-static.zip] or a later version, if you
 want. 
 
 Extract the contents of the zip-File here. The correct paths to the
-executables are
-
-[/path/to/WirelessDisplay/ThirdParty/Windows/ffmpeg/bin/ffmpeg.exe]
+executables are 
+[/path/to/WirelessDisplay/ThirdParty/Windows/ffmpeg/bin/ffmpeg.exe] and 
 [/path/to/WirelessDisplay/ThirdParty/Windows/ffmpeg/bin/ffplay.exe]

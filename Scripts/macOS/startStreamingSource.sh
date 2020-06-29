@@ -41,6 +41,58 @@ then
 
   ../../ThirdParty/macOS/ffmpeg/bin/ffmpeg -f avfoundation -i "Capture screen 0"  -vf scale=${STREAM_SCREEN_RESOLUTION} -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts "udp://${SINK_IP}:${PORT}"
 
+elif [ ${STREAMING_TYPE} == "OBS" ]
+then
+
+  # Preparations for using OBS as streaming-source:
+  # Start OBS, and create a new profile named "WirelessDisplayClientSide"
+  # 
+  # Go to Settings >> Output. Set Output-Mode to "Advanced". Then switch to 
+  # "Recording"-Tab (Yes, for streaming via udp one uses "Recording").
+  # - Type: Custom output (FFmpeg)
+  # - File path or URL: udp://192.168.1.20:5500   ...this ip-Address will be
+  #                                                  changed by this sript
+  # - Container-Format: mpegts
+  # - Video-Bitrate: 2500 kBit/s ...or maybe lower 
+  # - Keyframe-interval: 60   ...each 60 frames a keyframe is sent (every 2s)
+  # - Video-Encoder: mpeg2video (Default-Encoder)
+  # - Audio-Bitrate: 160kBps
+  # - Audio-Encoder: mp2 (Default-Encoder)
+  #
+  # Go to Settings >> Video. 
+  # - Observe the values for the Base (Canvas)-Resolution and the 
+  #   Output (Scaled) Resolution. These values will be changed by this script.
+  # - Set "Common FPS-Values" (framerate) to 30.
+  # 
+  # Create a new scene-collection also named "WirelessDisplayClientSide".
+  # Set up scenes for the presentation (normally just one scene named "main"
+  # with one screen-capture-source is sufficient. Adjust audio inputs as needed.
+  # 
+  # At least, inspect the following file. It should contain all the above
+  # settings (You can use File >> Show Profile Folder)
+  PROFILE_INI_FILE="${HOME}/.config/obs-studio/basic/profiles/WirelessDisplayClientSide/basic.ini"
+
+  # Let's modify the file (Values for keys BaseCX=..., BaseCY=..., OutputCX=..., 
+  # OutputCY=..., amd FFURL=... are replaced)
+  BASE_CX=$(echo $SOURCE_SCREEN_RESOLUTION | cut -d x -f 1)
+  BASE_CY=$(echo $SOURCE_SCREEN_RESOLUTION | cut -d x -f 2)
+  OUTPUT_CX=$(echo $STREAM_SCREEN_RESOLUTION | cut -d x -f 1)
+  OUTPUT_CY=$(echo $STREAM_SCREEN_RESOLUTION | cut -d x -f 2)
+  FFURL="${SINK_IP}:${PORT}"
+  
+  sed -i 's/^BaseCX=.*/BaseCX='$BASE_CX'/' $PROFILE_INI_FILE
+  sed -i 's/^BaseCY=.*/BaseCY='$BASE_CY'/' $PROFILE_INI_FILE
+  sed -i 's/^OutputCX=.*/OutputCX='$OUTPUT_CX'/' $PROFILE_INI_FILE
+  sed -i 's/^OutputCY=.*/OutputCY='$OUTPUT_CY'/' $PROFILE_INI_FILE
+  sed -i 's/^FFURL=.*/FFURL=udp:\/\/'$FFURL'/' $PROFILE_INI_FILE
+
+  # After a first run you should review the file again, and check, if the
+  # values for the above keys have been replaced correctly
+
+  # start OBS using the correct profile and scene-collection and start
+  # recording (=UDP-streaming) immediately
+  obs --profile WirelessDisplayClientSide --collection WirelessDisplayClientSide --startrecording
+
 else
   echo "Script-ERROR: Unknown Streaming Type ${STREAMING_TYPE}"
   exit 1

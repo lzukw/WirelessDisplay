@@ -20,7 +20,7 @@ Install the SDK by double-clicking the downloaded file.
 ## screenresolution
 
 A modified version of the tool 
-(screenresolution)[https://github.com/jhford/screenresolution]
+[screenresolution)(https://github.com/jhford/screenresolution)
 is needed for managing screen-resolutions. It could be installed, but
 it can also be used as a "portable" tool.
 

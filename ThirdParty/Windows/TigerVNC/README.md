@@ -1,4 +1,4 @@
-# VNC open
+# TigerVNC
 
 NOTE: For now, tigervnc is not used (only VNCopen) is used. So this
 directory can reamin empty.
@@ -6,8 +6,8 @@ directory can reamin empty.
 If you wish to try tigerVNC, read on.
 
 NOTE: Only vncviewer.exe from TigerVNC has worked for now. The server hasn't 
-worked until now. Maybe real installaion of TigerVNC is required on Windows to
-use TigerVNC on a presentation computer as streaming-source (with 
+worked until now. Maybe a real installation of TigerVNC is required on Windows 
+to use TigerVNC on a presentation computer as streaming-source (with 
 winvnc4.exe from TigerVNC)
 
 The four compiled files must be here:

@@ -16,7 +16,7 @@
 
     "Linux":
     {
-        "StreamingTypes" : "VNC, VNC-Reverse, FFmpeg",
+        "StreamingTypes" : "VNC, VNC-Reverse, FFmpeg, OBS",
 
         "PreferredLocalScreenWidth" : "10000",
         "PreferredRemoteScreenWidth" : "1024",
@@ -30,7 +30,7 @@
 
     "macOS":
     {
-        "StreamingTypes" : "FFmpeg",
+        "StreamingTypes" : "FFmpeg, OBS",
 
         "PreferredLocalScreenWidth" : "10000",
         "PreferredRemoteScreenWidth" : "1024",
