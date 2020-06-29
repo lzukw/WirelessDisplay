@@ -3,7 +3,6 @@
     {
         "PreferredServerPort" : "80",
         "PreferredStreamingPort" : "5500",
-        "StreamingTypes" : "VNC, VNC-Reverse, FFmpeg",
 
         "ScriptNameManageScreenResolutions" : "manageScreenResolutions",
         "ScriptArgsManageScreenResolutions" : "{ACTION} {SCREEN_RESOLUTION}",
@@ -17,6 +16,8 @@
 
     "Linux":
     {
+        "StreamingTypes" : "VNC, VNC-Reverse, FFmpeg",
+
         "PreferredLocalScreenWidth" : "10000",
         "PreferredRemoteScreenWidth" : "1024",
         "Shell" :"bash",
@@ -27,9 +28,11 @@
         "LetShellWindowsPopUpWhenStartScript" : "false"
     },
 
-    "macOs":
+    "macOS":
     {
-        "PreferredLocalScreenWidth" : "1024",
+        "StreamingTypes" : "FFmpeg",
+
+        "PreferredLocalScreenWidth" : "10000",
         "PreferredRemoteScreenWidth" : "1024",
         "Shell" :"bash",
         "ShellArgsTemplate" : "{SCRIPT} {SCRIPT_ARGS}",
@@ -41,6 +44,8 @@
 
     "Windows":
     {
+        "StreamingTypes" : "VNC, VNC-Reverse, FFmpeg",
+
         "PreferredLocalScreenWidth" : "1024",
         "PreferredRemoteScreenWidth" : "1024",
         "Shell" :"cmd.exe",

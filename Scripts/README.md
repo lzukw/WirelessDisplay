@@ -8,7 +8,7 @@ This mechanism enures, that the user can modify the scripts and change the
 way, the third-party-programs are executed, without changing or 
 recompiling the C#-programs.
 
-On Linux `bash` is used to execute the scripts, on macOS `bash`, and on 
+On Linux and macOS `bash` is used to execute the scripts, and on 
 Windows `cmd.exe`. The scripts themselves are bash-scripts with the 
 file-extension ".sh" on Linux and on macOS, and batch-Files with
 the file-extension ".bat" on Windows.
@@ -23,8 +23,8 @@ The following scripts are necessary for each operating-system:
 
 - A script to manage the screen-resolution.
 - A script to prevent the display from blanking.
-- A script to start the streaming-sink (VNC-viewer in reverse connection
-  or FFplay, but more streaming-methods could easily be added.).
+- A script to start the streaming-sink. (VNC-viewer, VNC-viewer in reverse 
+  connection or FFplay, but more streaming-methods could easily be added.)
 - A script to start the streaming-source.
 
 The script to manage the screen-resolutions is expected to execute and 
@@ -69,8 +69,7 @@ The first command-line-argument ("ACTION") is either
   screen-resolution).
 
 The second command-line-argument ("SCREEN_RESOLUTION") is a screen-resolution, 
-and is only used, if the first argument was "SET". This string must have the 
-same form as the strings returned by "GET" and "ALL". Normally they have a form 
+and is only used, if the first argument was "SET". Normally they have a form 
 like "1024x768".
 
 ### Command-line-arguments passed to the preventDisplayBlanking-script
@@ -88,40 +87,53 @@ if one of the WirelessDisplay-programs crash.
 This script receives four command-line-arguments.
 
 The first argument ("STREAMING_TYPE") is a string indicating the method,
-that is used for streaming (for now: "VNC-Reverse" or "FFMpeg", but new 
+that is used for streaming (for now: "VNC, VNC-Reverse" or "FFMpeg", but new 
 streaming-types could be added by modifying only the scripts and the 
-[config.json]-files).
+[config.json]-files. Using Open-broadcaster-Studio as streaming-source is
+planned at least on Linux-presentation-computers).
 
-The second argument ("IP") is the IP-Address of remote computer receiving the 
-stream.
+The second argument ("SINK_IP") is the IP-Address of remote computer receiving
+the stream.
 
 The third argument ("PORT") is the port-number, that the streaming-sink on
 the remote computer listens on.
 
-The fourth argument ("SCREEN_RESOLUTION") is a string like "1024x768". ffmpeg
-and x11vnc first grab the desktop-content, and then scale it to this 
+The fourth argument ("SOURCE_SCREEN_RESOLUTION") is used by some 
+streaming-sources to grab the desktop. This is a string like "1980x1024" 
+indicating the screen-resolution of the presentation-computer 
+(streaming-source).
+
+The fifth argument ("STREAM_SCREEN_RESOLUTION") is a string like "1024x768".
+ffmpeg and x11vnc first grab the desktop-content, and then scale it to this 
 screen-resolution before streaming. On Windows, if VNC is used, this argument
-is ignored, because winvnc4.exe does not support scaling of the sent sream
-(as far as I know).
+is ignored, because winvnc4.exe does not support scaling of the sent stream.
 
 ### Command-line-arguments passed to the startStreamingSink-script
 
 The first command-line-argument ("STREAMING_TYPE") is the same as for the
 startStreamingSource-script.
 
-The second argument is the port-number used for streaming. The streaming-sink
-will listen on this port. The only requirement is, that this port is not 
-used already by another program. Also port-numbers for custom services must 
-be in the range 1024...65535. Use 5500, if not sure. This is the port-number
-normally used by VNC for reverse-connections, and normally is free. You can
-use this port-number also for FFmpeg-streaming. 
+The second command-line-argument ("SOURCE_IP") is the IP-address of the 
+remote streaming-source-computer. This parameter is used for normal 
+VNC-connections.
+
+The third argument is the port-number used for streaming. The streaming-sink
+will listen on this port (For "normal" VNC the VNC-Server, i.e. the 
+streaming-source will listen on this port, not the streaming-sink). The only 
+requirement is, that this port is not used already by another program. Also 
+port-numbers for custom services must be in the range 1024...65535. Use 5500, 
+if not sure. This is the port-number normally used by VNC for 
+reverse-connections, and normally is free. You can use this port-number also 
+for FFmpeg-streaming and VNC in reverse-mode.
+
 
 ## Trouble-shooting / Testing the scripts 
 
-Everything, that the C#-Programs do, is to start and stop the scripts here.
+Everything, that the C#-programs do, is to start and stop the scripts here.
 So the whole functionality of the WirelessDisplay can be tested, by "manually"
 running the scripts from terminals (bash-terminal, cmd.exe).  If something does 
-not work as ecpected, try to do this!
+not work as ecpected, try debugginh the scripts by running their lines in a
+terminal!
 
 For example: On a Windows-projecting-computer run the following scripts (The 
 `START /B` on Windows runs a program/script in background, this is the same
@@ -130,7 +142,7 @@ as appending `&` in bash):
 ```
 .\manageScreenResolutions.bat SET 1024x768
 STRART /B .\preventDisplayBlanking.bat 3600
-.\startStreamingSink.bat VNC 5500
+.\startStreamingSink.bat VNC-Reverse 5500 dummyarg dummyaeg dummyaeg
 ```
 
 Assuming, that the IP-Address of the Windows-projecting-computer is 
@@ -139,7 +151,7 @@ scripts (change the screen-resolution in the first line to your needs):
 
 ```
 bash ./manageScreenResolutions.sh SET 1920x1080
-bash ./startStreamingSource.sh VNC 192.168.1.119 5500 1024x768
+bash ./startStreamingSource.sh VNC-Reverse 192.168.1.119 5500 dummyarg  1024x768
 ```
 
 ## Add more streaming methods
@@ -154,9 +166,10 @@ done:
 
 - Extend the startStreamingSink- and the startStreamingSource-scripts to 
   support a streaming-method "RealVNC", besides the already supported
-  methods "VNC-Reverse" and "FFmpeg".
+  methods "VNC", "VNC-Reverse" and "FFmpeg".
 
-- In [WirelessDisplayClient/config.json] change the line
+- In [WirelessDisplayClient/config.json] change the line for the used 
+  operating-system from
   `"StreamingTypes" : "VNC, FFmpeg",` to 
   `"StreamingTypes" : "VNC, FFmpeg, RealVNC",`.
 

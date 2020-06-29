@@ -209,7 +209,7 @@ namespace WirelessDisplay.Common
             }
             catch (HttpRequestException e)
             {
-                string msg = $"SPOST-Request with data '{postString}' to '{uriString}' failed. Errormessage: '{e.Message}'";
+                string msg = $"POST-Request with data '{postString}' to '{uriString}' failed. Errormessage: '{e.Message}'";
                 _logger?.LogWarning(msg);
                 throw new WDException(msg);
             }

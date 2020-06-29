@@ -13,7 +13,7 @@
         "LetShellWindowsPopUpWhenStartScript" : "false"
     },
 
-    "macOs":
+    "macOS":
     {
         "Shell" :"bash",
         "ShellArgsTemplate" : "/c \"{SCRIPT} {SCRIPT_ARGS}\"",

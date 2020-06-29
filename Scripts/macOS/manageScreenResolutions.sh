@@ -8,13 +8,16 @@
 ACTION=$1
 SCREEN_RESOLUTION=$2
 
+
+SCREENRES="../../ThirdParty/macOS/screenresolution/screenresolution"
+
 if [ $ACTION == "GET" ]
 then
     # GET the current screen-resolution using xrandr
     # In the outpout of xrandr, an asterisk * denotes the current
     # screen-resolution, the returned line must be processed further,
     # with a regular expression to return something like "1980x1040"
-    CURRENT_RES=$(xrandr | grep '*' | grep -oP '\K(\d*x\d*)')
+    CURRENT_RES=$($SCREENRES get | egrep -o '(\d+x\d+)')
     
     # Couldn't find a valid resolution? If yes, exit with error-code
     if [ -z "$CURRENT_RES" ]
@@ -27,52 +30,47 @@ then
 
 elif [ $ACTION == "SET" ]
 then
-    # SET the screen-resolution of the primary display using xrandr.
-    PRIMARY_DISP=$(xrandr | grep primary | cut -d " " -f 1)
-    xrandr --output ${PRIMARY_DISP} --mode "${SCREEN_RESOLUTION}"
-    # return with the same exit-code as the last xrandr-command
-    exit $?
+    # SET the screen-resolution.
+    
+    # loop over the output of 'screenresolution list' line by line. The 
+    # first screen-resolutions whose width and height mathes the given
+    # value is set.
 
+    while read -r LINE
+    do
+        RESOLUTION=$(echo $LINE | egrep -o '(\d+x\d+)')
+        if [ -n RESOLUTION ]
+        then
+            if [ $RESOLUTION == $SCREEN_RESOLUTION ]
+            then
+                #echo "Executing '$SCREENRES set $LINE'"
+                $SCREENRES set $LINE
+                exit 0
+            fi
+        fi
+    done <<< "$($SCREENRES list)"
+    
+    # Resolution to set has not been found in available resolutions   
+    exit 2
+    
 elif [ $ACTION == "ALL" ]
 then
     # echo ALL available screen-resolutions ofd the primary display to stdout.
     
-    # loop over the output of xrandr line by line. The screen-resolutions 
-    # found beneath the primary-screen until the next display are echoed to 
-    # stdout.
+    # loop over the output of 'screenresolution list' line by line. The 
+    # screen-resolutions are echoed in a modified way to stdout.
 
-    PRIMARY_FOUND=0
-    NEXT_FOUND=0
     RESOLUTION_COUNT=0
 
-    # this loop iterates over the xrandr-output line by line
     while read -r LINE
     do
-      if [ $PRIMARY_FOUND -eq 1 ] && [ $NEXT_FOUND -eq 0 ]
+      RESOLUTION=$(echo $LINE | egrep -o '(\d+x\d+)')
+      if [ -n RESOLUTION ]
       then
-	# find and print the screen-resoltion, that $LINE contains
-        RESOLUTION=$(echo "${LINE}" | grep -oP '\K(\d+x\d+)')
-        if [ -n "$RESOLUTION" ]
-        then
-          echo "$RESOLUTION"
-	  let "RESOLUTION_COUNT++"
-        else
-	  # $LINE doesn't contain a resolution, so it is the xrandr-output-line
-	  # for the next display
-          NEXT_FOUND=1
-        fi
-
-      elif [ $PRIMARY_FOUND -eq 0 ]
-      then
-	# The line for the primary screen hasn't been found yet. Is this
-	# line the one containting the word 'primary'?
-        RESULT=$(echo "$LINE" | grep "primary" | wc -l )
-        if [ $RESULT -eq 1 ]
-        then
-          PRIMARY_FOUND=1
-        fi
+          echo ${RESOLUTION}
+          RESOLUTION_COUNT=$(expr ${RESOLUTION_COUNT} + 1)
       fi
-    done <<< "$(xrandr)"
+    done <<< "$($SCREENRES list)"
    
     # finally check, if there has been some output
     if [ $RESOLUTION_COUNT -eq 0 ]

@@ -17,6 +17,7 @@ namespace WirelessDisplayClient
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
+                // On virtualbox (or other environment without OpenGL-support) uncomment the following line:
                 //.With(new AvaloniaNativePlatformOptions { UseGpu = false })
                 .UsePlatformDetect()
                 .LogToDebug()

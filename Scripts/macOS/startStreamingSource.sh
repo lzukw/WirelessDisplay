@@ -3,13 +3,10 @@
 # Starts the streaming-source, which sends the stream to 
 # the remote streaming-sink
 
-# Prerequisites: x11vnc must be installed.
-
 # The command-line-arguments passed to this script
-# STREAMING_TYPE ...is either "VNC-Reverse" or "FFmpeg"
+# STREAMING_TYPE ...on macOS only "FFmpeg" is supported for now
 # SINK_IP ...is the IP-address of the computer with the streaming-sink.
-# PORT ...is the Port-Number the streaming sink (VNC-Client in 
-#         reverse-connections / FFplay) will listen on.
+# PORT ...is the Port-Number the streaming sink (FFplay) will listen on.
 # SOURCE_SCREEN_RESOLUTION ...is the screen-resolution of the local computer
 #                            (the streaming-source-computer)
 # STREAM_SCREEN_RESOLUTION ...is the sreen-resolution used for the stream.
@@ -24,28 +21,25 @@ echo "startStreamingSource.sh called with arguments STREAMING_TYPE=${STREAMING_T
 
 if [ ${STREAMING_TYPE} == "VNC" ]
 then
-
-  # debian: sudo apt-get install x11vnc
-  # fedora: sudo apt-get install x11vnc
-  x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -nocursorshape -rfbport ${PORT}
-
-  # Alternatively use tigervnc's x0vncserver
-  # debian: sudo apt-get install tigervnc-scraping-server
-  # fedora: sudo dnf install tigervnc-server
-  #x0vncserver -SecurityTypes=None -AcceptKeyEvents=0 -AcceptPointerEvents=0 -AcceptCutText=0 -rfbport=${PORT}
+  echo "Streaming type '${STREAMING_TYPE}' is not supported on macOS."
+  exit 1
 
 elif [ ${STREAMING_TYPE} == "VNC-Reverse" ]
 then
 
-  #x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -cursor arrow -scale_cursor 1 -connect ${SINK_IP}:${PORT}
-  x11vnc -viewonly -scale ${STREAM_SCREEN_RESOLUTION} -nopw -noxdamage -nocursorshape -connect ${SINK_IP}:${PORT}
-
-  # With x0vncserver no reverse-connection is possible  
+  echo "Streaming type '${STREAMING_TYPE}' is not supported on macOS."
+  exit 1
 
 elif [ ${STREAMING_TYPE} == "FFmpeg" ]
 then
- 
-  ../../ThirdParty/macOS/ffmpeg/bin/ffmpeg -f avfoundation -i "0"  -vf scale=${STREAM_SCREEN_RESOLUTION} -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts "udp://${SINK_IP}:${PORT}"
+
+  # Screengrabbing on macOS is done with the AVFoundation input device.
+  # see https://ffmpeg.org/ffmpeg-devices.html#avfoundation
+  # Maybe "Capture screen 0" has to be changed. You can list all
+  # AVFoundation supported devices by running:
+  # ffmpeg -f avfoundation -list_devices true -i ""
+
+  ../../ThirdParty/macOS/ffmpeg/bin/ffmpeg -f avfoundation -i "Capture screen 0"  -vf scale=${STREAM_SCREEN_RESOLUTION} -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts "udp://${SINK_IP}:${PORT}"
 
 else
   echo "Script-ERROR: Unknown Streaming Type ${STREAMING_TYPE}"
