@@ -70,7 +70,7 @@ then
   # 
   # At least, inspect the following file. It should contain all the above
   # settings (You can use File >> Show Profile Folder)
-  PROFILE_INI_FILE="${HOME}/.config/obs-studio/basic/profiles/WirelessDisplayClientSide/basic.ini"
+  PROFILE_INI_FILE="${HOME}/Library/Application Support/obs-studio/basic/profiles/WirelessDisplayClientSide/basic.ini"
 
   # Let's modify the file (Values for keys BaseCX=..., BaseCY=..., OutputCX=..., 
   # OutputCY=..., amd FFURL=... are replaced)
@@ -80,18 +80,18 @@ then
   OUTPUT_CY=$(echo $STREAM_SCREEN_RESOLUTION | cut -d x -f 2)
   FFURL="${SINK_IP}:${PORT}"
   
-  sed -i 's/^BaseCX=.*/BaseCX='$BASE_CX'/' $PROFILE_INI_FILE
-  sed -i 's/^BaseCY=.*/BaseCY='$BASE_CY'/' $PROFILE_INI_FILE
-  sed -i 's/^OutputCX=.*/OutputCX='$OUTPUT_CX'/' $PROFILE_INI_FILE
-  sed -i 's/^OutputCY=.*/OutputCY='$OUTPUT_CY'/' $PROFILE_INI_FILE
-  sed -i 's/^FFURL=.*/FFURL=udp:\/\/'$FFURL'/' $PROFILE_INI_FILE
+  sed -e 's/^BaseCX=.*/BaseCX='$BASE_CX'/' -i "bak" "$PROFILE_INI_FILE"
+  sed -e 's/^BaseCY=.*/BaseCY='$BASE_CY'/' -i "bak" "$PROFILE_INI_FILE"
+  sed -e 's/^OutputCX=.*/OutputCX='$OUTPUT_CX'/' -i "bak" "$PROFILE_INI_FILE"
+  sed -e 's/^OutputCY=.*/OutputCY='$OUTPUT_CY'/' -i "bak" "$PROFILE_INI_FILE"
+  sed -e 's/^FFURL=.*/FFURL=udp:\/\/'$FFURL'/' -i "bak" "$PROFILE_INI_FILE"
 
   # After a first run you should review the file again, and check, if the
   # values for the above keys have been replaced correctly
 
   # start OBS using the correct profile and scene-collection and start
   # recording (=UDP-streaming) immediately
-  obs --profile WirelessDisplayClientSide --collection WirelessDisplayClientSide --startrecording
+  /Applications/OBS.app/Contents/MacOS/obs --profile WirelessDisplayClientSide --collection WirelessDisplayClientSide --startrecording
 
 else
   echo "Script-ERROR: Unknown Streaming Type ${STREAMING_TYPE}"

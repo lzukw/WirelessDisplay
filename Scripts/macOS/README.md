@@ -8,7 +8,7 @@ As streaming-method VNC and VNC-Reverse are not supported. At the moment, there
 doesn't seem to exist an opensource-VNC-server and -client for macOS. TightVNC
 and RealVNC could probably be used, but they are not free.
 
-The VCN-Server, that comes with macOS ("Screen sharing") can also not be used,
+The VNC-Server, that comes with macOS ("Screen sharing") can also not be used,
 because:
 
 - There is no way to use it without a password.
@@ -19,3 +19,6 @@ The scripts use the following external tools:
 
 - [../../ThirdParty/screenresolution/screenresolution] ...to manage screen-resolutions
 - [../../ThirdParty/ffmpeg/bin/ffmpeg] ...as streaming-source
+
+See [WirelessDisplay/Thirdparty/macOS/README.md]() for further installation instructions.
+

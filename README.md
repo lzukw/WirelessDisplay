@@ -9,13 +9,13 @@ content using the projector.
 
 ![Overview over computers and projector](doc_images/overview.svg)
 
-On the presentation-computer the GUI-program 'WirelessDisplayServer' is 
+On the projecting-computer the GUI-program 'WirelessDisplayServer' is 
 started. Its main-purpose is to show the IP-address of the presentation-
 computer, and to start a webservice in backgorund.
 
 ![GUI of WirelessDisplayServer](doc_images/WirelessDisplayServerGUI.png)
 
-On the projecting-computer another GUI-program, called 'WirelessDisplayClient'
+On the presentation-computer another GUI-program, called 'WirelessDisplayClient'
 is started. This GUI-program is used to connect to the presentation-computer,
 and start/stop the stream. The GUI also allows to control the 
 screen-resoltutions of both computers.
@@ -23,8 +23,8 @@ screen-resoltutions of both computers.
 ![GUI of WirelessDisplayClient](doc_images/WirelessDisplayClientGUI.png)
 
 Linux, macOS and Windows are the supported operating-systems for both 
-computers (for now, Linux and Windows work. For macOS the scripts have
-still to be written). As GUI-framework the platform-independent 
+computers (for now, macOS onyl is supported as presentation-computer; the 
+scripts have still to be written). As GUI-framework the platform-independent 
 [Avalonia-Framework](http://avaloniaui.net) is used.
 
 ## The projects in this repository
@@ -71,10 +71,11 @@ happen:
 
 To ensure platform-independency, the "real work" is done by scripts. On a 
 Linux-Computer the scripts in the folder [Scripts/Linux] are executed with
-`bash`, on Windows the batch-files in [Scritps/Windows] are executed with
-`cmd.exe`. The file-name of the scripts, and the command-line arguments they 
-receive, are the same for each operating-system. Only the file-extension and
-the used shell are different for each operating-system.
+`bash`, on macOS the bash-scripts are in [Scripts/macOS] and on Windows 
+batch-files in [Scritps/Windows] are executed with `cmd.exe`. The file-name of 
+the scripts, and the command-line arguments they receive, are the same for each 
+operating-system. Only the file-extension and the used shell are different for 
+each operating-system.
 
 Feel free to modify the scripts to your needs.
 
@@ -193,10 +194,18 @@ installed using the package-manager.
   * [WirelessDisplayClient_executable]
   * [Scripts], where only [Scripts/Linux] is relevant.
 
+NOTE: If Open-Broadcaster-Software (OBS) is used as streaming-type (which for
+now only works on Linux- and macOS-presentation-computers), then OBS must be 
+installed and prepared. See [Scripts/README.md]() for more information. If 
+OBS shall not be used as streaming-type, you can remove OBS from the list of 
+valid streaming-types in [WirelessDisplayClient/config.json]() before copying
+the file to the [WirelessDisplayClient_executable]()-folder. OBS as 
+streaming-type works with a Windows-proejcting-computer, since the 
+streaming-sink for a OBS-streaming-source is ffplay.
 
 The program can be started by the following commands. It is important to start 
-the program from its directory, since it searches a 'config.json' in the current
-working directory:
+the program from within its directory, since it searches a 'config.json' in the 
+current working directory:
 
 ```
 cd pathToWirelessDisplay/WirelessDisplayClient_executable

@@ -182,16 +182,24 @@ command-line.
 On Linux and macOS OBS-Studio can be used as streaming-type. But this only
 works, if OBS-Studio has been installed and "prepared" correctly:
 
+Download and install OBS from here: [https://obsproject.com](). Run the program.
+You can complete the Auto-Configuration-wizard, if you like. But this is not 
+necessary. On macOS the Auto-Configuration-wizard is not started automatically,
+but you can start it from the Tools-menu.
+
 ### Create a new OBS-profile
 
-Start OBS, and create a new profile named "WirelessDisplayClientSide".
+Start OBS, and create a new profile named "WirelessDisplayClientSide" (form the
+Profile-menu).
  
 Go to Settings >> Output. Set Output-Mode to "Advanced". Then switch to 
 "Recording"-Tab (Yes, for streaming via udp one uses "Recording").
   
 - Type: Custom output (FFmpeg)
+- FFmpeg Output Type: Output to URL
 - File path or URL: udp://192.168.1.20:5500   ...this ip-Address will be
-  changed by the startStreamingSource.sh-script
+  changed by the startStreamingSource.sh-script, so don't worry about the
+  correct IP-Address.
 - Container-Format: mpegts
 - Video-Bitrate: 2500 kBit/s ...or maybe lower 
 - Keyframe-interval: 60   ...each 60 frames a keyframe is sent (every 2s)
@@ -208,13 +216,19 @@ Go to Settings >> Video.
 
 ### Create a new scene-collection 
 
+Choose form the menu Scene-Collections >> New. 
 Name the new scene-collection also "WirelessDisplayClientSide".
-Set up scenes for the presentation-computer (normally just one scene named 
-"main" with one screen-capture-source is sufficient. Adjust audio inputs as 
-needed.
+Set up scenes for the presentation-computer (normally just one scene with one 
+screen-capture-source is sufficient. Adjust audio inputs as needed.
 
-Closing OBS and reopening it should save all changes to the file
-[${HOME}/.config/obs-studio/basic/profiles/WirelessDisplayClientSide/basic.ini].
+Closing OBS and reopening it should save all changes to the file [basic.ini], 
+which can be found on Linux in the folder 
+
+[${HOME}/.config/obs-studio/basic/profiles/WirelessDisplayClientSide/basic.ini]
+
+and on macOS in the folder
+
+["${HOME}/Library/Application Support/obs-studio/basic/profiles/WirelessDisplayClientSide/basic.ini"].
 
 Inspect this file. It should contain all the above settings (From OBS you can 
 use File >> Show Profile Folder).

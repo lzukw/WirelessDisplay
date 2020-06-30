@@ -35,6 +35,9 @@ make build
 Then copy or move the executable file (screenresolution) to the folder
 [WirelessDisplay/ThirdParty/macOs/screenresolution/]
 
+NOTE: The git-repository already contains a pre-built executable. You can use
+it, but the file must be made executable (using `chmod 755 screenresolution`).
+
 ## ffmpeg
 
 Excecutables for [ffmpeg](https://ffmpeg.org) can be downloaded from
@@ -51,4 +54,5 @@ Just extract these files (using for example
 move the three executables 'ffmeg', 'ffplay' and 'ffprobe' into the
 folder [/path/to/WirelessDisplay/ThirdParty/macOS/ffmpeg/bin/].
 
-
+NOTE: A copy of the zipped executables is available here:
+[https://github.com/lzukw/Third-party-tools]().
