@@ -23,6 +23,9 @@ IF "%STREAMING_TYPE%" == "VNC" (
 ) ELSE IF "%STREAMING_TYPE%" == "FFmpeg" (
 	..\..\ThirdParty\Windows\ffmpeg\bin\ffplay.exe -fs -an -sn -fflags nobuffer -i udp://0.0.0.0:%PORT%
 	
+) ELSE IF "%STREAMING_TYPE%" == "OBS" (
+	..\..\ThirdParty\Windows\ffmpeg\bin\ffplay.exe -fs -an -sn -fflags nobuffer -i udp://0.0.0.0:%PORT%
+	
 ) ELSE (
     ECHO "Wrong streaming type"
     EXIT 1
