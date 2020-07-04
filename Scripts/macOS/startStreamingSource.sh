@@ -39,7 +39,7 @@ then
   # AVFoundation supported devices by running:
   # ffmpeg -f avfoundation -list_devices true -i ""
 
-  ../../ThirdParty/macOS/ffmpeg/bin/ffmpeg -f avfoundation -i "Capture screen 0"  -vf scale=${STREAM_SCREEN_RESOLUTION} -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts "udp://${SINK_IP}:${PORT}"
+  ../../ThirdParty/macOS/ffmpeg/bin/ffmpeg -f avfoundation -i "Capture screen 0" -capture_cursor -capture_mouse_clicks -vf scale=${STREAM_SCREEN_RESOLUTION} -vcodec libx264 -pix_fmt yuv420p -profile:v baseline -tune zerolatency -preset ultrafast -f mpegts "udp://${SINK_IP}:${PORT}"
 
 elif [ ${STREAMING_TYPE} == "OBS" ]
 then
